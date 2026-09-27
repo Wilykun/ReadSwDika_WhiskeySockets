@@ -6,8 +6,8 @@
 _📅 Sabtu malam, 26 September 2026_ 🌙
 ━━━━━━━━━━━━━━━━━━━━━━
 🤖 *WILY BOT — V27.3*
-✨ *1 Fitur Baru*
-🐛 *0 Fix Bug*
+✨ *2 Fitur Baru*
+🐛 *1 Fix Bug*
 🛠️ *2 Fix Error*
 🚀 *9 Perubahan*
 ━━━━━━━━━━━━━━━━━━━━━━
@@ -23,10 +23,19 @@ _Membuat sticker meme dari gambar atau sticker dengan teks custom._
 • WM/watermark _pack_ dan _author_ dapat diatur melalui `config.json`.
 • Format dua teks menggunakan pemisah `|` di antara teks atas dan teks bawah.
 > _Hasil: gambar atau sticker dapat diubah menjadi sticker meme dengan teks yang rapi._
+
+*2. 🎮 `.cekidff` — Cek Informasi Akun Free Fire*
+_Mengecek informasi akun Free Fire berdasarkan UID pemain._
+• Menampilkan informasi akun Free Fire dari UID yang diberikan.
+> _Hasil: informasi akun Free Fire dapat dicek langsung melalui bot._
 ━━━━━━━━━━━━━━━━━━━━━━
 🐛 *BUG FIX*
 ━━━━━━━━━━━━━━━━━━━━━━
-_Belum ada bug fix terpisah pada bagian ini._
+*1. 🛡️ AntiTagSW — Kick setelah batas peringatan tercapai*
+~Sebelumnya anggota yang sudah mencapai batas peringatan AntiTagSW belum otomatis dikeluarkan dari grup saat melakukan pelanggaran lagi.~
+• Batas peringatan mengikuti pengaturan owner bot dan dapat berbeda pada setiap grup.
+• Jika anggota melakukan pelanggaran lagi setelah mencapai peringatan terakhir, anggota tersebut otomatis dikick dari grup.
+> _AntiTagSW sekarang menyesuaikan jumlah peringatan sesuai pengaturan owner sebelum melakukan kick otomatis._
 ━━━━━━━━━━━━━━━━━━━━━━
 🛠️ *FIX ERROR*
 ━━━━━━━━━━━━━━━━━━━━━━

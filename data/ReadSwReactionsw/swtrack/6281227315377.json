@@ -146,7 +146,7 @@
       "participant": "113322762481669@lid",
       "addressingMode": "lid"
     },
-    "updatedAt": "2026-09-27T09:46:55.250Z",
+    "updatedAt": "2026-09-27T13:54:33.630Z",
     "receiptKeys": [
       {
         "remoteJid": "status@broadcast",
@@ -165,7 +165,9 @@
         "addressingMode": "lid"
       }
     ],
-    "processedAt": "2026-09-27T09:46:55.250Z"
+    "processedAt": "2026-09-27T09:46:55.250Z",
+    "deleted": true,
+    "deletedAt": "2026-09-27T13:54:33.630Z"
   },
   "ACF0EF8F4B192F1809A422A2D8210E2A": {
     "id": "ACF0EF8F4B192F1809A422A2D8210E2A",
@@ -321,5 +323,47 @@
       }
     ],
     "processedAt": "2026-09-27T09:47:19.476Z"
+  },
+  "AC625892FDA9203C00FBC2B7BCE95114": {
+    "id": "AC625892FDA9203C00FBC2B7BCE95114",
+    "sender": "6281227315377@s.whatsapp.net",
+    "name": "nnnnnnn.",
+    "type": "videoMessage",
+    "arrivedAt": "2026-09-27T13:54:33.618Z",
+    "read": true,
+    "reacted": true,
+    "emoji": "🐟",
+    "resolve": "PN langsung ✓",
+    "source": "status",
+    "number": "6281227315377",
+    "resolvedPn": "6281227315377@s.whatsapp.net",
+    "messageKey": {
+      "remoteJid": "status@broadcast",
+      "remoteJidAlt": "6281227315377@s.whatsapp.net",
+      "fromMe": false,
+      "id": "AC625892FDA9203C00FBC2B7BCE95114",
+      "participant": "113322762481669@lid",
+      "addressingMode": "lid"
+    },
+    "updatedAt": "2026-09-27T13:54:44.690Z",
+    "receiptKeys": [
+      {
+        "remoteJid": "status@broadcast",
+        "remoteJidAlt": "6281227315377@s.whatsapp.net",
+        "fromMe": false,
+        "id": "AC625892FDA9203C00FBC2B7BCE95114",
+        "participant": "113322762481669@lid",
+        "addressingMode": "lid"
+      },
+      {
+        "remoteJid": "status@broadcast",
+        "remoteJidAlt": "6281227315377@s.whatsapp.net",
+        "fromMe": false,
+        "id": "AC625892FDA9203C00FBC2B7BCE95114",
+        "participant": "6281227315377@s.whatsapp.net",
+        "addressingMode": "lid"
+      }
+    ],
+    "processedAt": "2026-09-27T13:54:44.689Z"
   }
 }

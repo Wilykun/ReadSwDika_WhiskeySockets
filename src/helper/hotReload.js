@@ -215,6 +215,7 @@ const WATCHED_FILES = [
     { key: 'cjs:tempmail',     rel: 'SEMUA_FITUR/tools/tempmail.cjs',      type: 'cjs' },
     { key: 'cjs:tmail',        rel: 'SEMUA_FITUR/tools/tmail.cjs',         type: 'cjs' },
     { key: 'cjs:cekhp',        rel: 'SEMUA_FITUR/tools/cekhp.cjs',         type: 'cjs' },
+    { key: 'cjs:cekidff',      rel: 'SEMUA_FITUR/tools/cekidff.cjs',       type: 'cjs' },
     { key: 'cjs:bandingkanhp', rel: 'SEMUA_FITUR/tools/bandingkanhp.cjs',  type: 'cjs' },
     { key: 'cjs:an1game',      rel: 'SEMUA_FITUR/tools/an1game.cjs',       type: 'cjs' },
     { key: 'cjs:screenshot',   rel: 'SEMUA_FITUR/tools/screenshot.cjs',    type: 'cjs' },

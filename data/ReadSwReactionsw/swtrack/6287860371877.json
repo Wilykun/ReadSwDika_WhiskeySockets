@@ -46,5 +46,72 @@
     "updatedAt": "2026-09-27T09:47:17.253Z",
     "deleted": true,
     "deletedAt": "2026-09-27T09:47:17.253Z"
+  },
+  "ACAD7AA032B4F096EC7F7D3EE03F7A3A": {
+    "id": "ACAD7AA032B4F096EC7F7D3EE03F7A3A",
+    "sender": "6287860371877@s.whatsapp.net",
+    "name": "Fuma Kotaro",
+    "type": "videoMessage",
+    "arrivedAt": "2026-09-27T11:22:04.791Z",
+    "read": true,
+    "reacted": true,
+    "emoji": "🐠",
+    "resolve": "PN langsung ✓",
+    "source": "status",
+    "number": "6287860371877",
+    "resolvedPn": "6287860371877@s.whatsapp.net",
+    "messageKey": {
+      "remoteJid": "status@broadcast",
+      "remoteJidAlt": "6287860371877@s.whatsapp.net",
+      "fromMe": false,
+      "id": "ACAD7AA032B4F096EC7F7D3EE03F7A3A",
+      "participant": "200356231442552@lid",
+      "addressingMode": "lid"
+    },
+    "updatedAt": "2026-09-27T11:22:59.038Z",
+    "receiptKeys": [
+      {
+        "remoteJid": "status@broadcast",
+        "remoteJidAlt": "6287860371877@s.whatsapp.net",
+        "fromMe": false,
+        "id": "ACAD7AA032B4F096EC7F7D3EE03F7A3A",
+        "participant": "200356231442552@lid",
+        "addressingMode": "lid"
+      },
+      {
+        "remoteJid": "status@broadcast",
+        "remoteJidAlt": "6287860371877@s.whatsapp.net",
+        "fromMe": false,
+        "id": "ACAD7AA032B4F096EC7F7D3EE03F7A3A",
+        "participant": "6287860371877@s.whatsapp.net",
+        "addressingMode": "lid"
+      }
+    ],
+    "processedAt": "2026-09-27T11:22:19.551Z",
+    "deleted": true,
+    "deletedAt": "2026-09-27T11:22:59.038Z"
+  },
+  "AC25ACFE281CD00D20C4F108D05A3B74": {
+    "id": "AC25ACFE281CD00D20C4F108D05A3B74",
+    "sender": "6287860371877@s.whatsapp.net",
+    "name": "Fuma Kotaro",
+    "type": "protocolMessage",
+    "arrivedAt": "2026-09-27T11:22:05.210Z",
+    "read": true,
+    "reacted": true,
+    "emoji": "🐬",
+    "source": "group",
+    "number": "6287860371877",
+    "messageKey": {
+      "remoteJid": "120363192554714254@g.us",
+      "fromMe": false,
+      "id": "AC25ACFE281CD00D20C4F108D05A3B74",
+      "participant": "200356231442552@lid",
+      "participantAlt": "6287860371877@s.whatsapp.net",
+      "addressingMode": "lid"
+    },
+    "resolvedPn": "6287860371877@s.whatsapp.net",
+    "updatedAt": "2026-09-27T11:22:15.054Z",
+    "processedAt": "2026-09-27T11:22:15.054Z"
   }
 }
