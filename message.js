@@ -1616,6 +1616,12 @@ export default async function ({ message, type: messagesType }, hisoka) {
                                 break;
                         }
 
+                        case 'cekidff': {
+                                const { handleCekidff } = _require(path.resolve('./SEMUA_FITUR/tools/cekidff.cjs'));
+                                await handleCekidff({ hisoka, m, query, tolak });
+                                break;
+                        }
+
                         case 'ram': {
                                 const { handleRam } = _require(path.resolve('./SEMUA_FITUR/jadibot/ceksesi.cjs'));
                                 await handleRam({ hisoka, m, tolak, logCommand });

@@ -8,7 +8,7 @@
 ════════════════════════════════════════════════════════════════════════
   FILE     : infoerror.txt
   Bot      : Wily Bot
-  Update   : 23/09/2026, 08.11.38  (realtime — diperbarui otomatis setiap ada error)
+  Update   : 27/09/2026, 10.49.00  (realtime — diperbarui otomatis setiap ada error)
 ════════════════════════════════════════════════════════════════════════
 
   RINGKASAN
@@ -23,24 +23,24 @@
 ────────────────────────────────────────────────────────────────────────
 
 ┌───────────────────────────────────────────────────────────────────────
-│  #001  —  DoujinMonitor
+│  #001  —  CEKIDFF
 ├┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄
 │  PESAN ERROR
-│  [DoujinMonitor] Gagal kirim ke 120363428460360783@g.us: forbidden
+│  [CEKIDFF] Error: PLAYER_NOT_FOUND
 │
 │  DETAIL
-│  Sumber      : DoujinMonitor
+│  Sumber      : CEKIDFF
 │  Frekuensi   : 1x (baru terjadi)
-│  Pertama     : 23/09/2026, 08.11.38
-│  Terakhir    : 23/09/2026, 08.11.38
+│  Pertama     : 27/09/2026, 10.49.00
+│  Terakhir    : 27/09/2026, 10.49.00
 │
 │  STACK TRACE (3 baris pertama)
-│  ▶  Error: [DoujinMonitor] Gagal kirim ke 120363428460360783@g.us: forbidden
+│  ▶  Error: [CEKIDFF] Error: PLAYER_NOT_FOUND
 │     at console.error (file:///home/runner/workspace/index.js:435:27)
-│     at _processNewChapters (/home/runner/workspace/SEMUA_FITUR/anime/doujindesu-monitor.cjs:661:25)
+│     at handleCekidff (/home/runner/workspace/SEMUA_FITUR/tools/cekidff.cjs:145:17)
 └───────────────────────────────────────────────────────────────────────
 
 ════════════════════════════════════════════════════════════════════════
   End of Report  —  Total: 1 jenis, 1 kejadian
-  Terakhir diperbarui: 23/09/2026, 08.11.38
+  Terakhir diperbarui: 27/09/2026, 10.49.00
 ════════════════════════════════════════════════════════════════════════

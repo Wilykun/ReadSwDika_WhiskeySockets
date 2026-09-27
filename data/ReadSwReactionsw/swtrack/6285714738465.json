@@ -40,5 +40,47 @@
       }
     ],
     "processedAt": "2026-09-25T11:24:33.430Z"
+  },
+  "ACDBFC2AC45CAB1B3F36280375D26F74": {
+    "id": "ACDBFC2AC45CAB1B3F36280375D26F74",
+    "sender": "6285714738465@s.whatsapp.net",
+    "name": "RenzZ~",
+    "type": "videoMessage",
+    "arrivedAt": "2026-09-26T05:05:57.341Z",
+    "read": true,
+    "reacted": true,
+    "emoji": "🐳",
+    "resolve": "PN langsung ✓",
+    "source": "status",
+    "number": "6285714738465",
+    "resolvedPn": "6285714738465@s.whatsapp.net",
+    "messageKey": {
+      "remoteJid": "status@broadcast",
+      "remoteJidAlt": "6285714738465@s.whatsapp.net",
+      "fromMe": false,
+      "id": "ACDBFC2AC45CAB1B3F36280375D26F74",
+      "participant": "215706410967263@lid",
+      "addressingMode": "lid"
+    },
+    "updatedAt": "2026-09-26T05:06:16.713Z",
+    "receiptKeys": [
+      {
+        "remoteJid": "status@broadcast",
+        "remoteJidAlt": "6285714738465@s.whatsapp.net",
+        "fromMe": false,
+        "id": "ACDBFC2AC45CAB1B3F36280375D26F74",
+        "participant": "215706410967263@lid",
+        "addressingMode": "lid"
+      },
+      {
+        "remoteJid": "status@broadcast",
+        "remoteJidAlt": "6285714738465@s.whatsapp.net",
+        "fromMe": false,
+        "id": "ACDBFC2AC45CAB1B3F36280375D26F74",
+        "participant": "6285714738465@s.whatsapp.net",
+        "addressingMode": "lid"
+      }
+    ],
+    "processedAt": "2026-09-26T05:06:16.712Z"
   }
 }
