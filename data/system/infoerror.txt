@@ -8,7 +8,7 @@
 ════════════════════════════════════════════════════════════════════════
   FILE     : infoerror.txt
   Bot      : Wily Bot
-  Update   : 27/09/2026, 10.49.00  (realtime — diperbarui otomatis setiap ada error)
+  Update   : 28/09/2026, 14.19.07  (realtime — diperbarui otomatis setiap ada error)
 ════════════════════════════════════════════════════════════════════════
 
   RINGKASAN
@@ -23,24 +23,23 @@
 ────────────────────────────────────────────────────────────────────────
 
 ┌───────────────────────────────────────────────────────────────────────
-│  #001  —  CEKIDFF
+│  #001  —  command:animquote
 ├┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄
 │  PESAN ERROR
-│  [CEKIDFF] Error: PLAYER_NOT_FOUND
+│  handleAnimquoteCallback is not a function
 │
 │  DETAIL
-│  Sumber      : CEKIDFF
+│  Sumber      : command:animquote
 │  Frekuensi   : 1x (baru terjadi)
-│  Pertama     : 27/09/2026, 10.49.00
-│  Terakhir    : 27/09/2026, 10.49.00
+│  Pertama     : 28/09/2026, 14.19.07
+│  Terakhir    : 28/09/2026, 14.19.07
 │
 │  STACK TRACE (3 baris pertama)
-│  ▶  Error: [CEKIDFF] Error: PLAYER_NOT_FOUND
-│     at console.error (file:///home/runner/workspace/index.js:435:27)
-│     at handleCekidff (/home/runner/workspace/SEMUA_FITUR/tools/cekidff.cjs:145:17)
+│  ▶  TypeError: handleAnimquoteCallback is not a function
+│     at default (file:///home/runner/workspace/message.js?t=1790605043770:869:35)
 └───────────────────────────────────────────────────────────────────────
 
 ════════════════════════════════════════════════════════════════════════
   End of Report  —  Total: 1 jenis, 1 kejadian
-  Terakhir diperbarui: 27/09/2026, 10.49.00
+  Terakhir diperbarui: 28/09/2026, 14.19.07
 ════════════════════════════════════════════════════════════════════════

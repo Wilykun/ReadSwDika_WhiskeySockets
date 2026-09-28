@@ -5,7 +5,7 @@
 # ║                                                          ║
 # ║   Author : Bang Wily (Wilykun1994)                       ║
 # ║   Telegram: @Wilykun1994                                 ║
-# ║   Versi  : 1.2  •  Auto Commit + Multi-Branch Push       ║
+# ║   Versi  : 1.3  •  Auto Commit + Multi-Branch Push       ║
 # ║                                                          ║
 # ╚══════════════════════════════════════════════════════════╝
 #
@@ -49,7 +49,7 @@ REPO="ReadSwDika_WhiskeySockets"
 DEFAULT_BRANCH="ReadSwDika_V42"
 
 # Versi script ini — dipakai untuk cek update otomatis
-SCRIPT_VERSION="1.2"
+SCRIPT_VERSION="1.3"
 # File flag update (disimpan di /tmp, tidak ikut git)
 _UPDATE_FLAG="/tmp/.pushwily_update_$(echo "$PWD" | tr '/' '_').flag"
 
@@ -1747,7 +1747,7 @@ classify_commit() {
   semantic_status_lines=$(printf '%s\n' "$all_status_lines" | awk '
     {
       path=$NF
-      if (path !~ /^(data|sessions|logs|tmp|\.cache|attached_assets)\// &&
+      if (path !~ /^(data|data_jadibot|sessions|logs|tmp|\.cache|attached_assets)\// &&
           path !~ /^\.push_(history|shortcut)/ &&
           path != ".env" && path != ".token.secret") print
     }
@@ -1755,7 +1755,7 @@ classify_commit() {
   runtime_total=$(printf '%s\n' "$all_status_lines" | awk '
     {
       path=$NF
-      if (path ~ /^(data|sessions|logs|tmp|\.cache|attached_assets)\// ||
+      if (path ~ /^(data|data_jadibot|sessions|logs|tmp|\.cache|attached_assets)\// ||
           path ~ /^\.push_(history|shortcut)/ ||
           path == ".env" || path == ".token.secret") count++
     }
@@ -1978,7 +1978,11 @@ classify_commit() {
   # Hanya data runtime yang berubah: jelaskan sinkronisasi data, bukan
   # mengarang seolah-olah ada perubahan fitur.
   if [ -z "$semantic_status_lines" ] && [ "$runtime_total" -gt 0 ]; then
-    body="sync runtime data (${runtime_total} file)"
+    if [ "$runtime_total" -eq 1 ]; then
+      body="sync 1 runtime file"
+    else
+      body="sync ${runtime_total} runtime files"
+    fi
     type="chore"
     scope="data"
   fi
@@ -2064,6 +2068,80 @@ commit_staged_message() {
     return 1
   fi
   git commit -m "$_msg" >/dev/null 2>&1
+}
+
+# Pisahkan commit otomatis berdasarkan area perubahan.
+# Jika kode dan runtime data berubah bersamaan, keduanya dibuat sebagai dua
+# commit berurutan agar GitHub menampilkan commit yang tepat per folder.
+# Pesan custom sengaja tidak dipecah karena itu adalah instruksi eksplisit user.
+commit_staged_groups() {
+  local _custom_msg="${1:-}"
+  LAST_COMMIT_MSG=""
+
+  if git diff --cached --quiet 2>/dev/null; then
+    echo -e "  ${C_YELLOW}⚠️  Tidak ada perubahan staged — tidak ada commit dibuat.${C_RESET}" >&2
+    return 1
+  fi
+
+  if [ -n "$_custom_msg" ]; then
+    LAST_COMMIT_MSG=$(append_commit_no "$_custom_msg")
+    echo -e "  ${C_CYAN}▸ Commit: ${C_RESET}${C_DIM}${LAST_COMMIT_MSG}${C_RESET}"
+    commit_staged_message "$LAST_COMMIT_MSG" || return 1
+    return 0
+  fi
+
+  local -a _semantic_paths=()
+  local -a _runtime_paths=()
+  local _path
+  while IFS= read -r -d '' _path; do
+    case "$_path" in
+      data/*|data_jadibot/*|sessions/*|logs/*|tmp/*|.cache/*|attached_assets/*|\
+      .push_history.log|.push_shortcut_history.txt|.env|.token.secret)
+        _runtime_paths+=("$_path") ;;
+      *)
+        _semantic_paths+=("$_path") ;;
+    esac
+  done < <(git diff --cached --name-only -z 2>/dev/null)
+
+  # Kode/config/docs lebih dulu, lalu data runtime. Dengan urutan ini,
+  # halaman root GitHub menunjukkan commit fitur pada folder source dan
+  # commit sinkronisasi pada folder data.
+  if [ "${#_semantic_paths[@]}" -gt 0 ] && [ "${#_runtime_paths[@]}" -gt 0 ]; then
+    if ! git reset -q -- "${_runtime_paths[@]}"; then
+      echo -e "  ${C_RED}❌ Gagal memisahkan perubahan runtime dari index.${C_RESET}" >&2
+      return 1
+    fi
+
+    local _semantic_msg
+    _semantic_msg=$(append_commit_no "$(classify_commit)")
+    echo -e "  ${C_CYAN}▸ Commit kode/config: ${C_RESET}${C_DIM}${_semantic_msg}${C_RESET}"
+    if ! commit_staged_message "$_semantic_msg"; then
+      echo -e "  ${C_RED}❌ Commit kode/config gagal.${C_RESET}" >&2
+      return 1
+    fi
+
+    if ! git add -A -- "${_runtime_paths[@]}" 2>/dev/null; then
+      echo -e "  ${C_RED}❌ Gagal men-stage ulang data runtime.${C_RESET}" >&2
+      return 1
+    fi
+
+    local _runtime_msg
+    _runtime_msg=$(append_commit_no "$(classify_commit)")
+    echo -e "  ${C_CYAN}▸ Commit runtime data: ${C_RESET}${C_DIM}${_runtime_msg}${C_RESET}"
+    if ! commit_staged_message "$_runtime_msg"; then
+      echo -e "  ${C_RED}❌ Commit runtime data gagal.${C_RESET}" >&2
+      return 1
+    fi
+    LAST_COMMIT_MSG="$_runtime_msg"
+    return 0
+  fi
+
+  local _msg
+  _msg=$(append_commit_no "$(classify_commit)")
+  echo -e "  ${C_CYAN}▸ Commit: ${C_RESET}${C_DIM}${_msg}${C_RESET}"
+  commit_staged_message "$_msg" || return 1
+  LAST_COMMIT_MSG="$_msg"
+  return 0
 }
 
 # Ubah (#NNNN) di pesan commit jadi HTML link ke commit GitHub
@@ -3812,18 +3890,14 @@ action_quick_push() {
     return
   fi
 
-  # Generate commit message otomatis
+  # Commit otomatis dipisah antara kode/config dan runtime data.
   local _msg
-  _msg=$(generate_commit_msg 2>/dev/null || echo "chore: quick push via Bang Wily")
-  [ -z "$_msg" ] && _msg="chore: quick push via Bang Wily"
-  _msg=$(append_commit_no "$_msg")
-
-  echo -e "  ${C_CYAN}▸ Commit: ${C_RESET}${C_DIM}${_msg}${C_RESET}"
-  if ! commit_staged_message "$_msg"; then
+  if ! commit_staged_groups ""; then
     echo -e "  ${C_RED}❌ Commit dibatalkan karena tidak ada perubahan valid.${C_RESET}"
     prompt_back_or_exit
     return
   fi
+  _msg="${LAST_COMMIT_MSG:-chore: quick push}"
 
   echo -e "  ${C_CYAN}▸ Push ke ${C_RESET}${C_GREEN}${DEFAULT_BRANCH}${C_RESET}${C_CYAN}...${C_RESET}"
   local _push_out _push_ok=0
@@ -6734,18 +6808,12 @@ commit_pending_changes() {
       return 1
     fi
 
-    local MSG
-    if [ -n "$CUSTOM_MSG" ]; then
-      MSG=$(append_commit_no "$CUSTOM_MSG")
-    else
-      MSG=$(append_commit_no "$(classify_commit)")
-    fi
-
     mini_bar_start "Menyimpan commit ..." 0.006
-    if ! git commit -q -m "$MSG" 2>/dev/null; then
+    if ! commit_staged_groups "${CUSTOM_MSG:-}"; then
       mini_bar_fail "git commit gagal"
       return 1
     fi
+    local MSG="${LAST_COMMIT_MSG:-commit selesai}"
     mini_bar_ok "${MSG}"
     COMMIT_DONE="yes"
   fi

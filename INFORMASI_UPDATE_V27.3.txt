@@ -6,7 +6,7 @@
 _📅 Sabtu malam, 26 September 2026_ 🌙
 ━━━━━━━━━━━━━━━━━━━━━━
 🤖 *WILY BOT — V27.3*
-✨ *2 Fitur Baru*
+✨ *3 Fitur Baru*
 🐛 *1 Fix Bug*
 🛠️ *2 Fix Error*
 🚀 *9 Perubahan*
@@ -28,6 +28,13 @@ _Membuat sticker meme dari gambar atau sticker dengan teks custom._
 _Mengecek informasi akun Free Fire berdasarkan UID pemain._
 • Menampilkan informasi akun Free Fire dari UID yang diberikan.
 > _Hasil: informasi akun Free Fire dapat dicek langsung melalui bot._
+
+*3. 🎌 `.animquote` — Quote Anime Acak*
+_Mengambil quote anime acak dari Anime Quote Generator dengan fallback otomatis saat sumber tidak tersedia._
+• Quote eksplisit dan berisiko disaring untuk pemakaian umum.
+• Format WhatsApp dipilih sesuai panjang quote: tebal, miring, monospace, blok kode, daftar, dan quote.
+• Dataset divalidasi sebelum dikirim agar quote kosong atau rusak tidak tampil.
+> _Hasil: quote anime acak tampil rapi dan tetap bisa digunakan saat sumber sedang bermasalah._
 ━━━━━━━━━━━━━━━━━━━━━━
 🐛 *BUG FIX*
 ━━━━━━━━━━━━━━━━━━━━━━

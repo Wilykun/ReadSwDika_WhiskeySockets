@@ -863,6 +863,12 @@ export default async function ({ message, type: messagesType }, hisoka) {
 
                 // (pendingCredsJson handler dihapus — flow baru pakai startJadibot otomatis)
 
+                // ── Handle tombol .animquote — hapus quote lama lalu kirim quote baru ──
+                {
+                        const { handleAnimquoteCallback } = _require(path.resolve('./SEMUA_FITUR/anime/animquote.cjs'));
+                        if (await handleAnimquoteCallback({ hisoka, m, tolak, logCommand, logError, Button, getQuotedStanzaId })) return;
+                }
+
                 // ── Handle pending alqupdate list choice → alqanime-cmd.cjs ──
                 if (await handleAlqUpdateChoice({ hisoka, m, fs, pendingAlqUpdateChoices, pendingAlqDlChoices, getJadibotChoiceKey, getQuotedStanzaId, pickBestAlqLink, getAllAlqLinksByPriority, formatAlqLinkMsg, tolak, logError })) return;
 
@@ -1473,6 +1479,12 @@ export default async function ({ message, type: messagesType }, hisoka) {
                         case 'waifu': {
                                 const { handleWaifu } = _require(path.resolve('./SEMUA_FITUR/anime/waifu.cjs'));
                                 await handleWaifu(m, hisoka, { Button, logCommand, tolak, pendingWaifuChoices, getJadibotChoiceKey });
+                                break;
+                        }
+
+                        case 'animquote': {
+                                const { handleAnimquote } = _require(path.resolve('./SEMUA_FITUR/anime/animquote.cjs'));
+                                await handleAnimquote({ hisoka, m, tolak, logCommand, logError, Button });
                                 break;
                         }
 
