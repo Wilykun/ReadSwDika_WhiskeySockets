@@ -1,13 +1,13 @@
 {
-  "AC9B0FFA03220870042C1CF38321A936": {
-    "id": "AC9B0FFA03220870042C1CF38321A936",
+  "ACBF11F7E28FCBF47ED522DEFB26FC3E": {
+    "id": "ACBF11F7E28FCBF47ED522DEFB26FC3E",
     "sender": "60172160495@s.whatsapp.net",
     "name": "Aldysensei",
-    "type": "imageMessage",
-    "arrivedAt": "2026-09-27T09:46:31.934Z",
+    "type": "videoMessage",
+    "arrivedAt": "2026-09-28T04:49:44.362Z",
     "read": true,
     "reacted": true,
-    "emoji": "🦈",
+    "emoji": "🐳",
     "resolve": "PN langsung ✓",
     "source": "status",
     "number": "60172160495",
@@ -15,17 +15,17 @@
     "messageKey": {
       "remoteJid": "status@broadcast",
       "fromMe": false,
-      "id": "AC9B0FFA03220870042C1CF38321A936",
+      "id": "ACBF11F7E28FCBF47ED522DEFB26FC3E",
       "participant": "67066115670033@lid",
       "participantUsername": "aldysensei",
       "addressingMode": "lid"
     },
-    "updatedAt": "2026-09-27T09:46:42.289Z",
+    "updatedAt": "2026-09-28T13:42:25.404Z",
     "receiptKeys": [
       {
         "remoteJid": "status@broadcast",
         "fromMe": false,
-        "id": "AC9B0FFA03220870042C1CF38321A936",
+        "id": "ACBF11F7E28FCBF47ED522DEFB26FC3E",
         "participant": "67066115670033@lid",
         "participantUsername": "aldysensei",
         "addressingMode": "lid"
@@ -33,20 +33,106 @@
       {
         "remoteJid": "status@broadcast",
         "fromMe": false,
-        "id": "AC9B0FFA03220870042C1CF38321A936",
+        "id": "ACBF11F7E28FCBF47ED522DEFB26FC3E",
         "participant": "60172160495@s.whatsapp.net",
         "participantUsername": "aldysensei",
         "addressingMode": "lid"
       }
     ],
-    "processedAt": "2026-09-27T09:46:42.289Z"
+    "processedAt": "2026-09-28T04:49:58.502Z",
+    "deleted": true,
+    "deletedAt": "2026-09-28T13:42:25.404Z"
   },
-  "AC1623ADA4428FDBBCDDB760CC48F339": {
-    "id": "AC1623ADA4428FDBBCDDB760CC48F339",
+  "AC100C0F436FE7FDE82B4DC59C0658E3": {
+    "id": "AC100C0F436FE7FDE82B4DC59C0658E3",
     "sender": "60172160495@s.whatsapp.net",
     "name": "Aldysensei",
-    "type": "imageMessage",
-    "arrivedAt": "2026-09-27T09:46:31.935Z",
+    "type": "videoMessage",
+    "arrivedAt": "2026-09-28T13:42:25.406Z",
+    "read": true,
+    "reacted": true,
+    "emoji": "🐠",
+    "resolve": "PN langsung ✓",
+    "source": "status",
+    "number": "60172160495",
+    "resolvedPn": "60172160495@s.whatsapp.net",
+    "messageKey": {
+      "remoteJid": "status@broadcast",
+      "fromMe": false,
+      "id": "AC100C0F436FE7FDE82B4DC59C0658E3",
+      "participant": "67066115670033@lid",
+      "participantUsername": "aldysensei",
+      "addressingMode": "lid"
+    },
+    "updatedAt": "2026-09-28T13:42:46.975Z",
+    "receiptKeys": [
+      {
+        "remoteJid": "status@broadcast",
+        "fromMe": false,
+        "id": "AC100C0F436FE7FDE82B4DC59C0658E3",
+        "participant": "67066115670033@lid",
+        "participantUsername": "aldysensei",
+        "addressingMode": "lid"
+      },
+      {
+        "remoteJid": "status@broadcast",
+        "fromMe": false,
+        "id": "AC100C0F436FE7FDE82B4DC59C0658E3",
+        "participant": "60172160495@s.whatsapp.net",
+        "participantUsername": "aldysensei",
+        "addressingMode": "lid"
+      }
+    ],
+    "processedAt": "2026-09-28T13:42:46.975Z"
+  },
+  "7878528d-d331-47b7-9898-ce09b8971f9a": {
+    "id": "7878528d-d331-47b7-9898-ce09b8971f9a",
+    "sender": "60172160495@s.whatsapp.net",
+    "name": "Aldysensei",
+    "type": "videoMessage",
+    "arrivedAt": "2026-09-28T13:42:25.407Z",
+    "read": true,
+    "reacted": true,
+    "emoji": "🐙",
+    "resolve": "PN langsung ✓",
+    "source": "status",
+    "number": "60172160495",
+    "resolvedPn": "60172160495@s.whatsapp.net",
+    "messageKey": {
+      "remoteJid": "status@broadcast",
+      "fromMe": false,
+      "id": "7878528d-d331-47b7-9898-ce09b8971f9a",
+      "participant": "67066115670033@lid",
+      "participantUsername": "aldysensei",
+      "addressingMode": "lid"
+    },
+    "updatedAt": "2026-09-28T13:42:51.420Z",
+    "receiptKeys": [
+      {
+        "remoteJid": "status@broadcast",
+        "fromMe": false,
+        "id": "7878528d-d331-47b7-9898-ce09b8971f9a",
+        "participant": "67066115670033@lid",
+        "participantUsername": "aldysensei",
+        "addressingMode": "lid"
+      },
+      {
+        "remoteJid": "status@broadcast",
+        "fromMe": false,
+        "id": "7878528d-d331-47b7-9898-ce09b8971f9a",
+        "participant": "60172160495@s.whatsapp.net",
+        "participantUsername": "aldysensei",
+        "addressingMode": "lid"
+      }
+    ],
+    "processedAt": "2026-09-28T13:42:51.420Z"
+  },
+  "AC1CC671D0AB66759696BEC0D3AB89EE": {
+    "id": "AC1CC671D0AB66759696BEC0D3AB89EE",
+    "sender": "60172160495@s.whatsapp.net",
+    "name": "Aldysensei",
+    "type": "videoMessage",
+    "arrivedAt": "2026-09-28T13:42:25.408Z",
     "read": true,
     "reacted": true,
     "emoji": "🐡",
@@ -57,17 +143,17 @@
     "messageKey": {
       "remoteJid": "status@broadcast",
       "fromMe": false,
-      "id": "AC1623ADA4428FDBBCDDB760CC48F339",
+      "id": "AC1CC671D0AB66759696BEC0D3AB89EE",
       "participant": "67066115670033@lid",
       "participantUsername": "aldysensei",
       "addressingMode": "lid"
     },
-    "updatedAt": "2026-09-27T09:46:41.154Z",
+    "updatedAt": "2026-09-28T13:42:49.626Z",
     "receiptKeys": [
       {
         "remoteJid": "status@broadcast",
         "fromMe": false,
-        "id": "AC1623ADA4428FDBBCDDB760CC48F339",
+        "id": "AC1CC671D0AB66759696BEC0D3AB89EE",
         "participant": "67066115670033@lid",
         "participantUsername": "aldysensei",
         "addressingMode": "lid"
@@ -75,12 +161,12 @@
       {
         "remoteJid": "status@broadcast",
         "fromMe": false,
-        "id": "AC1623ADA4428FDBBCDDB760CC48F339",
+        "id": "AC1CC671D0AB66759696BEC0D3AB89EE",
         "participant": "60172160495@s.whatsapp.net",
         "participantUsername": "aldysensei",
         "addressingMode": "lid"
       }
     ],
-    "processedAt": "2026-09-27T09:46:41.154Z"
+    "processedAt": "2026-09-28T13:42:49.625Z"
   }
 }

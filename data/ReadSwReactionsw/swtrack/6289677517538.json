@@ -1,0 +1,132 @@
+{
+  "ACC2851465D976067AE01FDB5236A507": {
+    "id": "ACC2851465D976067AE01FDB5236A507",
+    "sender": "6289677517538@s.whatsapp.net",
+    "name": "Rifqi Haidar",
+    "type": "protocolMessage",
+    "arrivedAt": "2026-09-28T04:49:43.387Z",
+    "read": true,
+    "reacted": true,
+    "emoji": "🐳",
+    "source": "group",
+    "number": "6289677517538",
+    "messageKey": {
+      "remoteJid": "120363383540766761@g.us",
+      "fromMe": false,
+      "id": "ACC2851465D976067AE01FDB5236A507",
+      "participant": "240986437513380@lid",
+      "participantAlt": "6289677517538@s.whatsapp.net",
+      "addressingMode": "lid"
+    },
+    "resolvedPn": "6289677517538@s.whatsapp.net",
+    "updatedAt": "2026-09-28T04:49:54.853Z",
+    "processedAt": "2026-09-28T04:49:54.853Z"
+  },
+  "AC3937F305929DCCF83348002352B932": {
+    "id": "AC3937F305929DCCF83348002352B932",
+    "sender": "6289677517538@s.whatsapp.net",
+    "name": "Rifqi Haidar",
+    "type": "protocolMessage",
+    "arrivedAt": "2026-09-28T04:49:43.390Z",
+    "read": true,
+    "reacted": true,
+    "emoji": "🐟",
+    "source": "group",
+    "number": "6289677517538",
+    "messageKey": {
+      "remoteJid": "120363383540766761@g.us",
+      "fromMe": false,
+      "id": "AC3937F305929DCCF83348002352B932",
+      "participant": "240986437513380@lid",
+      "participantAlt": "6289677517538@s.whatsapp.net",
+      "addressingMode": "lid"
+    },
+    "resolvedPn": "6289677517538@s.whatsapp.net",
+    "updatedAt": "2026-09-28T04:49:53.129Z",
+    "processedAt": "2026-09-28T04:49:53.128Z"
+  },
+  "AC2E417A5D977D99A825BC137CB87157": {
+    "id": "AC2E417A5D977D99A825BC137CB87157",
+    "sender": "6289677517538@s.whatsapp.net",
+    "name": "Rifqi Haidar",
+    "type": "videoMessage",
+    "arrivedAt": "2026-09-28T04:49:43.774Z",
+    "read": true,
+    "reacted": true,
+    "emoji": "🐳",
+    "resolve": "PN langsung ✓",
+    "source": "status",
+    "number": "6289677517538",
+    "resolvedPn": "6289677517538@s.whatsapp.net",
+    "messageKey": {
+      "remoteJid": "status@broadcast",
+      "remoteJidAlt": "6289677517538@s.whatsapp.net",
+      "fromMe": false,
+      "id": "AC2E417A5D977D99A825BC137CB87157",
+      "participant": "240986437513380@lid",
+      "addressingMode": "lid"
+    },
+    "updatedAt": "2026-09-28T04:50:00.737Z",
+    "receiptKeys": [
+      {
+        "remoteJid": "status@broadcast",
+        "remoteJidAlt": "6289677517538@s.whatsapp.net",
+        "fromMe": false,
+        "id": "AC2E417A5D977D99A825BC137CB87157",
+        "participant": "240986437513380@lid",
+        "addressingMode": "lid"
+      },
+      {
+        "remoteJid": "status@broadcast",
+        "remoteJidAlt": "6289677517538@s.whatsapp.net",
+        "fromMe": false,
+        "id": "AC2E417A5D977D99A825BC137CB87157",
+        "participant": "6289677517538@s.whatsapp.net",
+        "addressingMode": "lid"
+      }
+    ],
+    "processedAt": "2026-09-28T04:50:00.737Z"
+  },
+  "AC3795A8C42B25663FF4BA290CE2C18B": {
+    "id": "AC3795A8C42B25663FF4BA290CE2C18B",
+    "sender": "6289677517538@s.whatsapp.net",
+    "name": "Rifqi Haidar",
+    "type": "videoMessage",
+    "arrivedAt": "2026-09-28T04:49:44.163Z",
+    "read": true,
+    "reacted": true,
+    "emoji": "🐬",
+    "resolve": "PN langsung ✓",
+    "source": "status",
+    "number": "6289677517538",
+    "resolvedPn": "6289677517538@s.whatsapp.net",
+    "messageKey": {
+      "remoteJid": "status@broadcast",
+      "remoteJidAlt": "6289677517538@s.whatsapp.net",
+      "fromMe": false,
+      "id": "AC3795A8C42B25663FF4BA290CE2C18B",
+      "participant": "240986437513380@lid",
+      "addressingMode": "lid"
+    },
+    "updatedAt": "2026-09-28T04:49:49.084Z",
+    "receiptKeys": [
+      {
+        "remoteJid": "status@broadcast",
+        "remoteJidAlt": "6289677517538@s.whatsapp.net",
+        "fromMe": false,
+        "id": "AC3795A8C42B25663FF4BA290CE2C18B",
+        "participant": "240986437513380@lid",
+        "addressingMode": "lid"
+      },
+      {
+        "remoteJid": "status@broadcast",
+        "remoteJidAlt": "6289677517538@s.whatsapp.net",
+        "fromMe": false,
+        "id": "AC3795A8C42B25663FF4BA290CE2C18B",
+        "participant": "6289677517538@s.whatsapp.net",
+        "addressingMode": "lid"
+      }
+    ],
+    "processedAt": "2026-09-28T04:49:49.083Z"
+  }
+}

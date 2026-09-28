@@ -5,7 +5,7 @@
 # ║                                                          ║
 # ║   Author : Bang Wily (Wilykun1994)                       ║
 # ║   Telegram: @Wilykun1994                                 ║
-# ║   Versi  : 1.1  •  Auto Commit + Multi-Branch Push       ║
+# ║   Versi  : 1.2  •  Auto Commit + Multi-Branch Push       ║
 # ║                                                          ║
 # ╚══════════════════════════════════════════════════════════╝
 #
@@ -49,7 +49,7 @@ REPO="ReadSwDika_WhiskeySockets"
 DEFAULT_BRANCH="ReadSwDika_V41"
 
 # Versi script ini — dipakai untuk cek update otomatis
-SCRIPT_VERSION="1.1"
+SCRIPT_VERSION="1.2"
 # File flag update (disimpan di /tmp, tidak ikut git)
 _UPDATE_FLAG="/tmp/.pushwily_update_$(echo "$PWD" | tr '/' '_').flag"
 
@@ -1737,8 +1737,34 @@ _do_check_update &
 # ===== Auto-classify commit (Conventional Commits) =====
 classify_commit() {
   local files status_lines added modified deleted total
-  status_lines=$(git diff --cached --name-status 2>/dev/null)
-  [ -z "$status_lines" ] && { echo "chore: update files"; return; }
+  local all_status_lines semantic_status_lines runtime_total
+  all_status_lines=$(git diff --cached --name-status 2>/dev/null)
+  [ -z "$all_status_lines" ] && { echo "chore: no staged changes"; return; }
+
+  # File runtime (data/, sessions/, log, cache) berubah jauh lebih sering
+  # daripada source code. Jangan biarkan jumlah file runtime menutupi area
+  # kode yang benar-benar sedang diubah.
+  semantic_status_lines=$(printf '%s\n' "$all_status_lines" | awk '
+    {
+      path=$NF
+      if (path !~ /^(data|sessions|logs|tmp|\.cache|attached_assets)\// &&
+          path !~ /^\.push_(history|shortcut)/ &&
+          path != ".env" && path != ".token.secret") print
+    }
+  ')
+  runtime_total=$(printf '%s\n' "$all_status_lines" | awk '
+    {
+      path=$NF
+      if (path ~ /^(data|sessions|logs|tmp|\.cache|attached_assets)\// ||
+          path ~ /^\.push_(history|shortcut)/ ||
+          path == ".env" || path == ".token.secret") count++
+    }
+    END { print count + 0 }
+  ')
+
+  # Kalau ada source/config/docs, klasifikasi berdasarkan itu. Kalau yang
+  # berubah memang hanya runtime data, tetap gunakan data agar jujur.
+  status_lines="${semantic_status_lines:-$all_status_lines}"
 
   files=$(echo "$status_lines" | awk '{print $NF}')
   total=$(echo "$files" | grep -c '.' 2>/dev/null; true)
@@ -1750,7 +1776,7 @@ classify_commit() {
   local scope="" scope_count=0
   for _pfx in "src/handler/" "src/helper/" "src/lib/" "src/db/" \
               "data/" "sessions/" "attached_assets/" ".agents/" \
-              "jadibot/" "scrape/"; do
+              "jadibot/" "scrape/" "SEMUA_FITUR/tools/" "SEMUA_FITUR/"; do
     local _cnt
     _cnt=$(echo "$files" | grep -c "^${_pfx}" 2>/dev/null; true)
     if [ "$_cnt" -gt "$scope_count" ]; then
@@ -1766,6 +1792,8 @@ classify_commit() {
         .agents/)         scope="agents"  ;;
         jadibot/)         scope="jadibot" ;;
         scrape/)          scope="scrape"  ;;
+        SEMUA_FITUR/tools/) scope="tools" ;;
+        SEMUA_FITUR/)     scope="features" ;;
       esac
     fi
   done
@@ -1853,6 +1881,19 @@ classify_commit() {
                   head -1 | xargs -n1 basename 2>/dev/null | sed 's/\.[^.]*$//' | \
                   sed 's/\([A-Z]\)/ \1/g' | tr '[:upper:]' '[:lower:]' | sed 's/^ //')
       [ -n "$_src_name" ] && subject="$_src_name"
+    elif echo "$_fpath" | grep -qE '^semua_fitur/'; then
+      # Nama fitur diambil dari path aktual, bukan dari folder data yang
+      # kebetulan ikut berubah.
+      local _feature_name
+      _feature_name=$(echo "$_fpath" | grep -oE '^semua_fitur/[^/]*/[^/]+' | \
+        head -1 | awk -F/ '{print $3}' | sed 's/\.[^.]*$//' | \
+        sed 's/[-_]/ /g; s/\([a-z]\)\([A-Z]\)/\1 \2/g' | \
+        tr '[:upper:]' '[:lower:]')
+      case "$_feature_name" in
+        cuaca) _feature_name="weather" ;;
+        cekidff) _feature_name="Free Fire ID checker" ;;
+      esac
+      [ -n "$_feature_name" ] && subject="${_feature_name} tool"
     fi
   fi
 
@@ -1934,8 +1975,16 @@ classify_commit() {
     fi
   fi
 
+  # Hanya data runtime yang berubah: jelaskan sinkronisasi data, bukan
+  # mengarang seolah-olah ada perubahan fitur.
+  if [ -z "$semantic_status_lines" ] && [ "$runtime_total" -gt 0 ]; then
+    body="sync runtime data (${runtime_total} file)"
+    type="chore"
+    scope="data"
+  fi
+
   # ── Output final ─────────────────────────────────────────────────────────────
-  if [ -n "$scope" ] && [ "$scope_count" -ge 2 ]; then
+  if [ -n "$scope" ] && { [ "$scope_count" -ge 2 ] || [ -n "$semantic_status_lines" ]; }; then
     echo "${type}(${scope}): ${body}"
   else
     echo "${type}: ${body}"
@@ -2004,6 +2053,17 @@ append_commit_no() {
   local _no
   _no=$(buat_issue_commit "$_base_msg")
   echo "${_base_msg} (#${_no})"
+}
+
+# Commit hanya boleh dibuat jika index benar-benar berisi perubahan.
+# Ini mencegah pesan commit lama terulang sebagai empty commit.
+commit_staged_message() {
+  local _msg="$1"
+  if git diff --cached --quiet 2>/dev/null; then
+    echo -e "  ${C_YELLOW}⚠️  Tidak ada perubahan staged — empty commit diblokir.${C_RESET}" >&2
+    return 1
+  fi
+  git commit -m "$_msg" >/dev/null 2>&1
 }
 
 # Ubah (#NNNN) di pesan commit jadi HTML link ke commit GitHub
@@ -2462,6 +2522,13 @@ prepare_stage() {
     git rm --cached -q .token.secret 2>>"$err_log" || true
   fi
 
+  # .env juga hanya boleh ada di disk. File tetap dipakai aplikasi, tetapi
+  # penghapusannya dari index mencegah secret ikut ter-upload ke GitHub.
+  if git ls-files --error-unmatch .env >/dev/null 2>&1; then
+    echo -e "  ${C_YELLOW}🔐 Untrack .env dari git (file tetap aman di disk)...${C_RESET}"
+    git rm --cached -q .env 2>>"$err_log" || true
+  fi
+
   # Stage SEMUA perubahan (baru, modified, deleted, rename).
   if ! git add -A 2>>"$err_log"; then
     echo -e "  ${C_RED}❌ git add -A gagal${C_RESET}"
@@ -2478,7 +2545,7 @@ prepare_stage() {
 
   # Force-add file penting yang biasanya di-ignore.
   # CATATAN: .token.secret SENGAJA TIDAK di-force-add (keamanan token).
-  for forced in package-lock.json .env \
+  for forced in package-lock.json \
                 .agents \
                 jadibot \
                 data \
@@ -3733,7 +3800,7 @@ action_quick_push() {
 
   echo ""
   echo -e "  ${C_CYAN}▸ Staging semua perubahan...${C_RESET}"
-  if ! stage_changes; then
+  if ! prepare_stage; then
     echo -e "  ${C_RED}❌ Gagal staging. Cek error di atas.${C_RESET}"
     prompt_back_or_exit
     return
@@ -3752,7 +3819,11 @@ action_quick_push() {
   _msg=$(append_commit_no "$_msg")
 
   echo -e "  ${C_CYAN}▸ Commit: ${C_RESET}${C_DIM}${_msg}${C_RESET}"
-  git commit -m "$_msg" --allow-empty >/dev/null 2>&1 || true
+  if ! commit_staged_message "$_msg"; then
+    echo -e "  ${C_RED}❌ Commit dibatalkan karena tidak ada perubahan valid.${C_RESET}"
+    prompt_back_or_exit
+    return
+  fi
 
   echo -e "  ${C_CYAN}▸ Push ke ${C_RESET}${C_GREEN}${DEFAULT_BRANCH}${C_RESET}${C_CYAN}...${C_RESET}"
   local _push_out _push_ok=0
@@ -7518,7 +7589,11 @@ action_delete_file_folder() {
           _msg="chore: hapus ${ok_count} file/folder"
         fi
         _msg=$(append_commit_no "$_msg")
-        git commit -m "$_msg" --allow-empty >/dev/null 2>&1 || true
+        if ! commit_staged_message "$_msg"; then
+          echo -e "  ${C_RED}❌ Commit hapus dibatalkan karena tidak ada perubahan staged.${C_RESET}"
+          prompt_back_or_exit
+          return
+        fi
 
         echo -e "  ${C_CYAN}▸ Push ke ${C_RESET}${C_GREEN}${DEFAULT_BRANCH}${C_RESET}${C_CYAN}...${C_RESET}"
         local _push_out _push_ok=0
@@ -7615,7 +7690,10 @@ ${_del_list_txt}
                   if [ "${#_msg_u}" -gt 200 ]; then
                     _msg_u="revert: undo hapus ${_ok_u} file/folder (dari ${_del_commit_hash:0:7})"
                   fi
-                  git commit -m "$_msg_u" --allow-empty >/dev/null 2>&1 || true
+                  if ! commit_staged_message "$_msg_u"; then
+                    echo -e "  ${C_RED}❌ Commit undo dibatalkan karena tidak ada perubahan staged.${C_RESET}"
+                    return
+                  fi
 
                   local _push_out_u _push_ok_u=0
                   _push_out_u=$(git push "${REMOTE_URL:-origin}" "HEAD:${DEFAULT_BRANCH}" 2>&1)
@@ -7831,7 +7909,11 @@ action_restore_deleted() {
         _msg_r="revert: restore ${_ok_r} file/folder (dari ${_target_hash:0:7})"
       fi
       _msg_r=$(append_commit_no "$_msg_r")
-      git commit -m "$_msg_r" --allow-empty >/dev/null 2>&1 || true
+      if ! commit_staged_message "$_msg_r"; then
+        echo -e "  ${C_RED}❌ Commit restore dibatalkan karena tidak ada perubahan staged.${C_RESET}"
+        prompt_back_or_exit
+        return
+      fi
 
       echo -e "  ${C_CYAN}▸ Push ke ${C_RESET}${C_GREEN}${DEFAULT_BRANCH}${C_RESET}${C_CYAN}...${C_RESET}"
       local _push_out_r _push_ok_r=0
