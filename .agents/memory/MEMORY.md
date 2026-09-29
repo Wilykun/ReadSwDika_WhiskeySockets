@@ -30,3 +30,4 @@
 - [AntiTagSW role matching](antitagsw-role-matching.md) — compare PN/LID participant fields and prefer phone JID for kick targets
 - [AntiTagSW confirmation reply](antitagsw-confirmation-reply.md) — activation success must use plain text, not only a native list relay
 - [Anime quote source](animquote-source.md) — quote generator menyimpan dataset di script.js, bukan API; parser perlu cache, fallback, dan filter aman
+- [NovaMail provider behavior](novamail-provider.md) — restore memakai query mailbox dan upstream bisa mengirim HTTP 500 untuk rate-limit 429

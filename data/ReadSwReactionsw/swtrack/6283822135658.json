@@ -23,5 +23,47 @@
     "updatedAt": "2026-09-28T13:42:26.144Z",
     "deleted": true,
     "deletedAt": "2026-09-28T13:42:26.144Z"
+  },
+  "AC9B60E5050C912426CF7BDBBFD0682F": {
+    "id": "AC9B60E5050C912426CF7BDBBFD0682F",
+    "sender": "6283822135658@s.whatsapp.net",
+    "name": "ccel",
+    "type": "videoMessage",
+    "arrivedAt": "2026-09-29T14:08:22.625Z",
+    "read": true,
+    "reacted": true,
+    "emoji": "🐙",
+    "resolve": "PN langsung ✓",
+    "source": "status",
+    "number": "6283822135658",
+    "resolvedPn": "6283822135658@s.whatsapp.net",
+    "messageKey": {
+      "remoteJid": "status@broadcast",
+      "remoteJidAlt": "6283822135658@s.whatsapp.net",
+      "fromMe": false,
+      "id": "AC9B60E5050C912426CF7BDBBFD0682F",
+      "participant": "97393282437222@lid",
+      "addressingMode": "lid"
+    },
+    "updatedAt": "2026-09-29T14:08:31.744Z",
+    "receiptKeys": [
+      {
+        "remoteJid": "status@broadcast",
+        "remoteJidAlt": "6283822135658@s.whatsapp.net",
+        "fromMe": false,
+        "id": "AC9B60E5050C912426CF7BDBBFD0682F",
+        "participant": "97393282437222@lid",
+        "addressingMode": "lid"
+      },
+      {
+        "remoteJid": "status@broadcast",
+        "remoteJidAlt": "6283822135658@s.whatsapp.net",
+        "fromMe": false,
+        "id": "AC9B60E5050C912426CF7BDBBFD0682F",
+        "participant": "6283822135658@s.whatsapp.net",
+        "addressingMode": "lid"
+      }
+    ],
+    "processedAt": "2026-09-29T14:08:31.744Z"
   }
 }

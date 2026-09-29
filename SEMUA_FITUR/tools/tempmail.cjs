@@ -42,6 +42,8 @@ async function handleTempmail({ hisoka, m, query, tolak, logCommand, logError, p
         const TMAIL_DB = path.resolve('./data/tmail/db.json');
         if (!global.__tmailSessions) global.__tmailSessions = new Map();
         const sessions = global.__tmailSessions;
+        if (!global.__tmailWatchers) global.__tmailWatchers = new Map();
+        const watchers = global.__tmailWatchers;
         const userId = m.sender || m.from;
         const pfx = m.prefix || '.';
         const input = (query || '').trim();
@@ -65,7 +67,15 @@ async function handleTempmail({ hisoka, m, query, tolak, logCommand, logError, p
                 db[userId] = s.serialize();
                 saveDB(db);
         };
+        const stopWatcher = () => {
+                const watcher = watchers.get(userId);
+                if (!watcher) return;
+                watcher.stopped = true;
+                if (watcher.timer) clearTimeout(watcher.timer);
+                watchers.delete(userId);
+        };
         const removeSess = () => {
+                stopWatcher();
                 const db = loadDB();
                 if (db[userId]) { delete db[userId]; saveDB(db); }
                 sessions.delete(userId);
@@ -127,24 +137,36 @@ async function handleTempmail({ hisoka, m, query, tolak, logCommand, logError, p
         };
 
         const ensureBound = async (s) => {
-                if (!s || !s.mailbox) return null;
-                const at = s.mailbox.indexOf('@');
-                if (at <= 0) return null;
-                const name = s.mailbox.slice(0, at);
-                const domain = s.mailbox.slice(at + 1);
+                if (!s || !s.mailbox || typeof s.inbox !== 'function') return null;
                 try {
-                        const data = await s.change(name, domain);
-                        if (data && data.mailbox && data.mailbox !== `${name}@${domain}`) {
-                                data.mailbox = `${name}@${domain}`;
-                        }
-                        s.mailbox = `${name}@${domain}`;
-                        return data;
-                } catch (_) {
+                        // NovaMail mengikat mailbox lewat cookie session. Jangan
+                        // memanggil /api/change setiap cek karena itu membuat email baru.
+                        s.lastError = null;
+                        return await s.inbox();
+                } catch (err) {
+                        s.lastError = err;
                         return null;
                 }
         };
 
-        const sub = String(m.command || '').toLowerCase();
+        const rawSub = String(m.command || '').toLowerCase();
+        const sub = rawSub === 'tmailbox' ? 'tminbox' : rawSub;
+        const maskId = (value) => {
+                const text = String(value || '');
+                if (text.length <= 10) return text || '-';
+                return `${text.slice(0, 5)}…${text.slice(-5)}`;
+        };
+        const maskMailbox = (value) => {
+                const text = String(value || '');
+                const at = text.indexOf('@');
+                if (at <= 0) return maskId(text);
+                return `${text.slice(0, Math.min(3, at))}***${text.slice(at)}`;
+        };
+        const watcherLog = (level, text) => {
+                const fn = console[level] || console.log;
+                fn(`[TMailAuto] ${text}`);
+        };
+        const AUTO_WATCHER_VERSION = 2;
 
         const buildTmailButtons = (mailbox) => ([
                 {
@@ -211,30 +233,112 @@ async function handleTempmail({ hisoka, m, query, tolak, logCommand, logError, p
                 return digits ? digits[1] : null;
         };
 
-        const formatMail = (msg, mailbox, header = '📩 *PESAN*') => {
-                const body = (msg.bodyText || '').trim();
-                const trimmed = body.length > 3500 ? body.slice(0, 3500) + '\n\n_..(dipotong)_' : body;
+        const normalizeInlineStyle = (line) => String(line || '')
+                // Email/Markdown memakai pasangan ganda, WhatsApp memakai satu.
+                .replace(/\*\*(?!\s)(.+?)(?<!\s)\*\*/g, '*$1*')
+                .replace(/__(?!\s)(.+?)(?<!\s)__/g, '_$1_')
+                .replace(/~~(?!\s)(.+?)(?<!\s)~~/g, '~$1~');
+
+        const formatContextualBody = (body, code = null) => {
+                const lines = String(body || '').replace(/\r/g, '').split('\n');
+                const output = [];
+                let inCodeBlock = false;
+                const escapedCode = code
+                        ? String(code).replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+                        : null;
+                const codePattern = escapedCode
+                        ? new RegExp(`(?<![\`A-Za-z0-9])(${escapedCode})(?![\`A-Za-z0-9])`, 'g')
+                        : null;
+                const styleText = (value) => {
+                        const styled = normalizeInlineStyle(value);
+                        return codePattern ? styled.replace(codePattern, '`$1`') : styled;
+                };
+
+                for (const rawLine of lines) {
+                        const line = rawLine.trimEnd();
+                        const trimmed = line.trim();
+                        if (/^```/.test(trimmed)) {
+                                inCodeBlock = !inCodeBlock;
+                                output.push('```');
+                                continue;
+                        }
+                        if (inCodeBlock) {
+                                output.push(line);
+                                continue;
+                        }
+                        if (!trimmed) {
+                                output.push('');
+                                continue;
+                        }
+
+                        const quote = trimmed.match(/^>\s?(.*)$/);
+                        if (quote) {
+                                output.push(`> ${styleText(quote[1])}`);
+                                continue;
+                        }
+                        const numbered = trimmed.match(/^(?:[-•]\s*)?(\d+)[.)]\s+(.+)$/);
+                        if (numbered) {
+                                output.push(`${numbered[1]}. ${styleText(numbered[2])}`);
+                                continue;
+                        }
+                        const bullet = trimmed.match(/^[-*•▪◦]\s+(.+)$/);
+                        if (bullet) {
+                                output.push(`• ${styleText(bullet[1])}`);
+                                continue;
+                        }
+                        const heading = trimmed.match(/^#{1,3}\s+(.+)$/);
+                        if (heading) {
+                                output.push(`*${styleText(heading[1])}*`);
+                                continue;
+                        }
+                        if (/^(?:important|warning|peringatan|catatan penting)\s*:/i.test(trimmed)) {
+                                output.push(`*${styleText(trimmed)}*`);
+                                continue;
+                        }
+                        if (/^(?:--|regards[,!:]?|best regards[,!:]?|sincerely[,!:]?)/i.test(trimmed)) {
+                                output.push(`_${styleText(trimmed)}_`);
+                                continue;
+                        }
+
+                        // Baris teknis pendek dibuat monospace; URL tetap dibiarkan clickable.
+                        const looksLikeCode = /^(?:const|let|var|function|class|import|export|curl|npm|node|GET\s|POST\s)/i.test(trimmed)
+                                || /=>|\\n|\\r\\n/.test(trimmed);
+                        output.push(looksLikeCode && trimmed.length <= 180
+                                ? `\`${styleText(trimmed)}\``
+                                : styleText(line));
+                }
+
+                return output.join('\n').replace(/\n{4,}/g, '\n\n\n').trim();
+        };
+
+        const formatMail = (msg, mailbox, header = '📩 *PESAN*', code = null) => {
+                const body = formatContextualBody(msg.bodyText || '', code);
+                const trimmed = body.length > 3500 ? body.slice(0, 3500) + '\n\n_...(dipotong)_': body;
                 const links = Array.isArray(msg.links) ? msg.links.slice(0, 10) : [];
                 const linkBlock = links.length
                         ? `\n\n🔗 *Link di pesan:*\n` + links.map((l, i) =>
-                                `${i + 1}. ${l.url}` + (l.text ? `\n   _${l.text}_` : '')
+                                `${i + 1}. ${l.url}` + (l.text ? `\n   _${normalizeInlineStyle(l.text)}_` : '')
                         ).join('\n')
+                        : '';
+                const otpBlock = code && !new RegExp(`\\b${String(code).replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\b`).test(trimmed)
+                        ? `\n\n🔑 *Kode OTP:* \`${code}\``
                         : '';
                 return (
                         `${header}\n\n` +
-                        `📌 *Subjek:* ${msg.subject || '-'}\n` +
-                        `👤 *Dari:* ${msg.from || msg.from_email || '-'}\n` +
-                        `📧 *Ke:* ${msg.to || mailbox || '-'}\n` +
-                        `🕒 *Tanggal:* ${msg.date || msg.receivedAt || '-'}\n` +
-                        `🆔 *ID:* ${msg.id}\n` +
+                        `📌 *Subjek:* ${normalizeInlineStyle(msg.subject || '-')}\n` +
+                        `👤 *Dari:* ${normalizeInlineStyle(msg.from || msg.from_email || '-')}\n` +
+                        `📧 *Ke:* ${normalizeInlineStyle(msg.to || mailbox || '-')}\n` +
+                        `🕒 *Tanggal:* ${normalizeInlineStyle(msg.date || msg.receivedAt || '-')}\n` +
+                        `🆔 *ID:* \`${msg.id || '-'}\`\n` +
                         `🌐 *URL:* ${msg.url || ''}\n` +
                         `${'─'.repeat(20)}\n\n` +
                         (trimmed || '_(isi pesan kosong)_') +
+                        otpBlock +
                         linkBlock
                 );
         };
 
-        const sendMailWithButtons = async (msg, mailbox, header = '📩 *PESAN*') => {
+        const sendMailWithButtons = async (msg, mailbox, header = '📩 *PESAN*', target = m.from) => {
                 const ai = msg.ai || null;
                 const code = (ai && ai.code) || detectCode(msg.bodyText || msg.subject || '');
                 const links = Array.isArray(msg.links) ? msg.links : [];
@@ -242,7 +346,7 @@ async function handleTempmail({ hisoka, m, query, tolak, logCommand, logError, p
                 const primaryLabel = (ai && ai.primaryLabel) || 'Verifikasi';
                 const aiSummary = (ai && ai.summary) || '';
 
-                let teks = formatMail(msg, mailbox, header);
+                let teks = formatMail(msg, mailbox, header, code);
                 if (aiSummary) teks += `\n\n🤖 *Ringkasan AI:* ${aiSummary}`;
 
                 const buttons = [];
@@ -290,31 +394,136 @@ async function handleTempmail({ hisoka, m, query, tolak, logCommand, logError, p
                         });
                 }
 
-                if (verifyUrl && code) teks += `\n\n🔑 *Kode OTP:* \`${code}\``;
-
                 try { archiveEmail(mailbox, msg); } catch (_) {}
 
                 if (!buttons.length) {
-                        await tolak(hisoka, m, teks);
+                        if (target === m.from) await tolak(hisoka, m, teks);
+                        else await hisoka.sendMessage(target, { text: teks });
                         return;
                 }
 
                 try {
-                        await m.reply({
-                                interactiveMessage: {
-                                        contextInfo: {
-                                                stanzaId: m.key.id,
-                                                participant: m.sender,
-                                                quotedMessage: m.message,
-                                        },
-                                        title: teks,
-                                        footer: `📨 Tempmail · ${mailbox || ''}`,
-                                        buttons,
-                                },
-                        });
+                        const interactiveMessage = {
+                                title: teks,
+                                footer: `📨 Tempmail · ${mailbox || ''}`,
+                                buttons,
+                        };
+                        if (target === m.from) {
+                                interactiveMessage.contextInfo = {
+                                        stanzaId: m.key.id,
+                                        participant: m.sender,
+                                        quotedMessage: m.message,
+                                };
+                        }
+                        await hisoka.sendMessage(target, { interactiveMessage });
                 } catch (err) {
-                        await tolak(hisoka, m, teks + (code ? `\n\n🔑 *Kode:* \`${code}\`` : ''));
+                        const fallback = teks + (code ? `\n\n🔑 *Kode:* \`${code}\`` : '');
+                        if (target === m.from) await tolak(hisoka, m, fallback);
+                        else await hisoka.sendMessage(target, { text: fallback });
                 }
+        };
+
+        const startAutoWatcher = (s) => {
+                if (!s || !s.mailbox || typeof s.inbox !== 'function') return;
+                const existing = watchers.get(userId);
+                if (existing && existing.s === s && !existing.stopped
+                        && existing.version === AUTO_WATCHER_VERSION) return;
+                stopWatcher();
+
+                const watcher = {
+                        s,
+                        version: AUTO_WATCHER_VERSION,
+                        stopped: false,
+                        timer: null,
+                        busy: false,
+                        initialized: false,
+                        pollCount: 0,
+                        errorCount: 0,
+                };
+                watchers.set(userId, watcher);
+                watcherLog('log',
+                        `START user=${maskId(userId)} mailbox=${maskMailbox(s.mailbox)} target=PRIVATE`
+                );
+
+                const poll = async () => {
+                        if (watcher.stopped || watchers.get(userId) !== watcher) return;
+                        if (watcher.busy) {
+                                watcher.timer = setTimeout(poll, 5000);
+                                return;
+                        }
+                        watcher.busy = true;
+                        try {
+                                const data = await s.inbox();
+                                persistSess(s);
+                                watcher.pollCount++;
+                                const messages = Array.isArray(data.messages) ? data.messages : [];
+                                if (!watcher.initialized) {
+                                        for (const item of messages) {
+                                                if (item.id) s.lastSeenIds.add(String(item.id));
+                                        }
+                                        watcher.initialized = true;
+                                        watcherLog('log',
+                                                `READY user=${maskId(userId)} mailbox=${maskMailbox(s.mailbox)} baseline=${messages.length}`
+                                        );
+                                } else {
+                                        const fresh = messages.filter((item) =>
+                                                item.id && !s.lastSeenIds.has(String(item.id))
+                                        );
+                                        for (const item of messages) {
+                                                if (item.id) s.lastSeenIds.add(String(item.id));
+                                        }
+                                        if (fresh.length) {
+                                                watcherLog('log',
+                                                        `NEW user=${maskId(userId)} mailbox=${maskMailbox(s.mailbox)} count=${fresh.length} target=PRIVATE`
+                                                );
+                                        } else if (watcher.pollCount % 12 === 0) {
+                                                watcherLog('log',
+                                                        `HEARTBEAT user=${maskId(userId)} mailbox=${maskMailbox(s.mailbox)} inbox=${messages.length}`
+                                                );
+                                        }
+                                        for (const item of fresh) {
+                                                let detail = {};
+                                                try {
+                                                        detail = await s.view(item.id);
+                                                } catch (err) {
+                                                        watcherLog('warn',
+                                                                `VIEW_FAIL user=${maskId(userId)} id=${maskId(item.id)} error=${err.message}`
+                                                        );
+                                                }
+                                                try {
+                                                        await sendMailWithButtons(
+                                                                { ...item, ...detail },
+                                                                s.mailbox,
+                                                                '🔔 *EMAIL BARU OTOMATIS*',
+                                                                userId
+                                                        );
+                                                        watcherLog('log',
+                                                                `DELIVERED user=${maskId(userId)} id=${maskId(item.id)} target=PRIVATE`
+                                                        );
+                                                } catch (err) {
+                                                        watcherLog('error',
+                                                                `DELIVERY_FAIL user=${maskId(userId)} id=${maskId(item.id)} error=${err.message}`
+                                                        );
+                                                }
+                                        }
+                                }
+                        } catch (err) {
+                                // Error sementara dicatat agar polling berikutnya tetap jalan.
+                                watcher.lastError = err;
+                                watcher.errorCount++;
+                                if (watcher.errorCount === 1 || watcher.errorCount % 12 === 0) {
+                                        watcherLog('warn',
+                                                `POLL_FAIL user=${maskId(userId)} mailbox=${maskMailbox(s.mailbox)} error=${err.message}`
+                                        );
+                                }
+                        } finally {
+                                watcher.busy = false;
+                                if (!watcher.stopped && watchers.get(userId) === watcher) {
+                                        watcher.timer = setTimeout(poll, 5000);
+                                }
+                        }
+                };
+                poll().catch((err) => { watcher.lastError = err; });
         };
 
         if (sub === 'tmdel') {
@@ -323,7 +532,7 @@ async function handleTempmail({ hisoka, m, query, tolak, logCommand, logError, p
                 removeSess();
                 const s = new Tmail();
                 sessions.set(userId, s);
-                const info = await s.create();
+                const info = await s.delete();
                 persistSess(s);
 
                 const teks =
@@ -345,6 +554,7 @@ async function handleTempmail({ hisoka, m, query, tolak, logCommand, logError, p
                         `╰────────────────────`;
 
                 await sendTmailPanel(teks, info.mailbox);
+                startAutoWatcher(s);
                 await hisoka.sendMessage(m.from, { react: { text: '✅', key: m.key } });
                 logCommand(m, hisoka, 'tmdel');
                 return;
@@ -360,12 +570,12 @@ async function handleTempmail({ hisoka, m, query, tolak, logCommand, logError, p
                         const name = (rawName || '').trim();
                         const domain = (rawDomain || '').trim() || Tmail.DEFAULT_DOMAINS[0];
                         if (!name) {
-                                await tolak(hisoka, m, `❌ Nama email kosong.\nContoh: *${pfx}tempmail wilytest@t.etokom.com*`);
+                                await tolak(hisoka, m, `❌ Nama email kosong.\nContoh: *${pfx}tempmail wilytest@random*`);
                                 return;
                         }
                         if (!Tmail.DEFAULT_DOMAINS.includes(domain)) {
                                 await tolak(hisoka, m,
-                                        `❌ Domain *${domain}* tidak tersedia.\n\n` +
+                                        `❌ NovaMail hanya menyediakan pemilihan domain acak.\n\n` +
                                         `Domain yang didukung:\n• ` + Tmail.DEFAULT_DOMAINS.join('\n• ')
                                 );
                                 return;
@@ -375,6 +585,14 @@ async function handleTempmail({ hisoka, m, query, tolak, logCommand, logError, p
                 } else if (s.mailbox) {
                         const savedMailbox = s.mailbox;
                         info = await ensureBound(s);
+                        if (!info && s.lastError) {
+                                await tolak(hisoka, m,
+                                        `❌ *NovaMail sedang bermasalah*\n\n` +
+                                        `${s.lastError.message}\n\n` +
+                                        `_Coba ulangi beberapa saat lagi._`
+                                );
+                                return;
+                        }
                         if (!info) info = { mailbox: savedMailbox, messages: [] };
                         if (!info.mailbox) info.mailbox = savedMailbox;
                         reused = true;
@@ -384,7 +602,7 @@ async function handleTempmail({ hisoka, m, query, tolak, logCommand, logError, p
                         persistSess(s);
                 }
                 const teks =
-                        `╭─「 📨 *TEMPMAIL ETOKOM* 」\n` +
+                        `╭─「 📨 *TEMPMAIL NOVAMAIL* 」\n` +
                         `│\n` +
                         `│ ✉️ *Email:* ${info.mailbox}\n` +
                         `│ 📥 *Inbox:* ${(info.messages || []).length} pesan\n` +
@@ -395,12 +613,14 @@ async function handleTempmail({ hisoka, m, query, tolak, logCommand, logError, p
                         `│ • ${pfx}tmread <id> — baca pesan\n` +
                         `│ • ${pfx}tmwait — tunggu email baru (realtime)\n` +
                         `│ • ${pfx}tmdel — hapus & ganti email baru\n` +
-                        `│ • ${pfx}tempmail nama@${Tmail.DEFAULT_DOMAINS[0]} — custom\n` +
+                        `│ • 🔔 Email baru otomatis dikirim ke private kamu\n` +
+                        `│ • ${pfx}tempmail nama@random — custom nama (domain acak)\n` +
                         `│\n` +
                         `│ 🌐 Domain tersedia:\n│ • ` + Tmail.DEFAULT_DOMAINS.join('\n│ • ') + `\n` +
                         `╰────────────────────`;
 
                 await sendTmailPanel(teks, info.mailbox);
+                startAutoWatcher(s);
                 await hisoka.sendMessage(m.from, { react: { text: '✅', key: m.key } });
                 logCommand(m, hisoka, 'tempmail');
                 return;
@@ -415,9 +635,18 @@ async function handleTempmail({ hisoka, m, query, tolak, logCommand, logError, p
                 await hisoka.sendMessage(m.from, { react: { text: '📥', key: m.key } });
                 const savedMb = s.mailbox;
                 let data = await ensureBound(s);
+                if (!data && s.lastError) {
+                        await tolak(hisoka, m,
+                                `❌ *NovaMail sedang bermasalah*\n\n` +
+                                `${s.lastError.message}\n\n` +
+                                `_Coba ulangi beberapa saat lagi atau gunakan ${pfx}tmwait._`
+                        );
+                        return;
+                }
                 if (!data) data = { mailbox: savedMb, messages: [] };
                 if (!data.mailbox) data.mailbox = savedMb;
                 persistSess(s);
+                startAutoWatcher(s);
                 const list = data.messages || [];
                 const archive = getArchive();
 
@@ -494,7 +723,8 @@ async function handleTempmail({ hisoka, m, query, tolak, logCommand, logError, p
                         return;
                 }
                 const s = getSess();
-                if (!s.token) await s.create();
+                if (!s.mailbox) await s.create();
+                startAutoWatcher(s);
                 await hisoka.sendMessage(m.from, { react: { text: '📖', key: m.key } });
                 const msg = await s.view(input);
                 await sendMailWithButtons(msg, s.mailbox, '📖 *PESAN LENGKAP*');
@@ -514,64 +744,27 @@ async function handleTempmail({ hisoka, m, query, tolak, logCommand, logError, p
                         );
                         return;
                 }
-                await ensureBound(s);
+                const data = await ensureBound(s);
+                if (!data && s.lastError) {
+                        await tolak(hisoka, m,
+                                `❌ *NovaMail sedang bermasalah*\n\n` +
+                                `${s.lastError.message}\n\n` +
+                                `_Pemantauan otomatis akan mencoba lagi setelah provider normal._`
+                        );
+                        return;
+                }
                 persistSess(s);
-                const waitMs = (() => {
-                        const n = parseInt(input);
-                        if (!isNaN(n) && n >= 10 && n <= 600) return n * 1000;
-                        return 2 * 60 * 1000;
-                })();
+                startAutoWatcher(s);
                 await hisoka.sendMessage(m.from, { react: { text: '⏳', key: m.key } });
                 await tolak(hisoka, m,
-                        `⏳ *Menunggu email masuk (REALTIME)*\n\n` +
+                        `🔔 *PEMANTAU EMAIL OTOMATIS AKTIF*\n\n` +
                         `✉️ ${s.mailbox}\n` +
-                        `⏱️ Durasi: ${Math.round(waitMs / 1000)} detik\n` +
                         `🔄 Polling tiap 5 detik\n\n` +
-                        `_Setiap email yang masuk akan dikirim lengkap (subjek, isi, link). Bot terus mendengarkan sampai durasi habis._`
+                        `_Setiap email baru akan dikirim lengkap ke chat private kamu, meskipun command ini diketik dari grup._\n\n` +
+                        `_Pemantauan berhenti saat kamu memakai ${pfx}tmdel atau bot dimatikan._`
                 );
-                let received = 0;
-                await s.streamMessages({
-                        timeout: waitMs,
-                        interval: 5000,
-                        onMessage: async (msg) => {
-                                received++;
-                                await sendMailWithButtons(msg, s.mailbox, `🔔 *EMAIL BARU #${received}*`);
-                                await hisoka.sendMessage(m.from, { react: { text: '🔔', key: m.key } }).catch(() => {});
-                        },
-                });
-                if (received === 0) {
-                        const mb = (loadDB()[userId] || {}).mailbox || '-';
-                        const teks =
-                                `╭─「 ⌛ *TIDAK ADA EMAIL BARU* 」\n` +
-                                `│\n` +
-                                `│ ⏱️ Durasi tunggu: *${Math.round(waitMs / 1000)} detik*\n` +
-                                `│ ✉️ Mailbox: ${mb}\n` +
-                                `│ 📭 Email masuk: *0*\n` +
-                                `│\n` +
-                                `│ Coba lagi:\n` +
-                                `│ • ${pfx}tmwait — tunggu lagi (default 120s)\n` +
-                                `│ • ${pfx}tmwait 300 — kasih waktu lebih (max 600s)\n` +
-                                `│ • ${pfx}tminbox — cek inbox manual\n` +
-                                `╰────────────────────`;
-                        await sendTmailPanel(teks, mb);
-                        await hisoka.sendMessage(m.from, { react: { text: '⌛', key: m.key } });
-                } else {
-                        const mb = (loadDB()[userId] || {}).mailbox || '-';
-                        const teks =
-                                `╭─「 ✅ *SELESAI MENDENGARKAN* 」\n` +
-                                `│\n` +
-                                `│ 📬 Total email diterima: *${received}*\n` +
-                                `│ ✉️ Mailbox: ${mb}\n` +
-                                `│\n` +
-                                `│ Mau lanjut?\n` +
-                                `│ • ${pfx}tmwait — dengerin lagi\n` +
-                                `│ • ${pfx}tminbox — cek inbox\n` +
-                                `│ • ${pfx}tmdel — ganti email baru\n` +
-                                `╰────────────────────`;
-                        await sendTmailPanel(teks, mb);
-                        await hisoka.sendMessage(m.from, { react: { text: '✅', key: m.key } });
-                }
                 logCommand(m, hisoka, 'tmwait');
+                return;
         }
 }
 

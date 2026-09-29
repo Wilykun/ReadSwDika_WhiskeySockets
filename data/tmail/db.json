@@ -22,5 +22,20 @@
       ]
     ],
     "savedAt": 1782195424299
+  },
+  "6289681008411@s.whatsapp.net": {
+    "provider": "novamail",
+    "mailbox": "jixevep624@cwsgear.com",
+    "cookies": [
+      [
+        "nm_sess",
+        "eyJtYWlsVG9rZW4iOiJleUpoYkdjaU9pSklVekkxTmlJc0luUjVjQ0k2SWtwWFZDSjkuZXlKMWRXbGtJam9pWW1FM1pERTNZelF6TnpZd05HWmxNVGcwWlRJMk9EVmtNRFEwTUdaaVpESWlMQ0p0WVdsc1ltOTRJam9pYW1sNFpYWmxjRFl5TkVCamQzTm5aV0Z5TG1OdmJTSXNJbWxoZENJNk1UYzVNRFk1TWpNek1uMC54X3RxWG13UFdUcFhEMmJYN1M3Uk5VOWxjdFpYM0lub2tXQlZ3ajlKQ0VrIiwibWFpbGJveCI6ImppeGV2ZXA2MjRAY3dzZ2Vhci5jb20ifQ=="
+      ],
+      [
+        "nm_sess.sig",
+        "8QMA58EPYJjB10_KtGu7DRBu0tw"
+      ]
+    ],
+    "savedAt": 1790692565303
   }
 }

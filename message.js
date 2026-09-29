@@ -1300,6 +1300,11 @@ export default async function ({ message, type: messagesType }, hisoka) {
                         }
                         case 'tempmail':
                         case 'tmail':
+                        case 'tmailbox': {
+                                const { handleTempmail } = _require(path.resolve('./SEMUA_FITUR/tools/tempmail.cjs'));
+                                await handleTempmail({ hisoka, m, query, tolak, logCommand, logError, path, _require });
+                                break;
+                        }
                         case 'tminbox':
                         case 'tmread':
                         case 'tmwait':

@@ -1,172 +1,4 @@
 {
-  "ACA044D50FF2B270D393C3F594E441FF": {
-    "id": "ACA044D50FF2B270D393C3F594E441FF",
-    "sender": "6282252134009@s.whatsapp.net",
-    "name": "STOCKING || PASWG FAN",
-    "type": "videoMessage",
-    "arrivedAt": "2026-09-27T13:44:15.559Z",
-    "read": true,
-    "reacted": true,
-    "emoji": "🐬",
-    "resolve": "PN langsung ✓",
-    "source": "status",
-    "number": "6282252134009",
-    "resolvedPn": "6282252134009@s.whatsapp.net",
-    "messageKey": {
-      "remoteJid": "status@broadcast",
-      "remoteJidAlt": "6282252134009@s.whatsapp.net",
-      "fromMe": false,
-      "id": "ACA044D50FF2B270D393C3F594E441FF",
-      "participant": "76790290767977@lid",
-      "addressingMode": "lid"
-    },
-    "updatedAt": "2026-09-27T13:44:23.988Z",
-    "receiptKeys": [
-      {
-        "remoteJid": "status@broadcast",
-        "remoteJidAlt": "6282252134009@s.whatsapp.net",
-        "fromMe": false,
-        "id": "ACA044D50FF2B270D393C3F594E441FF",
-        "participant": "76790290767977@lid",
-        "addressingMode": "lid"
-      },
-      {
-        "remoteJid": "status@broadcast",
-        "remoteJidAlt": "6282252134009@s.whatsapp.net",
-        "fromMe": false,
-        "id": "ACA044D50FF2B270D393C3F594E441FF",
-        "participant": "6282252134009@s.whatsapp.net",
-        "addressingMode": "lid"
-      }
-    ],
-    "processedAt": "2026-09-27T13:44:23.987Z"
-  },
-  "AC65086A0DC1ACAFED9D6FC1CB613FEB": {
-    "id": "AC65086A0DC1ACAFED9D6FC1CB613FEB",
-    "sender": "6282252134009@s.whatsapp.net",
-    "name": "STOCKING || PASWG FAN",
-    "type": "videoMessage",
-    "arrivedAt": "2026-09-27T13:44:15.575Z",
-    "read": true,
-    "reacted": true,
-    "emoji": "🐋",
-    "resolve": "PN langsung ✓",
-    "source": "status",
-    "number": "6282252134009",
-    "resolvedPn": "6282252134009@s.whatsapp.net",
-    "messageKey": {
-      "remoteJid": "status@broadcast",
-      "remoteJidAlt": "6282252134009@s.whatsapp.net",
-      "fromMe": false,
-      "id": "AC65086A0DC1ACAFED9D6FC1CB613FEB",
-      "participant": "76790290767977@lid",
-      "addressingMode": "lid"
-    },
-    "updatedAt": "2026-09-27T13:44:18.888Z",
-    "receiptKeys": [
-      {
-        "remoteJid": "status@broadcast",
-        "remoteJidAlt": "6282252134009@s.whatsapp.net",
-        "fromMe": false,
-        "id": "AC65086A0DC1ACAFED9D6FC1CB613FEB",
-        "participant": "76790290767977@lid",
-        "addressingMode": "lid"
-      },
-      {
-        "remoteJid": "status@broadcast",
-        "remoteJidAlt": "6282252134009@s.whatsapp.net",
-        "fromMe": false,
-        "id": "AC65086A0DC1ACAFED9D6FC1CB613FEB",
-        "participant": "6282252134009@s.whatsapp.net",
-        "addressingMode": "lid"
-      }
-    ],
-    "processedAt": "2026-09-27T13:44:18.888Z"
-  },
-  "ACD73F6E69B6BDAD80F1EC3BF285C68A": {
-    "id": "ACD73F6E69B6BDAD80F1EC3BF285C68A",
-    "sender": "6282252134009@s.whatsapp.net",
-    "name": "STOCKING || PASWG FAN",
-    "type": "videoMessage",
-    "arrivedAt": "2026-09-27T13:44:15.579Z",
-    "read": true,
-    "reacted": true,
-    "emoji": "🐟",
-    "resolve": "PN langsung ✓",
-    "source": "status",
-    "number": "6282252134009",
-    "resolvedPn": "6282252134009@s.whatsapp.net",
-    "messageKey": {
-      "remoteJid": "status@broadcast",
-      "remoteJidAlt": "6282252134009@s.whatsapp.net",
-      "fromMe": false,
-      "id": "ACD73F6E69B6BDAD80F1EC3BF285C68A",
-      "participant": "76790290767977@lid",
-      "addressingMode": "lid"
-    },
-    "updatedAt": "2026-09-27T13:44:33.659Z",
-    "receiptKeys": [
-      {
-        "remoteJid": "status@broadcast",
-        "remoteJidAlt": "6282252134009@s.whatsapp.net",
-        "fromMe": false,
-        "id": "ACD73F6E69B6BDAD80F1EC3BF285C68A",
-        "participant": "76790290767977@lid",
-        "addressingMode": "lid"
-      },
-      {
-        "remoteJid": "status@broadcast",
-        "remoteJidAlt": "6282252134009@s.whatsapp.net",
-        "fromMe": false,
-        "id": "ACD73F6E69B6BDAD80F1EC3BF285C68A",
-        "participant": "6282252134009@s.whatsapp.net",
-        "addressingMode": "lid"
-      }
-    ],
-    "processedAt": "2026-09-27T13:44:33.659Z"
-  },
-  "AC0046FF4594D63AE20DBA0D1DB700BF": {
-    "id": "AC0046FF4594D63AE20DBA0D1DB700BF",
-    "sender": "6282252134009@s.whatsapp.net",
-    "name": "STOCKING || PASWG FAN",
-    "type": "imageMessage",
-    "arrivedAt": "2026-09-28T04:49:43.828Z",
-    "read": true,
-    "reacted": true,
-    "emoji": "🐋",
-    "resolve": "PN langsung ✓",
-    "source": "status",
-    "number": "6282252134009",
-    "resolvedPn": "6282252134009@s.whatsapp.net",
-    "messageKey": {
-      "remoteJid": "status@broadcast",
-      "remoteJidAlt": "6282252134009@s.whatsapp.net",
-      "fromMe": false,
-      "id": "AC0046FF4594D63AE20DBA0D1DB700BF",
-      "participant": "76790290767977@lid",
-      "addressingMode": "lid"
-    },
-    "updatedAt": "2026-09-28T04:49:50.607Z",
-    "receiptKeys": [
-      {
-        "remoteJid": "status@broadcast",
-        "remoteJidAlt": "6282252134009@s.whatsapp.net",
-        "fromMe": false,
-        "id": "AC0046FF4594D63AE20DBA0D1DB700BF",
-        "participant": "76790290767977@lid",
-        "addressingMode": "lid"
-      },
-      {
-        "remoteJid": "status@broadcast",
-        "remoteJidAlt": "6282252134009@s.whatsapp.net",
-        "fromMe": false,
-        "id": "AC0046FF4594D63AE20DBA0D1DB700BF",
-        "participant": "6282252134009@s.whatsapp.net",
-        "addressingMode": "lid"
-      }
-    ],
-    "processedAt": "2026-09-28T04:49:50.606Z"
-  },
   "AC9C3B6BC2F9CEF5959D077265477B59": {
     "id": "AC9C3B6BC2F9CEF5959D077265477B59",
     "sender": "6282252134009@s.whatsapp.net",
@@ -502,5 +334,803 @@
       }
     ],
     "processedAt": "2026-09-28T14:09:41.248Z"
+  },
+  "ACE6663F93BBB3C473ABC70913659A33": {
+    "id": "ACE6663F93BBB3C473ABC70913659A33",
+    "sender": "6282252134009@s.whatsapp.net",
+    "name": "STOCKING || PASWG FAN",
+    "type": "videoMessage",
+    "arrivedAt": "2026-09-29T03:39:23.365Z",
+    "read": true,
+    "reacted": true,
+    "emoji": "🐬",
+    "resolve": "PN langsung ✓",
+    "source": "status",
+    "number": "6282252134009",
+    "resolvedPn": "6282252134009@s.whatsapp.net",
+    "messageKey": {
+      "remoteJid": "status@broadcast",
+      "remoteJidAlt": "6282252134009@s.whatsapp.net",
+      "fromMe": false,
+      "id": "ACE6663F93BBB3C473ABC70913659A33",
+      "participant": "76790290767977@lid",
+      "addressingMode": "lid"
+    },
+    "updatedAt": "2026-09-29T03:39:28.708Z",
+    "receiptKeys": [
+      {
+        "remoteJid": "status@broadcast",
+        "remoteJidAlt": "6282252134009@s.whatsapp.net",
+        "fromMe": false,
+        "id": "ACE6663F93BBB3C473ABC70913659A33",
+        "participant": "76790290767977@lid",
+        "addressingMode": "lid"
+      },
+      {
+        "remoteJid": "status@broadcast",
+        "remoteJidAlt": "6282252134009@s.whatsapp.net",
+        "fromMe": false,
+        "id": "ACE6663F93BBB3C473ABC70913659A33",
+        "participant": "6282252134009@s.whatsapp.net",
+        "addressingMode": "lid"
+      }
+    ],
+    "processedAt": "2026-09-29T03:39:28.708Z"
+  },
+  "AC20BE1E0504FC5CFECEB00AE5A1117C": {
+    "id": "AC20BE1E0504FC5CFECEB00AE5A1117C",
+    "sender": "6282252134009@s.whatsapp.net",
+    "name": "STOCKING || PASWG FAN",
+    "type": "videoMessage",
+    "arrivedAt": "2026-09-29T03:39:23.599Z",
+    "read": true,
+    "reacted": true,
+    "emoji": "🐟",
+    "resolve": "PN langsung ✓",
+    "source": "status",
+    "number": "6282252134009",
+    "resolvedPn": "6282252134009@s.whatsapp.net",
+    "messageKey": {
+      "remoteJid": "status@broadcast",
+      "remoteJidAlt": "6282252134009@s.whatsapp.net",
+      "fromMe": false,
+      "id": "AC20BE1E0504FC5CFECEB00AE5A1117C",
+      "participant": "76790290767977@lid",
+      "addressingMode": "lid"
+    },
+    "updatedAt": "2026-09-29T03:39:28.742Z",
+    "receiptKeys": [
+      {
+        "remoteJid": "status@broadcast",
+        "remoteJidAlt": "6282252134009@s.whatsapp.net",
+        "fromMe": false,
+        "id": "AC20BE1E0504FC5CFECEB00AE5A1117C",
+        "participant": "76790290767977@lid",
+        "addressingMode": "lid"
+      },
+      {
+        "remoteJid": "status@broadcast",
+        "remoteJidAlt": "6282252134009@s.whatsapp.net",
+        "fromMe": false,
+        "id": "AC20BE1E0504FC5CFECEB00AE5A1117C",
+        "participant": "6282252134009@s.whatsapp.net",
+        "addressingMode": "lid"
+      }
+    ],
+    "processedAt": "2026-09-29T03:39:28.742Z"
+  },
+  "AC09E84AAF260481C41B69AB4EE5234A": {
+    "id": "AC09E84AAF260481C41B69AB4EE5234A",
+    "sender": "6282252134009@s.whatsapp.net",
+    "name": "STOCKING || PASWG FAN",
+    "type": "videoMessage",
+    "arrivedAt": "2026-09-29T03:39:23.600Z",
+    "read": true,
+    "reacted": true,
+    "emoji": "🦈",
+    "resolve": "PN langsung ✓",
+    "source": "status",
+    "number": "6282252134009",
+    "resolvedPn": "6282252134009@s.whatsapp.net",
+    "messageKey": {
+      "remoteJid": "status@broadcast",
+      "remoteJidAlt": "6282252134009@s.whatsapp.net",
+      "fromMe": false,
+      "id": "AC09E84AAF260481C41B69AB4EE5234A",
+      "participant": "76790290767977@lid",
+      "addressingMode": "lid"
+    },
+    "updatedAt": "2026-09-29T03:39:41.739Z",
+    "receiptKeys": [
+      {
+        "remoteJid": "status@broadcast",
+        "remoteJidAlt": "6282252134009@s.whatsapp.net",
+        "fromMe": false,
+        "id": "AC09E84AAF260481C41B69AB4EE5234A",
+        "participant": "76790290767977@lid",
+        "addressingMode": "lid"
+      },
+      {
+        "remoteJid": "status@broadcast",
+        "remoteJidAlt": "6282252134009@s.whatsapp.net",
+        "fromMe": false,
+        "id": "AC09E84AAF260481C41B69AB4EE5234A",
+        "participant": "6282252134009@s.whatsapp.net",
+        "addressingMode": "lid"
+      }
+    ],
+    "processedAt": "2026-09-29T03:39:41.739Z"
+  },
+  "ACADB71A878C69C2B9B7C4BCEDA1E676": {
+    "id": "ACADB71A878C69C2B9B7C4BCEDA1E676",
+    "sender": "6282252134009@s.whatsapp.net",
+    "name": "STOCKING || PASWG FAN",
+    "type": "videoMessage",
+    "arrivedAt": "2026-09-29T03:39:23.602Z",
+    "read": true,
+    "reacted": true,
+    "emoji": "🐠",
+    "resolve": "PN langsung ✓",
+    "source": "status",
+    "number": "6282252134009",
+    "resolvedPn": "6282252134009@s.whatsapp.net",
+    "messageKey": {
+      "remoteJid": "status@broadcast",
+      "remoteJidAlt": "6282252134009@s.whatsapp.net",
+      "fromMe": false,
+      "id": "ACADB71A878C69C2B9B7C4BCEDA1E676",
+      "participant": "76790290767977@lid",
+      "addressingMode": "lid"
+    },
+    "updatedAt": "2026-09-29T03:39:28.063Z",
+    "receiptKeys": [
+      {
+        "remoteJid": "status@broadcast",
+        "remoteJidAlt": "6282252134009@s.whatsapp.net",
+        "fromMe": false,
+        "id": "ACADB71A878C69C2B9B7C4BCEDA1E676",
+        "participant": "76790290767977@lid",
+        "addressingMode": "lid"
+      },
+      {
+        "remoteJid": "status@broadcast",
+        "remoteJidAlt": "6282252134009@s.whatsapp.net",
+        "fromMe": false,
+        "id": "ACADB71A878C69C2B9B7C4BCEDA1E676",
+        "participant": "6282252134009@s.whatsapp.net",
+        "addressingMode": "lid"
+      }
+    ],
+    "processedAt": "2026-09-29T03:39:28.063Z"
+  },
+  "ACFD2EF94DFBB53127E931B95150B321": {
+    "id": "ACFD2EF94DFBB53127E931B95150B321",
+    "sender": "6282252134009@s.whatsapp.net",
+    "name": "STOCKING || PASWG FAN",
+    "type": "videoMessage",
+    "arrivedAt": "2026-09-29T03:39:23.603Z",
+    "read": true,
+    "reacted": true,
+    "emoji": "🐡",
+    "resolve": "PN langsung ✓",
+    "source": "status",
+    "number": "6282252134009",
+    "resolvedPn": "6282252134009@s.whatsapp.net",
+    "messageKey": {
+      "remoteJid": "status@broadcast",
+      "remoteJidAlt": "6282252134009@s.whatsapp.net",
+      "fromMe": false,
+      "id": "ACFD2EF94DFBB53127E931B95150B321",
+      "participant": "76790290767977@lid",
+      "addressingMode": "lid"
+    },
+    "updatedAt": "2026-09-29T03:39:28.766Z",
+    "receiptKeys": [
+      {
+        "remoteJid": "status@broadcast",
+        "remoteJidAlt": "6282252134009@s.whatsapp.net",
+        "fromMe": false,
+        "id": "ACFD2EF94DFBB53127E931B95150B321",
+        "participant": "76790290767977@lid",
+        "addressingMode": "lid"
+      },
+      {
+        "remoteJid": "status@broadcast",
+        "remoteJidAlt": "6282252134009@s.whatsapp.net",
+        "fromMe": false,
+        "id": "ACFD2EF94DFBB53127E931B95150B321",
+        "participant": "6282252134009@s.whatsapp.net",
+        "addressingMode": "lid"
+      }
+    ],
+    "processedAt": "2026-09-29T03:39:28.766Z"
+  },
+  "AC766FBA93EDCD9532CFEC4FC26CF853": {
+    "id": "AC766FBA93EDCD9532CFEC4FC26CF853",
+    "sender": "6282252134009@s.whatsapp.net",
+    "name": "STOCKING || PASWG FAN",
+    "type": "videoMessage",
+    "arrivedAt": "2026-09-29T03:39:23.605Z",
+    "read": true,
+    "reacted": true,
+    "emoji": "🐬",
+    "resolve": "PN langsung ✓",
+    "source": "status",
+    "number": "6282252134009",
+    "resolvedPn": "6282252134009@s.whatsapp.net",
+    "messageKey": {
+      "remoteJid": "status@broadcast",
+      "remoteJidAlt": "6282252134009@s.whatsapp.net",
+      "fromMe": false,
+      "id": "AC766FBA93EDCD9532CFEC4FC26CF853",
+      "participant": "76790290767977@lid",
+      "addressingMode": "lid"
+    },
+    "updatedAt": "2026-09-29T03:39:35.183Z",
+    "receiptKeys": [
+      {
+        "remoteJid": "status@broadcast",
+        "remoteJidAlt": "6282252134009@s.whatsapp.net",
+        "fromMe": false,
+        "id": "AC766FBA93EDCD9532CFEC4FC26CF853",
+        "participant": "76790290767977@lid",
+        "addressingMode": "lid"
+      },
+      {
+        "remoteJid": "status@broadcast",
+        "remoteJidAlt": "6282252134009@s.whatsapp.net",
+        "fromMe": false,
+        "id": "AC766FBA93EDCD9532CFEC4FC26CF853",
+        "participant": "6282252134009@s.whatsapp.net",
+        "addressingMode": "lid"
+      }
+    ],
+    "processedAt": "2026-09-29T03:39:35.183Z"
+  },
+  "ACFF9511D9FA2F39BDE4BC124C910219": {
+    "id": "ACFF9511D9FA2F39BDE4BC124C910219",
+    "sender": "6282252134009@s.whatsapp.net",
+    "name": "STOCKING || PASWG FAN",
+    "type": "videoMessage",
+    "arrivedAt": "2026-09-29T03:39:23.606Z",
+    "read": true,
+    "reacted": true,
+    "emoji": "🐙",
+    "resolve": "PN langsung ✓",
+    "source": "status",
+    "number": "6282252134009",
+    "resolvedPn": "6282252134009@s.whatsapp.net",
+    "messageKey": {
+      "remoteJid": "status@broadcast",
+      "remoteJidAlt": "6282252134009@s.whatsapp.net",
+      "fromMe": false,
+      "id": "ACFF9511D9FA2F39BDE4BC124C910219",
+      "participant": "76790290767977@lid",
+      "addressingMode": "lid"
+    },
+    "updatedAt": "2026-09-29T03:39:28.022Z",
+    "receiptKeys": [
+      {
+        "remoteJid": "status@broadcast",
+        "remoteJidAlt": "6282252134009@s.whatsapp.net",
+        "fromMe": false,
+        "id": "ACFF9511D9FA2F39BDE4BC124C910219",
+        "participant": "76790290767977@lid",
+        "addressingMode": "lid"
+      },
+      {
+        "remoteJid": "status@broadcast",
+        "remoteJidAlt": "6282252134009@s.whatsapp.net",
+        "fromMe": false,
+        "id": "ACFF9511D9FA2F39BDE4BC124C910219",
+        "participant": "6282252134009@s.whatsapp.net",
+        "addressingMode": "lid"
+      }
+    ],
+    "processedAt": "2026-09-29T03:39:28.021Z"
+  },
+  "AC178BC7C2E4F2C87A5DC6C091D7EF3B": {
+    "id": "AC178BC7C2E4F2C87A5DC6C091D7EF3B",
+    "sender": "6282252134009@s.whatsapp.net",
+    "name": "STOCKING || PASWG FAN",
+    "type": "videoMessage",
+    "arrivedAt": "2026-09-29T03:39:23.608Z",
+    "read": true,
+    "reacted": true,
+    "emoji": "🐙",
+    "resolve": "PN langsung ✓",
+    "source": "status",
+    "number": "6282252134009",
+    "resolvedPn": "6282252134009@s.whatsapp.net",
+    "messageKey": {
+      "remoteJid": "status@broadcast",
+      "remoteJidAlt": "6282252134009@s.whatsapp.net",
+      "fromMe": false,
+      "id": "AC178BC7C2E4F2C87A5DC6C091D7EF3B",
+      "participant": "76790290767977@lid",
+      "addressingMode": "lid"
+    },
+    "updatedAt": "2026-09-29T03:39:40.579Z",
+    "receiptKeys": [
+      {
+        "remoteJid": "status@broadcast",
+        "remoteJidAlt": "6282252134009@s.whatsapp.net",
+        "fromMe": false,
+        "id": "AC178BC7C2E4F2C87A5DC6C091D7EF3B",
+        "participant": "76790290767977@lid",
+        "addressingMode": "lid"
+      },
+      {
+        "remoteJid": "status@broadcast",
+        "remoteJidAlt": "6282252134009@s.whatsapp.net",
+        "fromMe": false,
+        "id": "AC178BC7C2E4F2C87A5DC6C091D7EF3B",
+        "participant": "6282252134009@s.whatsapp.net",
+        "addressingMode": "lid"
+      }
+    ],
+    "processedAt": "2026-09-29T03:39:40.579Z"
+  },
+  "ACE56C5DFD8459815564EE46F6E35E23": {
+    "id": "ACE56C5DFD8459815564EE46F6E35E23",
+    "sender": "6282252134009@s.whatsapp.net",
+    "name": "STOCKING || PASWG FAN",
+    "type": "extendedTextMessage",
+    "arrivedAt": "2026-09-29T14:08:22.687Z",
+    "read": true,
+    "reacted": true,
+    "emoji": "🐳",
+    "resolve": "PN langsung ✓",
+    "source": "status",
+    "number": "6282252134009",
+    "resolvedPn": "6282252134009@s.whatsapp.net",
+    "messageKey": {
+      "remoteJid": "status@broadcast",
+      "remoteJidAlt": "6282252134009@s.whatsapp.net",
+      "fromMe": false,
+      "id": "ACE56C5DFD8459815564EE46F6E35E23",
+      "participant": "76790290767977@lid",
+      "addressingMode": "lid"
+    },
+    "updatedAt": "2026-09-29T14:08:34.733Z",
+    "receiptKeys": [
+      {
+        "remoteJid": "status@broadcast",
+        "remoteJidAlt": "6282252134009@s.whatsapp.net",
+        "fromMe": false,
+        "id": "ACE56C5DFD8459815564EE46F6E35E23",
+        "participant": "76790290767977@lid",
+        "addressingMode": "lid"
+      },
+      {
+        "remoteJid": "status@broadcast",
+        "remoteJidAlt": "6282252134009@s.whatsapp.net",
+        "fromMe": false,
+        "id": "ACE56C5DFD8459815564EE46F6E35E23",
+        "participant": "6282252134009@s.whatsapp.net",
+        "addressingMode": "lid"
+      }
+    ],
+    "processedAt": "2026-09-29T14:08:34.733Z"
+  },
+  "AC8DFE764A5201047ED641B513D0E724": {
+    "id": "AC8DFE764A5201047ED641B513D0E724",
+    "sender": "6282252134009@s.whatsapp.net",
+    "name": "STOCKING || PASWG FAN",
+    "type": "videoMessage",
+    "arrivedAt": "2026-09-29T14:08:22.891Z",
+    "read": true,
+    "reacted": true,
+    "emoji": "🐳",
+    "resolve": "PN langsung ✓",
+    "source": "status",
+    "number": "6282252134009",
+    "resolvedPn": "6282252134009@s.whatsapp.net",
+    "messageKey": {
+      "remoteJid": "status@broadcast",
+      "remoteJidAlt": "6282252134009@s.whatsapp.net",
+      "fromMe": false,
+      "id": "AC8DFE764A5201047ED641B513D0E724",
+      "participant": "76790290767977@lid",
+      "addressingMode": "lid"
+    },
+    "updatedAt": "2026-09-29T14:08:39.836Z",
+    "receiptKeys": [
+      {
+        "remoteJid": "status@broadcast",
+        "remoteJidAlt": "6282252134009@s.whatsapp.net",
+        "fromMe": false,
+        "id": "AC8DFE764A5201047ED641B513D0E724",
+        "participant": "76790290767977@lid",
+        "addressingMode": "lid"
+      },
+      {
+        "remoteJid": "status@broadcast",
+        "remoteJidAlt": "6282252134009@s.whatsapp.net",
+        "fromMe": false,
+        "id": "AC8DFE764A5201047ED641B513D0E724",
+        "participant": "6282252134009@s.whatsapp.net",
+        "addressingMode": "lid"
+      }
+    ],
+    "processedAt": "2026-09-29T14:08:39.835Z"
+  },
+  "AC0CFBA407696900D694FC44ABD839C8": {
+    "id": "AC0CFBA407696900D694FC44ABD839C8",
+    "sender": "6282252134009@s.whatsapp.net",
+    "name": "STOCKING || PASWG FAN",
+    "type": "videoMessage",
+    "arrivedAt": "2026-09-29T14:08:22.892Z",
+    "read": true,
+    "reacted": true,
+    "emoji": "🐟",
+    "resolve": "PN langsung ✓",
+    "source": "status",
+    "number": "6282252134009",
+    "resolvedPn": "6282252134009@s.whatsapp.net",
+    "messageKey": {
+      "remoteJid": "status@broadcast",
+      "remoteJidAlt": "6282252134009@s.whatsapp.net",
+      "fromMe": false,
+      "id": "AC0CFBA407696900D694FC44ABD839C8",
+      "participant": "76790290767977@lid",
+      "addressingMode": "lid"
+    },
+    "updatedAt": "2026-09-29T14:08:40.190Z",
+    "receiptKeys": [
+      {
+        "remoteJid": "status@broadcast",
+        "remoteJidAlt": "6282252134009@s.whatsapp.net",
+        "fromMe": false,
+        "id": "AC0CFBA407696900D694FC44ABD839C8",
+        "participant": "76790290767977@lid",
+        "addressingMode": "lid"
+      },
+      {
+        "remoteJid": "status@broadcast",
+        "remoteJidAlt": "6282252134009@s.whatsapp.net",
+        "fromMe": false,
+        "id": "AC0CFBA407696900D694FC44ABD839C8",
+        "participant": "6282252134009@s.whatsapp.net",
+        "addressingMode": "lid"
+      }
+    ],
+    "processedAt": "2026-09-29T14:08:40.190Z"
+  },
+  "AC3C22F766EE5102B48C05384C44B562": {
+    "id": "AC3C22F766EE5102B48C05384C44B562",
+    "sender": "6282252134009@s.whatsapp.net",
+    "name": "STOCKING || PASWG FAN",
+    "type": "videoMessage",
+    "arrivedAt": "2026-09-29T14:08:22.894Z",
+    "read": true,
+    "reacted": true,
+    "emoji": "🐋",
+    "resolve": "PN langsung ✓",
+    "source": "status",
+    "number": "6282252134009",
+    "resolvedPn": "6282252134009@s.whatsapp.net",
+    "messageKey": {
+      "remoteJid": "status@broadcast",
+      "remoteJidAlt": "6282252134009@s.whatsapp.net",
+      "fromMe": false,
+      "id": "AC3C22F766EE5102B48C05384C44B562",
+      "participant": "76790290767977@lid",
+      "addressingMode": "lid"
+    },
+    "updatedAt": "2026-09-29T14:08:25.503Z",
+    "receiptKeys": [
+      {
+        "remoteJid": "status@broadcast",
+        "remoteJidAlt": "6282252134009@s.whatsapp.net",
+        "fromMe": false,
+        "id": "AC3C22F766EE5102B48C05384C44B562",
+        "participant": "76790290767977@lid",
+        "addressingMode": "lid"
+      },
+      {
+        "remoteJid": "status@broadcast",
+        "remoteJidAlt": "6282252134009@s.whatsapp.net",
+        "fromMe": false,
+        "id": "AC3C22F766EE5102B48C05384C44B562",
+        "participant": "6282252134009@s.whatsapp.net",
+        "addressingMode": "lid"
+      }
+    ],
+    "processedAt": "2026-09-29T14:08:25.502Z"
+  },
+  "AC010A816B2380BFC7E1B11A2885EA91": {
+    "id": "AC010A816B2380BFC7E1B11A2885EA91",
+    "sender": "6282252134009@s.whatsapp.net",
+    "name": "STOCKING || PASWG FAN",
+    "type": "imageMessage",
+    "arrivedAt": "2026-09-29T14:08:22.996Z",
+    "read": true,
+    "reacted": true,
+    "emoji": "🐬",
+    "resolve": "PN langsung ✓",
+    "source": "status",
+    "number": "6282252134009",
+    "resolvedPn": "6282252134009@s.whatsapp.net",
+    "messageKey": {
+      "remoteJid": "status@broadcast",
+      "remoteJidAlt": "6282252134009@s.whatsapp.net",
+      "fromMe": false,
+      "id": "AC010A816B2380BFC7E1B11A2885EA91",
+      "participant": "76790290767977@lid",
+      "addressingMode": "lid"
+    },
+    "updatedAt": "2026-09-29T14:08:26.810Z",
+    "receiptKeys": [
+      {
+        "remoteJid": "status@broadcast",
+        "remoteJidAlt": "6282252134009@s.whatsapp.net",
+        "fromMe": false,
+        "id": "AC010A816B2380BFC7E1B11A2885EA91",
+        "participant": "76790290767977@lid",
+        "addressingMode": "lid"
+      },
+      {
+        "remoteJid": "status@broadcast",
+        "remoteJidAlt": "6282252134009@s.whatsapp.net",
+        "fromMe": false,
+        "id": "AC010A816B2380BFC7E1B11A2885EA91",
+        "participant": "6282252134009@s.whatsapp.net",
+        "addressingMode": "lid"
+      }
+    ],
+    "processedAt": "2026-09-29T14:08:26.810Z"
+  },
+  "ACE2A15F9A14B81DA78DFAC42DAD7D81": {
+    "id": "ACE2A15F9A14B81DA78DFAC42DAD7D81",
+    "sender": "6282252134009@s.whatsapp.net",
+    "name": "STOCKING || PASWG FAN",
+    "type": "extendedTextMessage",
+    "arrivedAt": "2026-09-29T14:08:22.998Z",
+    "read": true,
+    "reacted": true,
+    "emoji": "🐬",
+    "resolve": "PN langsung ✓",
+    "source": "status",
+    "number": "6282252134009",
+    "resolvedPn": "6282252134009@s.whatsapp.net",
+    "messageKey": {
+      "remoteJid": "status@broadcast",
+      "remoteJidAlt": "6282252134009@s.whatsapp.net",
+      "fromMe": false,
+      "id": "ACE2A15F9A14B81DA78DFAC42DAD7D81",
+      "participant": "76790290767977@lid",
+      "addressingMode": "lid"
+    },
+    "updatedAt": "2026-09-29T14:08:43.703Z",
+    "receiptKeys": [
+      {
+        "remoteJid": "status@broadcast",
+        "remoteJidAlt": "6282252134009@s.whatsapp.net",
+        "fromMe": false,
+        "id": "ACE2A15F9A14B81DA78DFAC42DAD7D81",
+        "participant": "76790290767977@lid",
+        "addressingMode": "lid"
+      },
+      {
+        "remoteJid": "status@broadcast",
+        "remoteJidAlt": "6282252134009@s.whatsapp.net",
+        "fromMe": false,
+        "id": "ACE2A15F9A14B81DA78DFAC42DAD7D81",
+        "participant": "6282252134009@s.whatsapp.net",
+        "addressingMode": "lid"
+      }
+    ],
+    "processedAt": "2026-09-29T14:08:43.703Z"
+  },
+  "AC813330D2D5733FEC8CBBE38797388D": {
+    "id": "AC813330D2D5733FEC8CBBE38797388D",
+    "sender": "6282252134009@s.whatsapp.net",
+    "name": "STOCKING || PASWG FAN",
+    "type": "extendedTextMessage",
+    "arrivedAt": "2026-09-29T14:08:23.016Z",
+    "read": true,
+    "reacted": true,
+    "emoji": "🐟",
+    "resolve": "PN langsung ✓",
+    "source": "status",
+    "number": "6282252134009",
+    "resolvedPn": "6282252134009@s.whatsapp.net",
+    "messageKey": {
+      "remoteJid": "status@broadcast",
+      "remoteJidAlt": "6282252134009@s.whatsapp.net",
+      "fromMe": false,
+      "id": "AC813330D2D5733FEC8CBBE38797388D",
+      "participant": "76790290767977@lid",
+      "addressingMode": "lid"
+    },
+    "updatedAt": "2026-09-29T14:08:41.505Z",
+    "receiptKeys": [
+      {
+        "remoteJid": "status@broadcast",
+        "remoteJidAlt": "6282252134009@s.whatsapp.net",
+        "fromMe": false,
+        "id": "AC813330D2D5733FEC8CBBE38797388D",
+        "participant": "76790290767977@lid",
+        "addressingMode": "lid"
+      },
+      {
+        "remoteJid": "status@broadcast",
+        "remoteJidAlt": "6282252134009@s.whatsapp.net",
+        "fromMe": false,
+        "id": "AC813330D2D5733FEC8CBBE38797388D",
+        "participant": "6282252134009@s.whatsapp.net",
+        "addressingMode": "lid"
+      }
+    ],
+    "processedAt": "2026-09-29T14:08:41.505Z"
+  },
+  "ACD5200F02EC803BE4D2F2194A1FA244": {
+    "id": "ACD5200F02EC803BE4D2F2194A1FA244",
+    "sender": "6282252134009@s.whatsapp.net",
+    "name": "STOCKING || PASWG FAN",
+    "type": "extendedTextMessage",
+    "arrivedAt": "2026-09-29T14:08:23.018Z",
+    "read": true,
+    "reacted": true,
+    "emoji": "🐳",
+    "resolve": "PN langsung ✓",
+    "source": "status",
+    "number": "6282252134009",
+    "resolvedPn": "6282252134009@s.whatsapp.net",
+    "messageKey": {
+      "remoteJid": "status@broadcast",
+      "remoteJidAlt": "6282252134009@s.whatsapp.net",
+      "fromMe": false,
+      "id": "ACD5200F02EC803BE4D2F2194A1FA244",
+      "participant": "76790290767977@lid",
+      "addressingMode": "lid"
+    },
+    "updatedAt": "2026-09-29T14:08:39.783Z",
+    "receiptKeys": [
+      {
+        "remoteJid": "status@broadcast",
+        "remoteJidAlt": "6282252134009@s.whatsapp.net",
+        "fromMe": false,
+        "id": "ACD5200F02EC803BE4D2F2194A1FA244",
+        "participant": "76790290767977@lid",
+        "addressingMode": "lid"
+      },
+      {
+        "remoteJid": "status@broadcast",
+        "remoteJidAlt": "6282252134009@s.whatsapp.net",
+        "fromMe": false,
+        "id": "ACD5200F02EC803BE4D2F2194A1FA244",
+        "participant": "6282252134009@s.whatsapp.net",
+        "addressingMode": "lid"
+      }
+    ],
+    "processedAt": "2026-09-29T14:08:39.782Z"
+  },
+  "AC1310D1E44ABFB52355AF95BBBC54F2": {
+    "id": "AC1310D1E44ABFB52355AF95BBBC54F2",
+    "sender": "6282252134009@s.whatsapp.net",
+    "name": "STOCKING || PASWG FAN",
+    "type": "videoMessage",
+    "arrivedAt": "2026-09-29T14:08:23.019Z",
+    "read": true,
+    "reacted": true,
+    "emoji": "🐬",
+    "resolve": "PN langsung ✓",
+    "source": "status",
+    "number": "6282252134009",
+    "resolvedPn": "6282252134009@s.whatsapp.net",
+    "messageKey": {
+      "remoteJid": "status@broadcast",
+      "remoteJidAlt": "6282252134009@s.whatsapp.net",
+      "fromMe": false,
+      "id": "AC1310D1E44ABFB52355AF95BBBC54F2",
+      "participant": "76790290767977@lid",
+      "addressingMode": "lid"
+    },
+    "updatedAt": "2026-09-29T14:08:41.539Z",
+    "receiptKeys": [
+      {
+        "remoteJid": "status@broadcast",
+        "remoteJidAlt": "6282252134009@s.whatsapp.net",
+        "fromMe": false,
+        "id": "AC1310D1E44ABFB52355AF95BBBC54F2",
+        "participant": "76790290767977@lid",
+        "addressingMode": "lid"
+      },
+      {
+        "remoteJid": "status@broadcast",
+        "remoteJidAlt": "6282252134009@s.whatsapp.net",
+        "fromMe": false,
+        "id": "AC1310D1E44ABFB52355AF95BBBC54F2",
+        "participant": "6282252134009@s.whatsapp.net",
+        "addressingMode": "lid"
+      }
+    ],
+    "processedAt": "2026-09-29T14:08:41.539Z"
+  },
+  "AC3C9FFE4D457A7F3604AB2D2CF553BE": {
+    "id": "AC3C9FFE4D457A7F3604AB2D2CF553BE",
+    "sender": "6282252134009@s.whatsapp.net",
+    "name": "STOCKING || PASWG FAN",
+    "type": "videoMessage",
+    "arrivedAt": "2026-09-29T14:08:23.021Z",
+    "read": true,
+    "reacted": true,
+    "emoji": "🐬",
+    "resolve": "PN langsung ✓",
+    "source": "status",
+    "number": "6282252134009",
+    "resolvedPn": "6282252134009@s.whatsapp.net",
+    "messageKey": {
+      "remoteJid": "status@broadcast",
+      "remoteJidAlt": "6282252134009@s.whatsapp.net",
+      "fromMe": false,
+      "id": "AC3C9FFE4D457A7F3604AB2D2CF553BE",
+      "participant": "76790290767977@lid",
+      "addressingMode": "lid"
+    },
+    "updatedAt": "2026-09-29T14:08:40.033Z",
+    "receiptKeys": [
+      {
+        "remoteJid": "status@broadcast",
+        "remoteJidAlt": "6282252134009@s.whatsapp.net",
+        "fromMe": false,
+        "id": "AC3C9FFE4D457A7F3604AB2D2CF553BE",
+        "participant": "76790290767977@lid",
+        "addressingMode": "lid"
+      },
+      {
+        "remoteJid": "status@broadcast",
+        "remoteJidAlt": "6282252134009@s.whatsapp.net",
+        "fromMe": false,
+        "id": "AC3C9FFE4D457A7F3604AB2D2CF553BE",
+        "participant": "6282252134009@s.whatsapp.net",
+        "addressingMode": "lid"
+      }
+    ],
+    "processedAt": "2026-09-29T14:08:40.033Z"
+  },
+  "AC311854C771B010DA4A0747C2800E90": {
+    "id": "AC311854C771B010DA4A0747C2800E90",
+    "sender": "6282252134009@s.whatsapp.net",
+    "name": "STOCKING || PASWG FAN",
+    "type": "videoMessage",
+    "arrivedAt": "2026-09-29T14:08:23.022Z",
+    "read": true,
+    "reacted": true,
+    "emoji": "🐡",
+    "resolve": "PN langsung ✓",
+    "source": "status",
+    "number": "6282252134009",
+    "resolvedPn": "6282252134009@s.whatsapp.net",
+    "messageKey": {
+      "remoteJid": "status@broadcast",
+      "remoteJidAlt": "6282252134009@s.whatsapp.net",
+      "fromMe": false,
+      "id": "AC311854C771B010DA4A0747C2800E90",
+      "participant": "76790290767977@lid",
+      "addressingMode": "lid"
+    },
+    "updatedAt": "2026-09-29T14:08:39.892Z",
+    "receiptKeys": [
+      {
+        "remoteJid": "status@broadcast",
+        "remoteJidAlt": "6282252134009@s.whatsapp.net",
+        "fromMe": false,
+        "id": "AC311854C771B010DA4A0747C2800E90",
+        "participant": "76790290767977@lid",
+        "addressingMode": "lid"
+      },
+      {
+        "remoteJid": "status@broadcast",
+        "remoteJidAlt": "6282252134009@s.whatsapp.net",
+        "fromMe": false,
+        "id": "AC311854C771B010DA4A0747C2800E90",
+        "participant": "6282252134009@s.whatsapp.net",
+        "addressingMode": "lid"
+      }
+    ],
+    "processedAt": "2026-09-29T14:08:39.891Z"
   }
 }

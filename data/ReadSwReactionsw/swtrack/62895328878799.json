@@ -1,134 +1,4 @@
 {
-  "AC3BBFB402781DDA0F544CAFF4AB6DC8": {
-    "id": "AC3BBFB402781DDA0F544CAFF4AB6DC8",
-    "sender": "62895328878799@s.whatsapp.net",
-    "name": "MikoErlic",
-    "type": "imageMessage",
-    "arrivedAt": "2026-09-28T04:49:43.678Z",
-    "read": true,
-    "reacted": true,
-    "emoji": "🐙",
-    "resolve": "PN langsung ✓",
-    "source": "status",
-    "number": "62895328878799",
-    "resolvedPn": "62895328878799@s.whatsapp.net",
-    "messageKey": {
-      "remoteJid": "status@broadcast",
-      "remoteJidAlt": "62895328878799@s.whatsapp.net",
-      "fromMe": false,
-      "id": "AC3BBFB402781DDA0F544CAFF4AB6DC8",
-      "participant": "112348106854519@lid",
-      "addressingMode": "lid"
-    },
-    "updatedAt": "2026-09-28T05:23:15.592Z",
-    "receiptKeys": [
-      {
-        "remoteJid": "status@broadcast",
-        "remoteJidAlt": "62895328878799@s.whatsapp.net",
-        "fromMe": false,
-        "id": "AC3BBFB402781DDA0F544CAFF4AB6DC8",
-        "participant": "112348106854519@lid",
-        "addressingMode": "lid"
-      },
-      {
-        "remoteJid": "status@broadcast",
-        "remoteJidAlt": "62895328878799@s.whatsapp.net",
-        "fromMe": false,
-        "id": "AC3BBFB402781DDA0F544CAFF4AB6DC8",
-        "participant": "62895328878799@s.whatsapp.net",
-        "addressingMode": "lid"
-      }
-    ],
-    "processedAt": "2026-09-28T04:49:57.946Z",
-    "deleted": true,
-    "deletedAt": "2026-09-28T05:23:15.592Z"
-  },
-  "AC45DE3A05590727B85D52E2A3FDA652": {
-    "id": "AC45DE3A05590727B85D52E2A3FDA652",
-    "sender": "62895328878799@s.whatsapp.net",
-    "name": "MikoErlic",
-    "type": "videoMessage",
-    "arrivedAt": "2026-09-28T04:49:43.984Z",
-    "read": true,
-    "reacted": true,
-    "emoji": "🐬",
-    "resolve": "PN langsung ✓",
-    "source": "status",
-    "number": "62895328878799",
-    "resolvedPn": "62895328878799@s.whatsapp.net",
-    "messageKey": {
-      "remoteJid": "status@broadcast",
-      "remoteJidAlt": "62895328878799@s.whatsapp.net",
-      "fromMe": false,
-      "id": "AC45DE3A05590727B85D52E2A3FDA652",
-      "participant": "112348106854519@lid",
-      "addressingMode": "lid"
-    },
-    "updatedAt": "2026-09-28T04:49:46.944Z",
-    "receiptKeys": [
-      {
-        "remoteJid": "status@broadcast",
-        "remoteJidAlt": "62895328878799@s.whatsapp.net",
-        "fromMe": false,
-        "id": "AC45DE3A05590727B85D52E2A3FDA652",
-        "participant": "112348106854519@lid",
-        "addressingMode": "lid"
-      },
-      {
-        "remoteJid": "status@broadcast",
-        "remoteJidAlt": "62895328878799@s.whatsapp.net",
-        "fromMe": false,
-        "id": "AC45DE3A05590727B85D52E2A3FDA652",
-        "participant": "62895328878799@s.whatsapp.net",
-        "addressingMode": "lid"
-      }
-    ],
-    "processedAt": "2026-09-28T04:49:46.944Z"
-  },
-  "AC86D5F9F6E3A08704B4132485B5609A": {
-    "id": "AC86D5F9F6E3A08704B4132485B5609A",
-    "sender": "62895328878799@s.whatsapp.net",
-    "name": "MikoErlic",
-    "type": "imageMessage",
-    "arrivedAt": "2026-09-28T05:23:56.669Z",
-    "read": true,
-    "reacted": true,
-    "emoji": "🐳",
-    "resolve": "PN langsung ✓",
-    "source": "status",
-    "number": "62895328878799",
-    "resolvedPn": "62895328878799@s.whatsapp.net",
-    "messageKey": {
-      "remoteJid": "status@broadcast",
-      "remoteJidAlt": "62895328878799@s.whatsapp.net",
-      "fromMe": false,
-      "id": "AC86D5F9F6E3A08704B4132485B5609A",
-      "participant": "112348106854519@lid",
-      "addressingMode": "lid"
-    },
-    "updatedAt": "2026-09-28T13:42:25.259Z",
-    "receiptKeys": [
-      {
-        "remoteJid": "status@broadcast",
-        "remoteJidAlt": "62895328878799@s.whatsapp.net",
-        "fromMe": false,
-        "id": "AC86D5F9F6E3A08704B4132485B5609A",
-        "participant": "112348106854519@lid",
-        "addressingMode": "lid"
-      },
-      {
-        "remoteJid": "status@broadcast",
-        "remoteJidAlt": "62895328878799@s.whatsapp.net",
-        "fromMe": false,
-        "id": "AC86D5F9F6E3A08704B4132485B5609A",
-        "participant": "62895328878799@s.whatsapp.net",
-        "addressingMode": "lid"
-      }
-    ],
-    "processedAt": "2026-09-28T05:23:58.729Z",
-    "deleted": true,
-    "deletedAt": "2026-09-28T13:42:25.259Z"
-  },
   "ACC502A7CE6A01C2CE2706C8236A750E": {
     "id": "ACC502A7CE6A01C2CE2706C8236A750E",
     "sender": "62895328878799@s.whatsapp.net",
@@ -150,7 +20,7 @@
       "participant": "112348106854519@lid",
       "addressingMode": "lid"
     },
-    "updatedAt": "2026-09-28T13:42:47.007Z",
+    "updatedAt": "2026-09-29T03:39:23.479Z",
     "receiptKeys": [
       {
         "remoteJid": "status@broadcast",
@@ -169,7 +39,9 @@
         "addressingMode": "lid"
       }
     ],
-    "processedAt": "2026-09-28T13:42:47.007Z"
+    "processedAt": "2026-09-28T13:42:47.007Z",
+    "deleted": true,
+    "deletedAt": "2026-09-29T03:39:23.478Z"
   },
   "AC19D1980B73782430F7A1E1BDF07973": {
     "id": "AC19D1980B73782430F7A1E1BDF07973",
@@ -212,5 +84,385 @@
       }
     ],
     "processedAt": "2026-09-28T13:42:37.972Z"
+  },
+  "AC0765F933073E0EFAC3DA8D2E0C2F62": {
+    "id": "AC0765F933073E0EFAC3DA8D2E0C2F62",
+    "sender": "62895328878799@s.whatsapp.net",
+    "name": "MikoErlic",
+    "type": "videoMessage",
+    "arrivedAt": "2026-09-29T03:39:23.250Z",
+    "read": true,
+    "reacted": true,
+    "emoji": "🐋",
+    "resolve": "PN langsung ✓",
+    "source": "status",
+    "number": "62895328878799",
+    "resolvedPn": "62895328878799@s.whatsapp.net",
+    "messageKey": {
+      "remoteJid": "status@broadcast",
+      "remoteJidAlt": "62895328878799@s.whatsapp.net",
+      "fromMe": false,
+      "id": "AC0765F933073E0EFAC3DA8D2E0C2F62",
+      "participant": "112348106854519@lid",
+      "addressingMode": "lid"
+    },
+    "updatedAt": "2026-09-29T14:08:22.783Z",
+    "receiptKeys": [
+      {
+        "remoteJid": "status@broadcast",
+        "remoteJidAlt": "62895328878799@s.whatsapp.net",
+        "fromMe": false,
+        "id": "AC0765F933073E0EFAC3DA8D2E0C2F62",
+        "participant": "112348106854519@lid",
+        "addressingMode": "lid"
+      },
+      {
+        "remoteJid": "status@broadcast",
+        "remoteJidAlt": "62895328878799@s.whatsapp.net",
+        "fromMe": false,
+        "id": "AC0765F933073E0EFAC3DA8D2E0C2F62",
+        "participant": "62895328878799@s.whatsapp.net",
+        "addressingMode": "lid"
+      }
+    ],
+    "processedAt": "2026-09-29T03:39:34.628Z",
+    "deleted": true,
+    "deletedAt": "2026-09-29T14:08:22.783Z"
+  },
+  "a6fcf509-13ac-4ea0-951f-ede7ff4d75f1": {
+    "id": "a6fcf509-13ac-4ea0-951f-ede7ff4d75f1",
+    "sender": "62895328878799@s.whatsapp.net",
+    "name": "MikoErlic",
+    "type": "videoMessage",
+    "arrivedAt": "2026-09-29T03:39:23.459Z",
+    "read": true,
+    "reacted": true,
+    "emoji": "🐠",
+    "resolve": "PN langsung ✓",
+    "source": "status",
+    "number": "62895328878799",
+    "resolvedPn": "62895328878799@s.whatsapp.net",
+    "messageKey": {
+      "remoteJid": "status@broadcast",
+      "remoteJidAlt": "62895328878799@s.whatsapp.net",
+      "fromMe": false,
+      "id": "a6fcf509-13ac-4ea0-951f-ede7ff4d75f1",
+      "participant": "112348106854519@lid",
+      "addressingMode": "lid"
+    },
+    "updatedAt": "2026-09-29T03:39:25.402Z",
+    "receiptKeys": [
+      {
+        "remoteJid": "status@broadcast",
+        "remoteJidAlt": "62895328878799@s.whatsapp.net",
+        "fromMe": false,
+        "id": "a6fcf509-13ac-4ea0-951f-ede7ff4d75f1",
+        "participant": "112348106854519@lid",
+        "addressingMode": "lid"
+      },
+      {
+        "remoteJid": "status@broadcast",
+        "remoteJidAlt": "62895328878799@s.whatsapp.net",
+        "fromMe": false,
+        "id": "a6fcf509-13ac-4ea0-951f-ede7ff4d75f1",
+        "participant": "62895328878799@s.whatsapp.net",
+        "addressingMode": "lid"
+      }
+    ],
+    "processedAt": "2026-09-29T03:39:25.402Z"
+  },
+  "737a5bab-d5f6-4437-b4ec-01b7cd14cf08": {
+    "id": "737a5bab-d5f6-4437-b4ec-01b7cd14cf08",
+    "sender": "62895328878799@s.whatsapp.net",
+    "name": "MikoErlic",
+    "type": "videoMessage",
+    "arrivedAt": "2026-09-29T03:39:23.461Z",
+    "read": true,
+    "reacted": true,
+    "emoji": "🐟",
+    "resolve": "PN langsung ✓",
+    "source": "status",
+    "number": "62895328878799",
+    "resolvedPn": "62895328878799@s.whatsapp.net",
+    "messageKey": {
+      "remoteJid": "status@broadcast",
+      "remoteJidAlt": "62895328878799@s.whatsapp.net",
+      "fromMe": false,
+      "id": "737a5bab-d5f6-4437-b4ec-01b7cd14cf08",
+      "participant": "112348106854519@lid",
+      "addressingMode": "lid"
+    },
+    "updatedAt": "2026-09-29T03:39:32.112Z",
+    "receiptKeys": [
+      {
+        "remoteJid": "status@broadcast",
+        "remoteJidAlt": "62895328878799@s.whatsapp.net",
+        "fromMe": false,
+        "id": "737a5bab-d5f6-4437-b4ec-01b7cd14cf08",
+        "participant": "112348106854519@lid",
+        "addressingMode": "lid"
+      },
+      {
+        "remoteJid": "status@broadcast",
+        "remoteJidAlt": "62895328878799@s.whatsapp.net",
+        "fromMe": false,
+        "id": "737a5bab-d5f6-4437-b4ec-01b7cd14cf08",
+        "participant": "62895328878799@s.whatsapp.net",
+        "addressingMode": "lid"
+      }
+    ],
+    "processedAt": "2026-09-29T03:39:32.112Z"
+  },
+  "ec342777-603f-4b26-b5b6-cae5744893ae": {
+    "id": "ec342777-603f-4b26-b5b6-cae5744893ae",
+    "sender": "62895328878799@s.whatsapp.net",
+    "name": "MikoErlic",
+    "type": "imageMessage",
+    "arrivedAt": "2026-09-29T03:39:23.481Z",
+    "read": true,
+    "reacted": true,
+    "emoji": "🐳",
+    "resolve": "PN langsung ✓",
+    "source": "status",
+    "number": "62895328878799",
+    "resolvedPn": "62895328878799@s.whatsapp.net",
+    "messageKey": {
+      "remoteJid": "status@broadcast",
+      "remoteJidAlt": "62895328878799@s.whatsapp.net",
+      "fromMe": false,
+      "id": "ec342777-603f-4b26-b5b6-cae5744893ae",
+      "participant": "112348106854519@lid",
+      "addressingMode": "lid"
+    },
+    "updatedAt": "2026-09-29T03:39:36.728Z",
+    "receiptKeys": [
+      {
+        "remoteJid": "status@broadcast",
+        "remoteJidAlt": "62895328878799@s.whatsapp.net",
+        "fromMe": false,
+        "id": "ec342777-603f-4b26-b5b6-cae5744893ae",
+        "participant": "112348106854519@lid",
+        "addressingMode": "lid"
+      },
+      {
+        "remoteJid": "status@broadcast",
+        "remoteJidAlt": "62895328878799@s.whatsapp.net",
+        "fromMe": false,
+        "id": "ec342777-603f-4b26-b5b6-cae5744893ae",
+        "participant": "62895328878799@s.whatsapp.net",
+        "addressingMode": "lid"
+      }
+    ],
+    "processedAt": "2026-09-29T03:39:36.726Z"
+  },
+  "AC6E190A569A0C1DA8812E03979B41FA": {
+    "id": "AC6E190A569A0C1DA8812E03979B41FA",
+    "sender": "62895328878799@s.whatsapp.net",
+    "name": "MikoErlic",
+    "type": "videoMessage",
+    "arrivedAt": "2026-09-29T03:39:23.499Z",
+    "read": true,
+    "reacted": true,
+    "emoji": "🐋",
+    "resolve": "PN langsung ✓",
+    "source": "status",
+    "number": "62895328878799",
+    "resolvedPn": "62895328878799@s.whatsapp.net",
+    "messageKey": {
+      "remoteJid": "status@broadcast",
+      "remoteJidAlt": "62895328878799@s.whatsapp.net",
+      "fromMe": false,
+      "id": "AC6E190A569A0C1DA8812E03979B41FA",
+      "participant": "112348106854519@lid",
+      "addressingMode": "lid"
+    },
+    "updatedAt": "2026-09-29T03:39:43.334Z",
+    "receiptKeys": [
+      {
+        "remoteJid": "status@broadcast",
+        "remoteJidAlt": "62895328878799@s.whatsapp.net",
+        "fromMe": false,
+        "id": "AC6E190A569A0C1DA8812E03979B41FA",
+        "participant": "112348106854519@lid",
+        "addressingMode": "lid"
+      },
+      {
+        "remoteJid": "status@broadcast",
+        "remoteJidAlt": "62895328878799@s.whatsapp.net",
+        "fromMe": false,
+        "id": "AC6E190A569A0C1DA8812E03979B41FA",
+        "participant": "62895328878799@s.whatsapp.net",
+        "addressingMode": "lid"
+      }
+    ],
+    "processedAt": "2026-09-29T03:39:43.334Z"
+  },
+  "AC8ADB8B6F386FB3F8336DDEADDC6C48": {
+    "id": "AC8ADB8B6F386FB3F8336DDEADDC6C48",
+    "sender": "62895328878799@s.whatsapp.net",
+    "name": "MikoErlic",
+    "type": "videoMessage",
+    "arrivedAt": "2026-09-29T03:39:23.559Z",
+    "read": true,
+    "reacted": true,
+    "emoji": "🐡",
+    "resolve": "PN langsung ✓",
+    "source": "status",
+    "number": "62895328878799",
+    "resolvedPn": "62895328878799@s.whatsapp.net",
+    "messageKey": {
+      "remoteJid": "status@broadcast",
+      "remoteJidAlt": "62895328878799@s.whatsapp.net",
+      "fromMe": false,
+      "id": "AC8ADB8B6F386FB3F8336DDEADDC6C48",
+      "participant": "112348106854519@lid",
+      "addressingMode": "lid"
+    },
+    "updatedAt": "2026-09-29T03:39:28.794Z",
+    "receiptKeys": [
+      {
+        "remoteJid": "status@broadcast",
+        "remoteJidAlt": "62895328878799@s.whatsapp.net",
+        "fromMe": false,
+        "id": "AC8ADB8B6F386FB3F8336DDEADDC6C48",
+        "participant": "112348106854519@lid",
+        "addressingMode": "lid"
+      },
+      {
+        "remoteJid": "status@broadcast",
+        "remoteJidAlt": "62895328878799@s.whatsapp.net",
+        "fromMe": false,
+        "id": "AC8ADB8B6F386FB3F8336DDEADDC6C48",
+        "participant": "62895328878799@s.whatsapp.net",
+        "addressingMode": "lid"
+      }
+    ],
+    "processedAt": "2026-09-29T03:39:28.794Z"
+  },
+  "AC8F04DCA5BCE02CF0ACBB0A953213C4": {
+    "id": "AC8F04DCA5BCE02CF0ACBB0A953213C4",
+    "sender": "62895328878799@s.whatsapp.net",
+    "name": "MikoErlic",
+    "type": "videoMessage",
+    "arrivedAt": "2026-09-29T03:39:23.614Z",
+    "read": true,
+    "reacted": true,
+    "emoji": "🦈",
+    "resolve": "PN langsung ✓",
+    "source": "status",
+    "number": "62895328878799",
+    "resolvedPn": "62895328878799@s.whatsapp.net",
+    "messageKey": {
+      "remoteJid": "status@broadcast",
+      "remoteJidAlt": "62895328878799@s.whatsapp.net",
+      "fromMe": false,
+      "id": "AC8F04DCA5BCE02CF0ACBB0A953213C4",
+      "participant": "112348106854519@lid",
+      "addressingMode": "lid"
+    },
+    "updatedAt": "2026-09-29T03:39:30.900Z",
+    "receiptKeys": [
+      {
+        "remoteJid": "status@broadcast",
+        "remoteJidAlt": "62895328878799@s.whatsapp.net",
+        "fromMe": false,
+        "id": "AC8F04DCA5BCE02CF0ACBB0A953213C4",
+        "participant": "112348106854519@lid",
+        "addressingMode": "lid"
+      },
+      {
+        "remoteJid": "status@broadcast",
+        "remoteJidAlt": "62895328878799@s.whatsapp.net",
+        "fromMe": false,
+        "id": "AC8F04DCA5BCE02CF0ACBB0A953213C4",
+        "participant": "62895328878799@s.whatsapp.net",
+        "addressingMode": "lid"
+      }
+    ],
+    "processedAt": "2026-09-29T03:39:30.900Z"
+  },
+  "ACE3484C47DE4017515E700E7770298C": {
+    "id": "ACE3484C47DE4017515E700E7770298C",
+    "sender": "62895328878799@s.whatsapp.net",
+    "name": "MikoErlic",
+    "type": "videoMessage",
+    "arrivedAt": "2026-09-29T14:08:23.029Z",
+    "read": true,
+    "reacted": true,
+    "emoji": "🐋",
+    "resolve": "PN langsung ✓",
+    "source": "status",
+    "number": "62895328878799",
+    "resolvedPn": "62895328878799@s.whatsapp.net",
+    "messageKey": {
+      "remoteJid": "status@broadcast",
+      "remoteJidAlt": "62895328878799@s.whatsapp.net",
+      "fromMe": false,
+      "id": "ACE3484C47DE4017515E700E7770298C",
+      "participant": "112348106854519@lid",
+      "addressingMode": "lid"
+    },
+    "updatedAt": "2026-09-29T14:08:42.230Z",
+    "receiptKeys": [
+      {
+        "remoteJid": "status@broadcast",
+        "remoteJidAlt": "62895328878799@s.whatsapp.net",
+        "fromMe": false,
+        "id": "ACE3484C47DE4017515E700E7770298C",
+        "participant": "112348106854519@lid",
+        "addressingMode": "lid"
+      },
+      {
+        "remoteJid": "status@broadcast",
+        "remoteJidAlt": "62895328878799@s.whatsapp.net",
+        "fromMe": false,
+        "id": "ACE3484C47DE4017515E700E7770298C",
+        "participant": "62895328878799@s.whatsapp.net",
+        "addressingMode": "lid"
+      }
+    ],
+    "processedAt": "2026-09-29T14:08:42.230Z"
+  },
+  "ACA27320C8C2BF745CB4E0ABC5A711C7": {
+    "id": "ACA27320C8C2BF745CB4E0ABC5A711C7",
+    "sender": "62895328878799@s.whatsapp.net",
+    "name": "MikoErlic",
+    "type": "videoMessage",
+    "arrivedAt": "2026-09-29T14:08:23.067Z",
+    "read": true,
+    "reacted": true,
+    "emoji": "🐙",
+    "resolve": "PN langsung ✓",
+    "source": "status",
+    "number": "62895328878799",
+    "resolvedPn": "62895328878799@s.whatsapp.net",
+    "messageKey": {
+      "remoteJid": "status@broadcast",
+      "remoteJidAlt": "62895328878799@s.whatsapp.net",
+      "fromMe": false,
+      "id": "ACA27320C8C2BF745CB4E0ABC5A711C7",
+      "participant": "112348106854519@lid",
+      "addressingMode": "lid"
+    },
+    "updatedAt": "2026-09-29T14:08:41.452Z",
+    "receiptKeys": [
+      {
+        "remoteJid": "status@broadcast",
+        "remoteJidAlt": "62895328878799@s.whatsapp.net",
+        "fromMe": false,
+        "id": "ACA27320C8C2BF745CB4E0ABC5A711C7",
+        "participant": "112348106854519@lid",
+        "addressingMode": "lid"
+      },
+      {
+        "remoteJid": "status@broadcast",
+        "remoteJidAlt": "62895328878799@s.whatsapp.net",
+        "fromMe": false,
+        "id": "ACA27320C8C2BF745CB4E0ABC5A711C7",
+        "participant": "62895328878799@s.whatsapp.net",
+        "addressingMode": "lid"
+      }
+    ],
+    "processedAt": "2026-09-29T14:08:41.452Z"
   }
 }
