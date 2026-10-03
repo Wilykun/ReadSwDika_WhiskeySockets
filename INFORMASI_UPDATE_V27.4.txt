@@ -6,16 +6,44 @@
 _📅 Sabtu, 3 Oktober 2026_
 ━━━━━━━━━━━━━━━━━━━━━━
 🤖 *WILY BOT — V27.4*
-✨ *0 Fitur Baru*
-🐛 *0 Fix Bug*
+✨ *1 Fitur Baru*
+🐛 *2 Fix Bug*
 🛠️ *0 Fix Error*
-🚀 *0 Perubahan*
+🚀 *3 Perubahan*
 ━━━━━━━━━━━━━━━━━━━━━━
 ✨ *FITUR BARU*
+1. *HENTAIDAD — Auto Translate Indonesia*
+   - Description dan Related Tags otomatis translate ke Bahasa Indonesia
+   - Menggunakan google-translate-api-x (gratis, no API key)
+   - Contoh: "green eyes, maid uniform" → "mata hijau, seragam pelayan"
+
 ━━━━━━━━━━━━━━━━━━━━━━
 🐛 *BUG FIX*
+1. *HENTAIDAD — Pencarian tidak muncul*
+   - Perbaiki selector `.hentaidad aisha` di WA tidak ketemu
+   - Ganti selector: `article.post-card, a.archive-card-link`
+   - Ambil title dari `h2.archive-card-title`
+
+2. *HENTAIDAD — Jumlah gambar tidak akurat*
+   - Perbaiki `scrapeGallery` hitung gambar salah
+   - Filter thumbnail: `-thumb.webp`, `/thumbnails/`
+   - Ambil metadata dari `.post-meta` (date, views, count, rating)
+
 ━━━━━━━━━━━━━━━━━━━━━━
 🛠️ *FIX ERROR*
 ━━━━━━━━━━━━━━━━━━━━━━
 🚀 *PERUBAHAN*
+1. *HENTAIDAD — Tampilan list hasil pencarian*
+   - Tambah metadata: tanggal, views di list
+   - Format: `1. _Aisha Greyrat_ (📅 Jul 13, 2026 • 👁️ 25,222 views)`
+
+2. *HENTAIDAD — Tampilan konfirmasi*
+   - Tambah metadata lengkap: tanggal, views, jumlah gambar, rating
+   - Tambah Description (auto-translate Indonesia)
+   - Tambah Related Tags (auto-translate Indonesia)
+
+3. *HENTAIDAD — Dependency*
+   - Tambah package: `google-translate-api-x`
+   - Auto-translate description & tags ke Bahasa Indonesia
+
 ━━━━━━━━━━━━━━━━━━━━━━

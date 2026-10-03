@@ -38,6 +38,7 @@ const axios       = require('axios');
 const cheerio     = require('cheerio');
 const sharp       = require('sharp');
 const PDFDocument = require('pdfkit');
+const { translate } = require('google-translate-api-x');
 
 
 const BASE    = 'https://hentaidad.com';
@@ -53,6 +54,19 @@ const HEADERS = {
 async function fetchHtml(url) {
     const res = await axios.get(url, { headers: HEADERS, timeout: 20000 });
     return res.data;
+}
+
+// ── TRANSLATE KE BAHASA INDONESIA (google-translate-api-x, gratis, no API key) ──
+
+async function translateToIndo(text) {
+    if (!text) return '';
+    try {
+        const res = await translate(text, { to: 'id', from: 'en' });
+        return res.text || text;
+    } catch (e) {
+        console.warn('[Hentaidad] Translate gagal, pakai teks asli:', e?.message);
+        return text; // fallback ke bahasa Inggris
+    }
 }
 
 function cleanTitle(raw) {
@@ -124,6 +138,23 @@ async function scrapeGallery(href) {
     const countStr = spans[1] || '';
     const rating   = spans[2] || '18+';
 
+    // Ambil description + auto translate Indonesia
+    const rawDesc = $('.post-description, .post-content > p').first().text().trim() || '';
+    const cleanDesc = rawDesc.replace(/^Description/i, '').slice(0, 300).replace(/\n+/g, ' ').trim();
+    const description = cleanDesc ? await translateToIndo(cleanDesc) : '';
+
+    // Ambil tags + translate ke Indonesia
+    const tags = [];
+    $('.post-tags a, .tag').each((_, el) => {
+        const tag = $(el).text().trim();
+        if (tag && tag.length < 50 && !tag.match(/^(Gallery|Uncensored|Ai Generated|Hentai|Malth)$/i)) {
+            tags.push(tag);
+        }
+    });
+    const tagsEn = tags.slice(0, 5);
+    const tagsId = tagsEn.length > 0 ? await translateToIndo(tagsEn.join(', ')) : '';
+    const relatedTags = tagsId.split(',').map(t => t.trim()).filter(Boolean);
+
     const images = [];
     const seen   = new Set();
     const addSrc = (src) => {
@@ -143,7 +174,7 @@ async function scrapeGallery(href) {
             addSrc($(el).attr('src') || $(el).attr('data-src') || '');
         });
     }
-    return { title, images, date, views, countStr, rating };
+    return { title, images, date, views, countStr, rating, description, relatedTags };
 }
 
 async function downloadImage(url, referer) {
@@ -255,12 +286,23 @@ function txtConfirmCaption(chosen, galleryData, headerPilih) {
     const views = galleryData.views  ? `- 👁️ *Views:* \`${galleryData.views}\`\n`  : '';
     const count = galleryData.countStr ? `- 📸 *Jumlah:* \`${galleryData.countStr}\`\n` : `- 📸 *Jumlah:* \`${galleryData.images.length}\`\n`;
     const rate  = galleryData.rating ? `- 🔞 *Rating:* \`${galleryData.rating}\`\n` : '';
+    
+    let descLine = '';
+    if (galleryData.description && galleryData.description.length > 20) {
+        descLine = `\n📝 *Description:*\n_${galleryData.description}_\n`;
+    }
+    
+    let tagsLine = '';
+    if (galleryData.relatedTags && galleryData.relatedTags.length > 0) {
+        tagsLine = `\n🏷️ *Related Tags:*\n_${galleryData.relatedTags.join(', ')}_\n`;
+    }
 
     return (
         `🔞 *HENTAIDAD — Konfirmasi*\n\n` +
         `${headerPilih}\n\n` +
         `📌 *${judul}*\n` +
         date + views + count + rate +
+        descLine + tagsLine +
         `\n❓ _Pilih format pengiriman:_\n\n` +
         `> *Reply pesan ini:*\n` +
         `> *1* — 🖼️ Gambar _(album foto)_\n` +
