@@ -1,13 +1,13 @@
 {
-  "AC9C5F93786AAEC2DCCE8ECEC8342C1A": {
-    "id": "AC9C5F93786AAEC2DCCE8ECEC8342C1A",
+  "ACAFCAC58A360C71DC56D423836687B0": {
+    "id": "ACAFCAC58A360C71DC56D423836687B0",
     "sender": "6288239774015@s.whatsapp.net",
     "name": "Ginanjar Tri S",
     "type": "videoMessage",
-    "arrivedAt": "2026-09-28T04:49:43.949Z",
+    "arrivedAt": "2026-10-02T14:00:10.446Z",
     "read": true,
     "reacted": true,
-    "emoji": "🐟",
+    "emoji": "🐙",
     "resolve": "PN langsung ✓",
     "source": "status",
     "number": "6288239774015",
@@ -16,17 +16,17 @@
       "remoteJid": "status@broadcast",
       "remoteJidAlt": "6288239774015@s.whatsapp.net",
       "fromMe": false,
-      "id": "AC9C5F93786AAEC2DCCE8ECEC8342C1A",
+      "id": "ACAFCAC58A360C71DC56D423836687B0",
       "participant": "217570695209183@lid",
       "addressingMode": "lid"
     },
-    "updatedAt": "2026-09-28T04:49:49.563Z",
+    "updatedAt": "2026-10-02T14:00:25.608Z",
     "receiptKeys": [
       {
         "remoteJid": "status@broadcast",
         "remoteJidAlt": "6288239774015@s.whatsapp.net",
         "fromMe": false,
-        "id": "AC9C5F93786AAEC2DCCE8ECEC8342C1A",
+        "id": "ACAFCAC58A360C71DC56D423836687B0",
         "participant": "217570695209183@lid",
         "addressingMode": "lid"
       },
@@ -34,66 +34,24 @@
         "remoteJid": "status@broadcast",
         "remoteJidAlt": "6288239774015@s.whatsapp.net",
         "fromMe": false,
-        "id": "AC9C5F93786AAEC2DCCE8ECEC8342C1A",
+        "id": "ACAFCAC58A360C71DC56D423836687B0",
         "participant": "6288239774015@s.whatsapp.net",
         "addressingMode": "lid"
       }
     ],
-    "processedAt": "2026-09-28T04:49:49.563Z"
-  },
-  "AC2B1773A878CA27C46DFEC727E160AE": {
-    "id": "AC2B1773A878CA27C46DFEC727E160AE",
-    "sender": "6288239774015@s.whatsapp.net",
-    "name": "Ginanjar Tri S",
-    "type": "videoMessage",
-    "arrivedAt": "2026-09-29T03:39:23.255Z",
-    "read": true,
-    "reacted": true,
-    "emoji": "🐡",
-    "resolve": "PN langsung ✓",
-    "source": "status",
-    "number": "6288239774015",
-    "resolvedPn": "6288239774015@s.whatsapp.net",
-    "messageKey": {
-      "remoteJid": "status@broadcast",
-      "remoteJidAlt": "6288239774015@s.whatsapp.net",
-      "fromMe": false,
-      "id": "AC2B1773A878CA27C46DFEC727E160AE",
-      "participant": "217570695209183@lid",
-      "addressingMode": "lid"
-    },
-    "updatedAt": "2026-09-29T14:08:22.966Z",
-    "receiptKeys": [
-      {
-        "remoteJid": "status@broadcast",
-        "remoteJidAlt": "6288239774015@s.whatsapp.net",
-        "fromMe": false,
-        "id": "AC2B1773A878CA27C46DFEC727E160AE",
-        "participant": "217570695209183@lid",
-        "addressingMode": "lid"
-      },
-      {
-        "remoteJid": "status@broadcast",
-        "remoteJidAlt": "6288239774015@s.whatsapp.net",
-        "fromMe": false,
-        "id": "AC2B1773A878CA27C46DFEC727E160AE",
-        "participant": "6288239774015@s.whatsapp.net",
-        "addressingMode": "lid"
-      }
-    ],
-    "processedAt": "2026-09-29T03:39:40.621Z",
+    "processedAt": "2026-10-02T14:00:17.340Z",
     "deleted": true,
-    "deletedAt": "2026-09-29T14:08:22.966Z"
+    "deletedAt": "2026-10-02T14:00:25.608Z"
   },
-  "AC55A352375595905181BFCC64FC684D": {
-    "id": "AC55A352375595905181BFCC64FC684D",
+  "AC6497C8086A5410EDB96C04C904CBA3": {
+    "id": "AC6497C8086A5410EDB96C04C904CBA3",
     "sender": "6288239774015@s.whatsapp.net",
     "name": "Ginanjar Tri S",
     "type": "videoMessage",
-    "arrivedAt": "2026-09-29T03:39:23.612Z",
-    "read": true,
-    "reacted": true,
-    "emoji": "🐳",
+    "arrivedAt": "2026-10-02T14:00:19.989Z",
+    "read": false,
+    "reacted": false,
+    "emoji": null,
     "resolve": "PN langsung ✓",
     "source": "status",
     "number": "6288239774015",
@@ -102,83 +60,137 @@
       "remoteJid": "status@broadcast",
       "remoteJidAlt": "6288239774015@s.whatsapp.net",
       "fromMe": false,
-      "id": "AC55A352375595905181BFCC64FC684D",
+      "id": "AC6497C8086A5410EDB96C04C904CBA3",
       "participant": "217570695209183@lid",
       "addressingMode": "lid"
     },
-    "updatedAt": "2026-09-29T14:08:22.945Z",
-    "receiptKeys": [
-      {
-        "remoteJid": "status@broadcast",
-        "remoteJidAlt": "6288239774015@s.whatsapp.net",
-        "fromMe": false,
-        "id": "AC55A352375595905181BFCC64FC684D",
-        "participant": "217570695209183@lid",
-        "addressingMode": "lid"
-      },
-      {
-        "remoteJid": "status@broadcast",
-        "remoteJidAlt": "6288239774015@s.whatsapp.net",
-        "fromMe": false,
-        "id": "AC55A352375595905181BFCC64FC684D",
-        "participant": "6288239774015@s.whatsapp.net",
-        "addressingMode": "lid"
-      }
-    ],
-    "processedAt": "2026-09-29T03:39:31.835Z",
+    "updatedAt": "2026-10-02T14:00:25.609Z",
     "deleted": true,
-    "deletedAt": "2026-09-29T14:08:22.945Z"
+    "deletedAt": "2026-10-02T14:00:25.609Z"
   },
-  "AC140714DECF55049E87569BACBFFA69": {
-    "id": "AC140714DECF55049E87569BACBFFA69",
-    "sender": "6288239774015@s.whatsapp.net",
-    "name": "Ginanjar Tri S",
-    "type": "videoMessage",
-    "arrivedAt": "2026-09-29T05:12:33.488Z",
-    "read": true,
-    "reacted": true,
-    "emoji": "🐡",
-    "resolve": "PN langsung ✓",
-    "source": "status",
-    "number": "6288239774015",
-    "resolvedPn": "6288239774015@s.whatsapp.net",
-    "messageKey": {
-      "remoteJid": "status@broadcast",
-      "remoteJidAlt": "6288239774015@s.whatsapp.net",
-      "fromMe": false,
-      "id": "AC140714DECF55049E87569BACBFFA69",
-      "participant": "217570695209183@lid",
-      "addressingMode": "lid"
-    },
-    "updatedAt": "2026-09-29T14:08:22.953Z",
-    "receiptKeys": [
-      {
-        "remoteJid": "status@broadcast",
-        "remoteJidAlt": "6288239774015@s.whatsapp.net",
-        "fromMe": false,
-        "id": "AC140714DECF55049E87569BACBFFA69",
-        "participant": "217570695209183@lid",
-        "addressingMode": "lid"
-      },
-      {
-        "remoteJid": "status@broadcast",
-        "remoteJidAlt": "6288239774015@s.whatsapp.net",
-        "fromMe": false,
-        "id": "AC140714DECF55049E87569BACBFFA69",
-        "participant": "6288239774015@s.whatsapp.net",
-        "addressingMode": "lid"
-      }
-    ],
-    "processedAt": "2026-09-29T05:12:39.149Z",
-    "deleted": true,
-    "deletedAt": "2026-09-29T14:08:22.953Z"
-  },
-  "AC0999F8E5664D36124195A6C08D2DB1": {
-    "id": "AC0999F8E5664D36124195A6C08D2DB1",
+  "ACB0643ED8C5F9D164031F26C46FC6B7": {
+    "id": "ACB0643ED8C5F9D164031F26C46FC6B7",
     "sender": "6288239774015@s.whatsapp.net",
     "name": "Ginanjar Tri S",
     "type": "imageMessage",
-    "arrivedAt": "2026-09-29T05:14:59.780Z",
+    "arrivedAt": "2026-10-02T14:00:20.248Z",
+    "read": false,
+    "reacted": false,
+    "emoji": null,
+    "resolve": "PN langsung ✓",
+    "source": "status",
+    "number": "6288239774015",
+    "resolvedPn": "6288239774015@s.whatsapp.net",
+    "messageKey": {
+      "remoteJid": "status@broadcast",
+      "remoteJidAlt": "6288239774015@s.whatsapp.net",
+      "fromMe": false,
+      "id": "ACB0643ED8C5F9D164031F26C46FC6B7",
+      "participant": "217570695209183@lid",
+      "addressingMode": "lid"
+    },
+    "updatedAt": "2026-10-02T14:00:25.609Z",
+    "deleted": true,
+    "deletedAt": "2026-10-02T14:00:25.609Z"
+  },
+  "AC058686F401FEE4C64B0C63438422E7": {
+    "id": "AC058686F401FEE4C64B0C63438422E7",
+    "sender": "6288239774015@s.whatsapp.net",
+    "name": "Ginanjar Tri S",
+    "type": "videoMessage",
+    "arrivedAt": "2026-10-02T14:00:25.222Z",
+    "read": false,
+    "reacted": false,
+    "emoji": null,
+    "resolve": "PN langsung ✓",
+    "source": "status",
+    "number": "6288239774015",
+    "resolvedPn": "6288239774015@s.whatsapp.net",
+    "messageKey": {
+      "remoteJid": "status@broadcast",
+      "remoteJidAlt": "6288239774015@s.whatsapp.net",
+      "fromMe": false,
+      "id": "AC058686F401FEE4C64B0C63438422E7",
+      "participant": "217570695209183@lid",
+      "addressingMode": "lid"
+    },
+    "updatedAt": "2026-10-02T14:00:25.424Z",
+    "deleted": true,
+    "deletedAt": "2026-10-02T14:00:25.424Z"
+  },
+  "AC866C45F9A790C21676ED0188CCF1CC": {
+    "id": "AC866C45F9A790C21676ED0188CCF1CC",
+    "sender": "6288239774015@s.whatsapp.net",
+    "name": "Ginanjar Tri S",
+    "type": "videoMessage",
+    "arrivedAt": "2026-10-02T14:00:25.426Z",
+    "read": false,
+    "reacted": false,
+    "emoji": null,
+    "resolve": "PN langsung ✓",
+    "source": "status",
+    "number": "6288239774015",
+    "resolvedPn": "6288239774015@s.whatsapp.net",
+    "messageKey": {
+      "remoteJid": "status@broadcast",
+      "remoteJidAlt": "6288239774015@s.whatsapp.net",
+      "fromMe": false,
+      "id": "AC866C45F9A790C21676ED0188CCF1CC",
+      "participant": "217570695209183@lid",
+      "addressingMode": "lid"
+    },
+    "updatedAt": "2026-10-02T14:00:25.607Z",
+    "deleted": true,
+    "deletedAt": "2026-10-02T14:00:25.607Z"
+  },
+  "AC853AD968D7D4572D9F377A1B98C12B": {
+    "id": "AC853AD968D7D4572D9F377A1B98C12B",
+    "sender": "6288239774015@s.whatsapp.net",
+    "name": "Ginanjar Tri S",
+    "type": "videoMessage",
+    "arrivedAt": "2026-10-02T14:00:37.866Z",
+    "read": true,
+    "reacted": true,
+    "emoji": "🐡",
+    "resolve": "PN langsung ✓",
+    "source": "status",
+    "number": "6288239774015",
+    "resolvedPn": "6288239774015@s.whatsapp.net",
+    "messageKey": {
+      "remoteJid": "status@broadcast",
+      "remoteJidAlt": "6288239774015@s.whatsapp.net",
+      "fromMe": false,
+      "id": "AC853AD968D7D4572D9F377A1B98C12B",
+      "participant": "217570695209183@lid",
+      "addressingMode": "lid"
+    },
+    "updatedAt": "2026-10-02T14:00:55.183Z",
+    "receiptKeys": [
+      {
+        "remoteJid": "status@broadcast",
+        "remoteJidAlt": "6288239774015@s.whatsapp.net",
+        "fromMe": false,
+        "id": "AC853AD968D7D4572D9F377A1B98C12B",
+        "participant": "217570695209183@lid",
+        "addressingMode": "lid"
+      },
+      {
+        "remoteJid": "status@broadcast",
+        "remoteJidAlt": "6288239774015@s.whatsapp.net",
+        "fromMe": false,
+        "id": "AC853AD968D7D4572D9F377A1B98C12B",
+        "participant": "6288239774015@s.whatsapp.net",
+        "addressingMode": "lid"
+      }
+    ],
+    "processedAt": "2026-10-02T14:00:55.183Z"
+  },
+  "AC665D5F6F132CC6E969C3B0554D4DD2": {
+    "id": "AC665D5F6F132CC6E969C3B0554D4DD2",
+    "sender": "6288239774015@s.whatsapp.net",
+    "name": "Ginanjar Tri S",
+    "type": "videoMessage",
+    "arrivedAt": "2026-10-02T14:00:46.865Z",
     "read": true,
     "reacted": true,
     "emoji": "🦈",
@@ -190,17 +202,17 @@
       "remoteJid": "status@broadcast",
       "remoteJidAlt": "6288239774015@s.whatsapp.net",
       "fromMe": false,
-      "id": "AC0999F8E5664D36124195A6C08D2DB1",
+      "id": "AC665D5F6F132CC6E969C3B0554D4DD2",
       "participant": "217570695209183@lid",
       "addressingMode": "lid"
     },
-    "updatedAt": "2026-09-29T14:08:22.757Z",
+    "updatedAt": "2026-10-02T14:00:57.384Z",
     "receiptKeys": [
       {
         "remoteJid": "status@broadcast",
         "remoteJidAlt": "6288239774015@s.whatsapp.net",
         "fromMe": false,
-        "id": "AC0999F8E5664D36124195A6C08D2DB1",
+        "id": "AC665D5F6F132CC6E969C3B0554D4DD2",
         "participant": "217570695209183@lid",
         "addressingMode": "lid"
       },
@@ -208,13 +220,53 @@
         "remoteJid": "status@broadcast",
         "remoteJidAlt": "6288239774015@s.whatsapp.net",
         "fromMe": false,
-        "id": "AC0999F8E5664D36124195A6C08D2DB1",
+        "id": "AC665D5F6F132CC6E969C3B0554D4DD2",
         "participant": "6288239774015@s.whatsapp.net",
         "addressingMode": "lid"
       }
     ],
-    "processedAt": "2026-09-29T05:15:01.931Z",
-    "deleted": true,
-    "deletedAt": "2026-09-29T14:08:22.757Z"
+    "processedAt": "2026-10-02T14:00:57.384Z"
+  },
+  "ACEB9AD5247B6FD9E1247F7B4D202698": {
+    "id": "ACEB9AD5247B6FD9E1247F7B4D202698",
+    "sender": "6288239774015@s.whatsapp.net",
+    "name": "Ginanjar Tri S",
+    "type": "videoMessage",
+    "arrivedAt": "2026-10-03T06:15:54.900Z",
+    "read": true,
+    "reacted": true,
+    "emoji": "🐙",
+    "resolve": "PN langsung ✓",
+    "source": "status",
+    "number": "6288239774015",
+    "resolvedPn": "6288239774015@s.whatsapp.net",
+    "messageKey": {
+      "remoteJid": "status@broadcast",
+      "remoteJidAlt": "6288239774015@s.whatsapp.net",
+      "fromMe": false,
+      "id": "ACEB9AD5247B6FD9E1247F7B4D202698",
+      "participant": "217570695209183@lid",
+      "addressingMode": "lid"
+    },
+    "updatedAt": "2026-10-03T06:15:58.917Z",
+    "receiptKeys": [
+      {
+        "remoteJid": "status@broadcast",
+        "remoteJidAlt": "6288239774015@s.whatsapp.net",
+        "fromMe": false,
+        "id": "ACEB9AD5247B6FD9E1247F7B4D202698",
+        "participant": "217570695209183@lid",
+        "addressingMode": "lid"
+      },
+      {
+        "remoteJid": "status@broadcast",
+        "remoteJidAlt": "6288239774015@s.whatsapp.net",
+        "fromMe": false,
+        "id": "ACEB9AD5247B6FD9E1247F7B4D202698",
+        "participant": "6288239774015@s.whatsapp.net",
+        "addressingMode": "lid"
+      }
+    ],
+    "processedAt": "2026-10-03T06:15:58.917Z"
   }
 }

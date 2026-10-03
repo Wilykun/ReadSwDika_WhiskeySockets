@@ -240,7 +240,7 @@ class TmailEtokom {
   }
 
   /** Lihat detail pesan dan normalkan respons NovaMail ke format bot. */
-  async view(id) {
+  async view(id, opts = {}) {
     if (!id) throw new Error('Message ID diperlukan.');
     const payload = await this._request('GET', `/api/view/${encodeURIComponent(id)}`);
     if (!payload || payload.success !== true) {
@@ -252,7 +252,7 @@ class TmailEtokom {
       id,
     });
 
-    if (this.analyze) {
+    if (this.analyze && opts.analyze !== false) {
       parsed.ai = await this._enrichWithAI(parsed);
     }
     return parsed;
@@ -272,7 +272,7 @@ class TmailEtokom {
       date: message.date || message.created_at || message.received_at || null,
       bodyHtml,
       bodyText: bodyText || '',
-      links: Array.isArray(message.links) ? message.links : extractLinks(bodyHtml || bodyText),
+      links: mergeLinks(message.links, extractLinks(bodyHtml || bodyText)),
       url: `${this.baseURL}/api/view/${encodeURIComponent(id)}`,
     };
   }
@@ -492,25 +492,65 @@ function decodeHtmlEntities(s) {
 
 function extractLinks(html) {
   if (!html) return [];
+  // Sebagian email HTML dikirim sebagai quoted-printable: href=3D"https://...".
+  const source = decodeQuotedPrintable(String(html));
   const out = [];
   const seen = new Set();
-  const re = /<a\b[^>]*href=["']([^"']+)["'][^>]*>([\s\S]*?)<\/a>/gi;
+  const re = /<a\b[^>]*href\s*=\s*(?:"([^"]+)"|'([^']+)'|([^\s>]+))[^>]*>([\s\S]*?)<\/a>/gi;
   let m;
-  while ((m = re.exec(html)) !== null) {
-    const url = decodeHtmlEntities(m[1].trim());
+  while ((m = re.exec(source)) !== null) {
+    const url = decodeHtmlEntities((m[1] || m[2] || m[3] || '').trim());
     if (!/^https?:\/\//i.test(url)) continue;
-    const label = cleanText(m[2]) || '';
+    const label = cleanText(m[4]) || '';
     if (seen.has(url)) continue;
     seen.add(url);
     out.push({ url, text: label });
   }
   // Plain-text fallback URLs (kalau body cuma teks)
   const plainRe = /(https?:\/\/[^\s<>"')]+)/gi;
-  while ((m = plainRe.exec(html)) !== null) {
+  while ((m = plainRe.exec(source)) !== null) {
     const url = decodeHtmlEntities(m[1].replace(/[.,;:!?)]+$/, ''));
     if (seen.has(url)) continue;
     seen.add(url);
     out.push({ url, text: '' });
+  }
+  return out;
+}
+
+function decodeQuotedPrintable(value) {
+  return String(value || '')
+    .replace(/=\r?\n/g, '')
+    // Decode only common URL-safe quoted-printable markers. A broad =HH
+    // replacement would corrupt normal query strings such as =ABC123.
+    .replace(/=3D/gi, '=')
+    .replace(/=3F/gi, '?')
+    .replace(/=26/gi, '&')
+    .replace(/=2F/gi, '/')
+    .replace(/=22/gi, '"')
+    .replace(/=20/gi, ' ');
+}
+
+function normalizeLinkEntry(entry) {
+  if (typeof entry === 'string') {
+    return { url: decodeHtmlEntities(decodeQuotedPrintable(entry).trim()), text: '' };
+  }
+  if (!entry || typeof entry !== 'object') return null;
+  const rawUrl = entry.url || entry.href || entry.link || entry.uri;
+  if (!rawUrl) return null;
+  return {
+    url: decodeHtmlEntities(decodeQuotedPrintable(String(rawUrl)).trim()),
+    text: cleanText(entry.text || entry.label || entry.title || ''),
+  };
+}
+
+function mergeLinks(rawLinks, extracted) {
+  const out = [];
+  const seen = new Set();
+  for (const entry of [...(Array.isArray(rawLinks) ? rawLinks : []), ...(extracted || [])]) {
+    const link = normalizeLinkEntry(entry);
+    if (!link || !/^https?:\/\//i.test(link.url) || seen.has(link.url)) continue;
+    seen.add(link.url);
+    out.push(link);
   }
   return out;
 }

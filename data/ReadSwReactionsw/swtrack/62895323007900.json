@@ -1,13 +1,13 @@
 {
-  "AC3DA46B6032C7ABA317C95428D912D6": {
-    "id": "AC3DA46B6032C7ABA317C95428D912D6",
+  "ACFCF7CAE81838BAFF1408C069FB8E2F": {
+    "id": "ACFCF7CAE81838BAFF1408C069FB8E2F",
     "sender": "62895323007900@s.whatsapp.net",
     "name": "Rejaanimm nonchalant 1975",
-    "type": "extendedTextMessage",
-    "arrivedAt": "2026-09-29T14:09:26.208Z",
+    "type": "videoMessage",
+    "arrivedAt": "2026-10-02T14:00:10.564Z",
     "read": true,
     "reacted": true,
-    "emoji": "🦈",
+    "emoji": "🐙",
     "resolve": "PN langsung ✓",
     "source": "status",
     "number": "62895323007900",
@@ -16,17 +16,17 @@
       "remoteJid": "status@broadcast",
       "remoteJidAlt": "62895323007900@s.whatsapp.net",
       "fromMe": false,
-      "id": "AC3DA46B6032C7ABA317C95428D912D6",
+      "id": "ACFCF7CAE81838BAFF1408C069FB8E2F",
       "participant": "184151135252580@lid",
       "addressingMode": "lid"
     },
-    "updatedAt": "2026-09-29T14:09:45.114Z",
+    "updatedAt": "2026-10-02T14:00:28.593Z",
     "receiptKeys": [
       {
         "remoteJid": "status@broadcast",
         "remoteJidAlt": "62895323007900@s.whatsapp.net",
         "fromMe": false,
-        "id": "AC3DA46B6032C7ABA317C95428D912D6",
+        "id": "ACFCF7CAE81838BAFF1408C069FB8E2F",
         "participant": "184151135252580@lid",
         "addressingMode": "lid"
       },
@@ -34,11 +34,78 @@
         "remoteJid": "status@broadcast",
         "remoteJidAlt": "62895323007900@s.whatsapp.net",
         "fromMe": false,
-        "id": "AC3DA46B6032C7ABA317C95428D912D6",
+        "id": "ACFCF7CAE81838BAFF1408C069FB8E2F",
         "participant": "62895323007900@s.whatsapp.net",
         "addressingMode": "lid"
       }
     ],
-    "processedAt": "2026-09-29T14:09:45.114Z"
+    "processedAt": "2026-10-02T14:00:28.593Z"
+  },
+  "ACFD5735823BCF4C518187AA26A9CCCF": {
+    "id": "ACFD5735823BCF4C518187AA26A9CCCF",
+    "sender": "62895323007900@s.whatsapp.net",
+    "name": "Rejaanimm nonchalant 1975",
+    "type": "imageMessage",
+    "arrivedAt": "2026-10-03T06:15:54.879Z",
+    "read": false,
+    "reacted": false,
+    "emoji": null,
+    "resolve": "PN langsung ✓",
+    "source": "status",
+    "number": "62895323007900",
+    "resolvedPn": "62895323007900@s.whatsapp.net",
+    "messageKey": {
+      "remoteJid": "status@broadcast",
+      "remoteJidAlt": "62895323007900@s.whatsapp.net",
+      "fromMe": false,
+      "id": "ACFD5735823BCF4C518187AA26A9CCCF",
+      "participant": "184151135252580@lid",
+      "addressingMode": "lid"
+    },
+    "updatedAt": "2026-10-03T06:15:55.025Z",
+    "deleted": true,
+    "deletedAt": "2026-10-03T06:15:55.025Z"
+  },
+  "AC9822EB5F21CA706A6F3FDAEC17D485": {
+    "id": "AC9822EB5F21CA706A6F3FDAEC17D485",
+    "sender": "62895323007900@s.whatsapp.net",
+    "name": "Rejaanimm nonchalant 1975",
+    "type": "imageMessage",
+    "arrivedAt": "2026-10-03T06:15:55.026Z",
+    "read": true,
+    "reacted": true,
+    "emoji": "🐠",
+    "resolve": "PN langsung ✓",
+    "source": "status",
+    "number": "62895323007900",
+    "resolvedPn": "62895323007900@s.whatsapp.net",
+    "messageKey": {
+      "remoteJid": "status@broadcast",
+      "remoteJidAlt": "62895323007900@s.whatsapp.net",
+      "fromMe": false,
+      "id": "AC9822EB5F21CA706A6F3FDAEC17D485",
+      "participant": "184151135252580@lid",
+      "addressingMode": "lid"
+    },
+    "updatedAt": "2026-10-03T06:16:01.261Z",
+    "receiptKeys": [
+      {
+        "remoteJid": "status@broadcast",
+        "remoteJidAlt": "62895323007900@s.whatsapp.net",
+        "fromMe": false,
+        "id": "AC9822EB5F21CA706A6F3FDAEC17D485",
+        "participant": "184151135252580@lid",
+        "addressingMode": "lid"
+      },
+      {
+        "remoteJid": "status@broadcast",
+        "remoteJidAlt": "62895323007900@s.whatsapp.net",
+        "fromMe": false,
+        "id": "AC9822EB5F21CA706A6F3FDAEC17D485",
+        "participant": "62895323007900@s.whatsapp.net",
+        "addressingMode": "lid"
+      }
+    ],
+    "processedAt": "2026-10-03T06:16:01.261Z"
   }
 }

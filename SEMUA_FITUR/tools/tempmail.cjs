@@ -32,6 +32,137 @@
  */
 'use strict';
 
+const AUTO_VERIFY_ALLOWED_DOMAINS = new Set(['replit.com']);
+const VERIFICATION_URL_PATTERN = /(?:action-code|verify(?:email|account)?|verification|confirm(?:ation)?|activate|activation|oobcode)/i;
+const BLOCKED_ACTION_PATTERN = /(?:authModal=signup|\b(?:signup|register|reset|password|unsubscribe|optout|login|signin)\b)/i;
+
+const inspectAutoVerifyUrl = (rawUrl, context = '') => {
+        let url;
+        try {
+                url = new URL(String(rawUrl || '').trim());
+        } catch (_) {
+                return { ok: false, reason: 'URL tidak valid.' };
+        }
+        if (url.protocol !== 'https:') {
+                return { ok: false, reason: 'hanya HTTPS yang diizinkan.' };
+        }
+        const hostname = url.hostname.toLowerCase();
+        const allowed = [...AUTO_VERIFY_ALLOWED_DOMAINS]
+                .some((domain) => hostname === domain || hostname.endsWith(`.${domain}`));
+        if (!allowed) {
+                return { ok: false, reason: `domain ${hostname} tidak ada di allowlist.` };
+        }
+        const urlText = `${url.pathname} ${url.search} ${url.hash}`;
+        if (BLOCKED_ACTION_PATTERN.test(urlText)) {
+                return { ok: false, reason: 'URL signup/reset/login atau aksi berisiko ditolak.' };
+        }
+        if (!VERIFICATION_URL_PATTERN.test(urlText)) {
+                return { ok: false, reason: 'URL bukan pola verifikasi.' };
+        }
+        return { ok: true, url };
+};
+
+const safeAutoVerifyUrl = (url) => {
+        if (!url) return '-';
+        const keys = [...new Set([...url.searchParams.keys()])];
+        return `${url.origin}${url.pathname}` +
+                (keys.length ? `?keys=${keys.join(',')}` : '');
+};
+
+const decodeAutoLink = (value) => String(value || '')
+        // Jangan decode semua pola =HH; query normal seperti =ABC123
+        // bukan quoted-printable dan akan rusak jika dipaksa decode.
+        .replace(/=3D/gi, '=')
+        .replace(/=3F/gi, '?')
+        .replace(/=26/gi, '&')
+        .replace(/=2F/gi, '/')
+        .replace(/=22/gi, '"')
+        .replace(/=20/gi, ' ')
+        .replace(/&amp;/gi, '&')
+        .replace(/&quot;/gi, '"')
+        .replace(/&#39;/gi, "'");
+
+const collectAutoLinks = (msg = {}) => {
+        const raw = [];
+        if (Array.isArray(msg.links)) raw.push(...msg.links);
+        const source = `${msg.bodyHtml || ''}\n${msg.bodyText || ''}`;
+        const urlPattern = /https?:\/\/[^\s<>"')]+/gi;
+        let match;
+        while ((match = urlPattern.exec(source)) !== null) raw.push({ url: match[0], text: '' });
+        const out = [];
+        const seen = new Set();
+        for (const entry of raw) {
+                const value = typeof entry === 'string' ? entry : entry && (entry.url || entry.href || entry.link);
+                if (!value) continue;
+                const url = decodeAutoLink(value).replace(/[.,;:!?)]+$/, '');
+                if (!/^https?:\/\//i.test(url) || seen.has(url)) continue;
+                seen.add(url);
+                out.push({
+                        url,
+                        text: typeof entry === 'string' ? '' : String(entry.text || entry.label || entry.title || ''),
+                });
+        }
+        return out;
+};
+
+const autoVerifyUrl = async (rawUrl, opts = {}) => {
+        const inspect = inspectAutoVerifyUrl(rawUrl, opts.context || '');
+        if (!inspect.ok) return { status: 'skipped', reason: inspect.reason };
+
+        const fetchImpl = opts.fetchImpl || globalThis.fetch;
+        if (typeof fetchImpl !== 'function') {
+                return { status: 'failed', reason: 'HTTP client tidak tersedia.' };
+        }
+
+        let current = inspect.url;
+        const maxRedirects = Math.max(0, Math.min(3, Number(opts.maxRedirects || 3)));
+        for (let hop = 0; hop <= maxRedirects; hop++) {
+                let response;
+                try {
+                        response = await fetchImpl(current.href, {
+                                method: 'GET',
+                                redirect: 'manual',
+                                headers: {
+                                        'user-agent': 'WilyBot-TempMail-AutoVerify/1.0',
+                                        accept: 'text/html,application/xhtml+xml',
+                                },
+                                signal: AbortSignal.timeout(15000),
+                        });
+                } catch (err) {
+                        return {
+                                status: 'failed',
+                                reason: err.message,
+                                url: safeAutoVerifyUrl(current),
+                        };
+                }
+
+                if (response.status >= 300 && response.status < 400) {
+                        const location = response.headers && typeof response.headers.get === 'function'
+                                ? response.headers.get('location')
+                                : null;
+                        if (!location) {
+                                return {
+                                        status: 'failed',
+                                        reason: `redirect ${response.status} tanpa lokasi tujuan.`,
+                                        url: safeAutoVerifyUrl(current),
+                                };
+                        }
+                        const next = inspectAutoVerifyUrl(new URL(location, current).href, opts.context || '');
+                        if (!next.ok) return { status: 'skipped', reason: `redirect ditolak: ${next.reason}` };
+                        current = next.url;
+                        continue;
+                }
+
+                return {
+                        status: response.ok ? 'verified' : 'failed',
+                        statusCode: response.status,
+                        reason: response.ok ? 'HTTP berhasil.' : `HTTP ${response.status}.`,
+                        url: safeAutoVerifyUrl(current),
+                };
+        }
+        return { status: 'failed', reason: 'redirect terlalu banyak.', url: safeAutoVerifyUrl(current) };
+};
+
 /**
  * handleTempmail
  * Handler untuk command: tempmail, tmail, tminbox, tmread, tmwait, tmdel
@@ -166,7 +297,7 @@ async function handleTempmail({ hisoka, m, query, tolak, logCommand, logError, p
                 const fn = console[level] || console.log;
                 fn(`[TMailAuto] ${text}`);
         };
-        const AUTO_WATCHER_VERSION = 2;
+        const AUTO_WATCHER_VERSION = 3;
 
         const buildTmailButtons = (mailbox) => ([
                 {
@@ -341,27 +472,43 @@ async function handleTempmail({ hisoka, m, query, tolak, logCommand, logError, p
         const sendMailWithButtons = async (msg, mailbox, header = '📩 *PESAN*', target = m.from) => {
                 const ai = msg.ai || null;
                 const code = (ai && ai.code) || detectCode(msg.bodyText || msg.subject || '');
-                const links = Array.isArray(msg.links) ? msg.links : [];
+                const links = collectAutoLinks(msg);
                 const primaryUrl = ai && ai.primaryUrl;
                 const primaryLabel = (ai && ai.primaryLabel) || 'Verifikasi';
                 const aiSummary = (ai && ai.summary) || '';
 
                 let teks = formatMail(msg, mailbox, header, code);
                 if (aiSummary) teks += `\n\n🤖 *Ringkasan AI:* ${aiSummary}`;
+                if (msg.autoVerification) {
+                        if (msg.autoVerification.status === 'verified') {
+                                teks += '\n\n✅ *Auto-verifikasi:* link verifikasi berhasil dibuka.';
+                        } else if (msg.autoVerification.status === 'failed') {
+                                teks += `\n\n⚠️ *Auto-verifikasi gagal:* ${msg.autoVerification.reason || 'provider menolak permintaan.'}`;
+                        } else if (msg.autoVerification.status === 'code_detected') {
+                                teks += `\n\n🔑 *Kode terdeteksi:* \`${msg.autoVerification.code}\`` +
+                                        '\n⚠️ *Status:* kode sudah dikirim ke private, tetapi belum dimasukkan otomatis ke form situs.';
+                        } else if (msg.autoVerification.status === 'skipped' && msg.autoVerification.candidate) {
+                                teks += `\n\n⏭️ *Auto-verifikasi dilewati:* ${msg.autoVerification.reason}`;
+                        }
+                }
 
                 const buttons = [];
 
                 const isJunk = (u, t) => /unsubscribe|opt-?out|preferences|notification-settings|manage|update.?profile/i.test(u + ' ' + (t || ''));
-                const isVerifyLike = (u, t) => /verify|verifikasi|confirm|konfirmasi|activate|aktivasi|action-code|oobcode|reset|password|login|signin|sign-in|magic|auth|token/i.test(u + ' ' + (t || ''));
+                const isVerifyLike = (u, t) => {
+                        const value = `${u || ''} ${t || ''}`;
+                        return VERIFICATION_URL_PATTERN.test(value) && !BLOCKED_ACTION_PATTERN.test(String(u || ''));
+                };
 
                 let verifyUrl = null;
                 let verifyLabel = 'Verifikasi';
-                if (primaryUrl) {
+                if (primaryUrl && isVerifyLike(primaryUrl, primaryLabel)) {
                         verifyUrl = primaryUrl;
                         verifyLabel = String(primaryLabel || 'Verifikasi').trim() || 'Verifikasi';
                 } else {
                         const candidate = links.find((l) => l.url && !isJunk(l.url, l.text) && isVerifyLike(l.url, l.text))
-                                || links.find((l) => l.url && !isJunk(l.url, l.text));
+                                || links.find((l) => l.url && !isJunk(l.url, l.text)
+                                        && !BLOCKED_ACTION_PATTERN.test(String(l.url)));
                         if (candidate) {
                                 verifyUrl = candidate.url;
                                 verifyLabel = 'Verifikasi';
@@ -423,6 +570,56 @@ async function handleTempmail({ hisoka, m, query, tolak, logCommand, logError, p
                 }
         };
 
+        const autoVerifyMessage = async (msg, watcher) => {
+                const links = collectAutoLinks(msg);
+                const candidates = [];
+                if (msg.ai && msg.ai.primaryUrl) {
+                        candidates.push({ url: msg.ai.primaryUrl, text: msg.ai.primaryLabel || '' });
+                }
+                for (const link of links) {
+                        if (link && link.url) candidates.push(link);
+                }
+
+                const context = String(msg.subject || '');
+                for (const candidate of candidates) {
+                        const inspected = inspectAutoVerifyUrl(candidate.url, `${context} ${candidate.text || ''}`);
+                        const safeUrl = (() => {
+                                try { return safeAutoVerifyUrl(new URL(candidate.url)); } catch (_) { return '-'; }
+                        })();
+                        if (!inspected.ok) {
+                                watcherLog('log',
+                                        `VERIFY_SKIP user=${maskId(userId)} url=${safeUrl} reason=${inspected.reason}`
+                                );
+                                continue;
+                        }
+                        if (watcher.autoVerifiedLinks.has(inspected.url.href)) {
+                                return { status: 'skipped', reason: 'link sudah pernah diproses.', candidate: true };
+                        }
+                        watcher.autoVerifiedLinks.add(inspected.url.href);
+                        const result = await autoVerifyUrl(inspected.url.href, {
+                                context,
+                        });
+                        watcherLog(result.status === 'verified' ? 'log' : 'warn',
+                                `VERIFY_${result.status.toUpperCase()} user=${maskId(userId)} url=${result.url || safeUrl}` +
+                                (result.reason ? ` reason=${result.reason}` : '')
+                        );
+                        return { ...result, candidate: true };
+                }
+                const code = detectCode(`${msg.subject || ''}\n${msg.bodyText || ''}`);
+                if (code) {
+                        watcherLog('log',
+                                `CODE_DETECTED user=${maskId(userId)} code=${code}`
+                        );
+                        return {
+                                status: 'code_detected',
+                                code,
+                                reason: 'kode terdeteksi; belum ada form tujuan untuk pengisian otomatis.',
+                                candidate: true,
+                        };
+                }
+                return { status: 'skipped', reason: 'tidak ada link verifikasi replit.com yang diizinkan.', candidate: false };
+        };
+
         const startAutoWatcher = (s) => {
                 if (!s || !s.mailbox || typeof s.inbox !== 'function') return;
                 const existing = watchers.get(userId);
@@ -439,6 +636,7 @@ async function handleTempmail({ hisoka, m, query, tolak, logCommand, logError, p
                         initialized: false,
                         pollCount: 0,
                         errorCount: 0,
+                        autoVerifiedLinks: new Set(),
                 };
                 watchers.set(userId, watcher);
                 watcherLog('log',
@@ -484,15 +682,31 @@ async function handleTempmail({ hisoka, m, query, tolak, logCommand, logError, p
                                         for (const item of fresh) {
                                                 let detail = {};
                                                 try {
-                                                        detail = await s.view(item.id);
+                                                        detail = await s.view(item.id, { analyze: false });
                                                 } catch (err) {
                                                         watcherLog('warn',
                                                                 `VIEW_FAIL user=${maskId(userId)} id=${maskId(item.id)} error=${err.message}`
                                                         );
                                                 }
+                                                let autoVerification;
+                                                try {
+                                                        autoVerification = await autoVerifyMessage(
+                                                                { ...item, ...detail },
+                                                                watcher
+                                                        );
+                                                } catch (err) {
+                                                        autoVerification = {
+                                                                status: 'failed',
+                                                                reason: err.message,
+                                                                candidate: true,
+                                                        };
+                                                        watcherLog('error',
+                                                                `VERIFY_FAILED user=${maskId(userId)} id=${maskId(item.id)} error=${err.message}`
+                                                        );
+                                                }
                                                 try {
                                                         await sendMailWithButtons(
-                                                                { ...item, ...detail },
+                                                                { ...item, ...detail, autoVerification },
                                                                 s.mailbox,
                                                                 '🔔 *EMAIL BARU OTOMATIS*',
                                                                 userId
@@ -768,4 +982,4 @@ async function handleTempmail({ hisoka, m, query, tolak, logCommand, logError, p
         }
 }
 
-module.exports = { handleTempmail };
+module.exports = { handleTempmail, inspectAutoVerifyUrl, autoVerifyUrl };
