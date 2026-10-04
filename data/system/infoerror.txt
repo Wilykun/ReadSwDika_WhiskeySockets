@@ -8,7 +8,7 @@
 ════════════════════════════════════════════════════════════════════════
   FILE     : infoerror.txt
   Bot      : Wily Bot
-  Update   : 03/10/2026, 14.06.31  (realtime — diperbarui otomatis setiap ada error)
+  Update   : 04/10/2026, 09.11.23  (realtime — diperbarui otomatis setiap ada error)
 ════════════════════════════════════════════════════════════════════════
 
   RINGKASAN
@@ -23,24 +23,24 @@
 ────────────────────────────────────────────────────────────────────────
 
 ┌───────────────────────────────────────────────────────────────────────
-│  #001  —  command:pixiv
+│  #001  —  console.error
 ├┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄
 │  PESAN ERROR
-│  Tidak ada hasil ditemukan untuk query tersebut.
+│  [31m[HotReload] ✗ Gagal reload 'SEMUA_FITUR/event/event.js', pakai versi lama.[39m
 │
 │  DETAIL
-│  Sumber      : command:pixiv
+│  Sumber      : console.error
 │  Frekuensi   : 1x (baru terjadi)
-│  Pertama     : 03/10/2026, 14.06.31
-│  Terakhir    : 03/10/2026, 14.06.31
+│  Pertama     : 04/10/2026, 09.11.23
+│  Terakhir    : 04/10/2026, 09.11.23
 │
 │  STACK TRACE (3 baris pertama)
-│  ▶  Error: Tidak ada hasil ditemukan untuk query tersebut.
-│     at pixivSearch (/home/runner/workspace/SEMUA_FITUR/anime/pixiv.cjs:109:32)
-│     at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+│  ▶  Error: [31m[HotReload] ✗ Gagal reload 'SEMUA_FITUR/event/event.js', pakai versi lama.[39m
+│     at console.error (file:///home/runner/workspace/index.js:436:27)
+│     at Timeout._onTimeout (file:///home/runner/workspace/src/helper/hotReload.js:319:33)
 └───────────────────────────────────────────────────────────────────────
 
 ════════════════════════════════════════════════════════════════════════
   End of Report  —  Total: 1 jenis, 1 kejadian
-  Terakhir diperbarui: 03/10/2026, 14.06.31
+  Terakhir diperbarui: 04/10/2026, 09.11.23
 ════════════════════════════════════════════════════════════════════════
