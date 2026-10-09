@@ -136,7 +136,7 @@ async function handleMenu({
 
                 await hisoka.sendMessage(m.from, { react: { text: `🌊`, key: m.key } }).catch(() => {});
 
-                const teks = getHandler('menuUtama')?.buildMenuUtama({
+                const teks = await getHandler('menuUtama')?.buildMenuUtama({
                         pushName: m.pushName || 'User',
                         isOwner: m.isOwner,
                         uptimeStr,

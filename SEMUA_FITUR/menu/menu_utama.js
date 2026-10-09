@@ -18,13 +18,96 @@
  *  Terima kasih sudah support.
  * ───────────────────────────────
  *
- *  menu_utama.js — Builder teks menu utama bot
- *  Tampilkan semua command, info uptime, fitur aktif/nonaktif
+ *  menu_utama.js — Builder teks menu utama bot (OTOMATIS)
+ *  Daftar command di-generate dari metadata plugin di SEMUA_FITUR
+ *  (export const command/tags/help tiap file). Kategori baru otomatis
+ *  jadi section baru — tidak perlu edit manual lagi.
  * ───────────────────────────────
  */
 import { getBotVersion } from '../../src/helper/utils.js';
+import { loadPlugins } from '../../src/helper/pluginLoader.js';
 
-export function buildMenuUtama({ pushName, isOwner, uptimeStr, tgl, jam, browserLabel, totalCmdCount, totalSemuaFitur, fiturAktif, fiturTidakAktif }) {
+// Tampilan section per kategori. Kategori yang belum terdaftar di sini
+// OTOMATIS dibuatkan section dari nama kategorinya (title-case).
+const CATEGORY_META = {
+        ai:        { emoji: '🤖', title: 'AI CHAT' },
+        anime:    { emoji: '🎌', title: 'ANIME & MANGA' },
+        antidel:   { emoji: '🛡️', title: 'ANTI DELETE' },
+        antilink:  { emoji: '🔗', title: 'ANTI LINK' },
+        antitag:   { emoji: '🚫', title: 'ANTI TAG' },
+        antitagsw: { emoji: '👁️', title: 'ANTI TAG SW' },
+        download:  { emoji: '📥', title: 'DOWNLOAD' },
+        event:     { emoji: '🎉', title: 'EVENT' },
+        group:     { emoji: '👥', title: 'FITUR GRUP' },
+        info:      { emoji: '🔍', title: 'INFO & CEK' },
+        jadibot:  { emoji: '🤖', title: 'JADIBOT' },
+        media:    { emoji: '💬', title: 'PESAN & STICKER' },
+        menu:     { emoji: '📋', title: 'SUB MENU' },
+        music:    { emoji: '🎙️', title: 'MUSIK' },
+        news:     { emoji: '📰', title: 'BERITA' },
+        readsw:   { emoji: '📡', title: 'STATUS & STORY' },
+        setting:  { emoji: '⚙️', title: 'PENGATURAN' },
+        system:   { emoji: '🖥️', title: 'SISTEM' },
+        tools:    { emoji: '🌐', title: 'WEB & TOOLS' },
+};
+
+// Urutan section. Kategori baru (tidak ada di sini) otomatis
+// ditambahkan di akhir sesuai urutan abjad.
+const SECTION_ORDER = [
+        'ai', 'anime', 'antidel', 'antilink', 'antitag', 'antitagsw',
+        'download', 'event', 'group', 'info', 'jadibot', 'media',
+        'menu', 'music', 'news', 'readsw', 'setting', 'system', 'tools',
+];
+
+function metaFor(category) {
+        if (CATEGORY_META[category]) return CATEGORY_META[category];
+        const title = category.replace(/[_-]+/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
+        return { emoji: '📦', title };
+}
+
+// Urai /^(a|b|c)$/i jadi ['a','b','c'] (format ketat dari codemod)
+function aliasesFrom(command) {
+        const m = /^\^\(\s*(.+?)\s*\)\$$/.exec(command.source);
+        if (!m) return [];
+        return m[1].split('|').map(s => s.replace(/\\(.)/g, '$1'));
+}
+
+export async function buildMenuUtama({ pushName, isOwner, uptimeStr, tgl, jam, browserLabel, totalCmdCount, totalSemuaFitur, fiturAktif, fiturTidakAktif }) {
+        const plugins = await loadPlugins();
+
+        // Kelompokkan plugin per kategori (tags[0]), urut abjad dalam section
+        const byCat = new Map();
+        for (const p of plugins) {
+                const cat = (p.tags && p.tags[0]) || 'lainnya';
+                if (!byCat.has(cat)) byCat.set(cat, []);
+                byCat.get(cat).push(p);
+        }
+        for (const list of byCat.values()) {
+                list.sort((a, b) => {
+                        const an = aliasesFrom(a.command)[0] || '';
+                        const bn = aliasesFrom(b.command)[0] || '';
+                        return an.localeCompare(bn);
+                });
+        }
+
+        const orderedCats = [
+                ...SECTION_ORDER.filter(c => byCat.has(c)),
+                ...[...byCat.keys()].filter(c => !SECTION_ORDER.includes(c)).sort(),
+        ];
+
+        let body = '';
+        for (const cat of orderedCats) {
+                const meta = metaFor(cat);
+                const lines = [];
+                for (const p of byCat.get(cat)) {
+                        const aliases = aliasesFrom(p.command);
+                        if (!aliases.length) continue;
+                        lines.push(`│ .${aliases.join(' / .')}`);
+                }
+                if (!lines.length) continue;
+                body += `├═════════════════════┤\n║   ${meta.emoji} *${meta.title}*\n├═════════════════════┤\n${lines.join('\n')}\n`;
+        }
+
         return `╭═════════════════════╮
 ║   🤖 *WILY BOT ${getBotVersion()}*   
 ├═════════════════════┤
@@ -38,202 +121,5 @@ export function buildMenuUtama({ pushName, isOwner, uptimeStr, tgl, jam, browser
 │ ✅ » ${fiturAktif} Fitur Auto Aktif
 │ ❌ » ${fiturTidakAktif} Fitur Auto Tidak Aktif
 │ 🌐 » Online 🟢
-├═════════════════════┤
-║   🤖 *AUTO FITUR*   
-├═════════════════════┤
-│ .setbrowser
-│ .setlogsw
-│ .typing
-│ .recording
-│ .online
-│ .readsw
-│ .ramdisk
-│ .readchat
-│ .telegram
-│ .autocleaner
-│ .sessioncleaner
-├═════════════════════┤
-║   🛡️ *ANTI FITUR*   
-├═════════════════════┤
-│ .antidel
-│ .anticall / .ac
-│ .anticallvid / .acv
-│ .antitagsw
-├═════════════════════┤
-║  💬 *PESAN & STICKER*  
-├═════════════════════┤
-│ .del / .d
-│ .delbot
-│ .s / .sticker
-│ .wm / .swm
-│ .toimg
-│ .smeme [teks]
-│ .tovn
-│ .tomp3
-│ .stickerly
-│ .stickerpack
-│ .rvo / .viewonce
-│ .quoted / .q
-│ .react / .reaksi
-├═════════════════════┤
-║   🔤 *FONT & LOGO*   
-├═════════════════════┤
-│ .font [teks]
-│ .fontuntik [teks]
-│ .logo [style]|[teks]
-│ .logo list
-├═════════════════════┤
-║   👥 *FITUR GRUP*   
-├═════════════════════┤
-│ .hidetag / .ht
-│ .ghosttag / .gt
-│ .welcome
-│ .goodbye
-│ .welgod
-│ .listgroup
-│ .group
-│ .sv [NamaDepan|NamaBelakang]
-│ .savekontak / .svgc
-│ .savekontakstop / .svcstop
-├═════════════════════┤
-║  📡 *STATUS & STORY*  
-├═════════════════════┤
-│ .sw / .getsw
-│ .upswgc
-│ .sendstatus / .swgc
-├═════════════════════┤
-║   📥 *DOWNLOAD*   
-├═════════════════════┤
-│ .allunduh
-│ .tt
-│ .ig
-│ .fb
-│ .twdl
-│ .ytmp3
-│ .ytmp4
-│ .play
-│ .hd / .remini / .hdr
-│ .hdvid / .hdvideo
-├═════════════════════┤
-║   🔍 *INFO & CEK*   
-├═════════════════════┤
-│ .ping / .p
-│ .info
-│ .getppuser
-│ .infoupdate / .changelog
-│ .owner / .own
-│ .cekhp / .spechp
-│ .bandingkan
-│ .cuaca
-│ .ba / .bluearchive
-│ .genius / .carilagu
-│ .geniusdetail
-│ .whatsmusik / .wmusik
-│ .infomusik / .infolirik
-│ .speedtest / .speed
-│ .pixiv / .pixivr18
-├═════════════════════┤
-║   🤖 *AI CHAT*   
-├═════════════════════┤
-│ .ai / .tanya
-│ .mymemory
-│ .forgetme
-│ .cekjidch
-├═════════════════════┤
-║  🎌 *ANIME & MANGA*  
-├═════════════════════┤
-│ .animgif
-│ .animgif list
-│ .kusonime / .anime
-│ .kusonimeupdate
-│ .alq / .alqanime
-│ .alqupdate
-│ .alqdl
-│ .alqanimenotif on/off
-│ .komik / .komiktap
-│ .komikinfo
-│ .komikget / .komikdl
-│ .komikupdate
-│ .animquote
-├═════════════════════┤
-║   🔞 *KONTEN 18+*   
-├═════════════════════┤
-│ .nh / .nhentai
-│ .nhget
-│ .nhrand
-│ .nhdl
-│ .hentaidad
-│ .cosplay
-│ .cosplayrandom
-│ .pixivr18
-│ .nekopoinotif on/off
-├═════════════════════┤
-║   🎙️ *TEXT TO SPEECH*   
-├═════════════════════┤
-│ .tts
-├═════════════════════┤
-║   🌐 *WEB & TOOLS*   
-├═════════════════════┤
-│ .ss / .screenshot
-│ .ssweb / .webinfo
-│ .tmail / .tempmail
-│ .tminbox
-│ .tmread
-│ .tmwait
-│ .tmdel
-├═════════════════════┤
-║   🤖 *JADIBOT*   
-├═════════════════════┤
-│ .jadibot
-│ .upbot
-│ .downbot
-│ .stopbot
-│ .listbot
-│ .setpairing
-├═════════════════════┤
-║   👑 *OWNER ONLY*   
-├═════════════════════┤
-│ .owner / .own
-│ .addowner
-│ .delowner
-│ .all
-│ .swgrup / .statusgroup
-│ .infowibu
-│ .animasu
-│ .tvone
-│ .malnews
-│ .alqanimenotif
-│ .nekopoinotif
-│ .cekauto
-│ .ceksw
-│ .wilyai
-│ .wily / .simi
-│ .emojiadd
-│ .emojidel
-│ .emojilist
-│ .ram
-│ .ceksize / .disksize
-│ .restart / .rebot / .rb
-│ .upbot
-│ .backup
-│ .ceksesi
-│ .autosholat
-│ .credsjson
-│ .eval / .bash
-│ .dbstats / .sessiondb
-│ .listcontact
-│ .cekerror
-│ .contact
-│ .mati / .shutdown
-├═════════════════════┤
-║   📋 *SUB MENU*   
-├═════════════════════┤
-│ .settingmenu
-│ .groupmenu
-│ .statusmenu
-│ .downloadmenu
-│ .jadibotmenu
-│ .ownermenu
-│ .allmenu
-╰═════════════════════╯`;
+${body}╰═════════════════════╯`;
 }
