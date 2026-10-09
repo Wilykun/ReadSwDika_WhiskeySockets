@@ -22,8 +22,26 @@ jobs:
           node-version: 20
           cache: npm
 
-      - name: Install dependencies
-        run: npm ci
+      - name: Info versi
+        run: node --version && npm --version
+
+      - name: Install dependencies (dengan retry)
+        run: |
+          for i in 1 2 3; do
+            echo "--- Percobaan install #$i ---"
+            if npm ci --no-audit --no-fund; then
+              echo "npm ci selesai tanpa error"
+              break
+            fi
+            echo "npm ci gagal, hapus node_modules lalu coba lagi..."
+            rm -rf node_modules
+            sleep 5
+          done
+
+      - name: Verifikasi install lengkap
+        run: |
+          node -e "for (const m of ['axios','pino','sharp','@whiskeysockets/baileys']) require.resolve(m, { paths: [process.cwd()] })"
+          echo "Semua modul inti ter-resolve, install lengkap"
 
       - name: Bulk validasi semua file .cjs
         run: npm run validate
