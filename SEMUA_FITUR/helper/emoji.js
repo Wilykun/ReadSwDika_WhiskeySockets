@@ -19,7 +19,7 @@
  * ───────────────────────────────
  *
  *  emoji.js — Re-export dari src/helper/emoji.js
- *  Agar SEMUA_FITUR/helper/emoji.js dapat diimport oleh file .cjs
+ *  Agar SEMUA_FITUR/helper/emoji.js dapat diimport oleh file .js
  * ───────────────────────────────
  */
 

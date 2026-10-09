@@ -28,9 +28,7 @@
 
 import fs from 'fs';
 import path from 'path';
-import { createRequire } from 'module';
-const _require = createRequire(import.meta.url);
-const { isJidGroup, jidNormalizedUser, areJidsSameUser, jidDecode, getContentType } = _require('@whiskeysockets/baileys');
+import { isJidGroup, jidNormalizedUser, areJidsSameUser, jidDecode, getContentType } from '@whiskeysockets/baileys';
 
 import { kvGet, kvSet } from '../../src/db/datadb.js';
 

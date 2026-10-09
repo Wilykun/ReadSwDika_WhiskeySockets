@@ -32,9 +32,7 @@
  */
 'use strict';
 
-import { createRequire } from 'module';
-const _require = createRequire(import.meta.url);
-const {
+import {
         areJidsSameUser,
         generateWAMessageFromContent,
         getContentType,
@@ -45,7 +43,7 @@ const {
         jidNormalizedUser,
         downloadMediaMessage,
         generateMessageIDV2,
-} = _require('@whiskeysockets/baileys');
+} from '@whiskeysockets/baileys';
 import { isPnUser, safeGetPNForLID } from './socketCompat.js';
 import fs from 'fs';
 import path from 'path';

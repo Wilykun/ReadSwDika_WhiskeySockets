@@ -24,10 +24,8 @@
  */
 'use strict'
 
-import { createRequire } from 'module';
-const _require = createRequire(import.meta.url);
-const {
-  default: makeWASocket,
+import {
+  default as makeWASocket,
   fetchLatestBaileysVersion,
   DisconnectReason,
   jidNormalizedUser,
@@ -38,7 +36,7 @@ const {
   delay,
   Browsers,
   generateWAMessageFromContent
-} = _require('@whiskeysockets/baileys');
+} from '@whiskeysockets/baileys';
 
 import fs from 'fs'
 import path from 'path'
@@ -201,7 +199,7 @@ export function startJadibotAutoOnline(sock, jadibotNum) {
   }
   const aoSettings = getJadibotAutoOnline(jadibotNum)
   const intervalMs = Math.max(10000, (aoSettings.intervalSeconds || 30) * 1000)
-  // Flag stealth per-socket — dibaca event.js & interactive-msg.cjs
+  // Flag stealth per-socket — dibaca event.js & interactive-msg.js
   sock.__stealthMode = !aoSettings.enabled
   if (aoSettings.enabled) {
     // Mode ON: kirim available berkala → kontak lihat online realtime
@@ -360,7 +358,7 @@ function clearJadibotExpiryWarningTimers(number) {
 // ── Helper realtime: baca setting per-jadibot → list fitur aktif & berhenti ─
 // Semua fungsi notif pakai ini — tidak ada lagi hardcode daftar fitur
 // Total auto fitur: 7 (readsw, antidel, anticall, anticallvid, online, typing, recording)
-// → konsisten dengan counter di menu-cmd.cjs (_jbAutoList.length = 7)
+// → konsisten dengan counter di menu-cmd.js (_jbAutoList.length = 7)
 function buildJadibotFeatureStatus(number) {
   const readsw      = getJadibotReadsw(number)
   const antidel     = getJadibotAntidel(number)
@@ -510,7 +508,7 @@ function getJadibotExpirySummary(number) {
   }
 }
 
-// Satu satuan durasi, misal "1h", "20m", "2j". Diekspor biar jadibot-cmd.cjs
+// Satu satuan durasi, misal "1h", "20m", "2j". Diekspor biar jadibot-cmd.js
 // pakai pattern yang sama persis (single source of truth), termasuk untuk
 // durasi gabungan seperti "1h,20m" atau "1h.20m" (1 hari + 20 menit).
 // Pemisah antar-satuan boleh koma (,) ATAU titik (.) — keduanya sama artinya.

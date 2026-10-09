@@ -39,14 +39,12 @@
  *  Kita harus buat socket baru manual via createAndConnect() rekursif.
  * ─────────────────────────────────────
  */
-import { createRequire } from 'module';
-const _require = createRequire(import.meta.url);
-const {
-    default: makeWASocket,
+import {
+    default as makeWASocket,
     delay,
     fetchLatestBaileysVersion,
     generateWAMessageFromContent,
-} = _require('@whiskeysockets/baileys');
+} from '@whiskeysockets/baileys';
 
 // Error code fatal yang langsung abort tanpa coba reconnect
 const FATAL_CODES = new Set([
@@ -59,6 +57,7 @@ const FATAL_CODES = new Set([
 
 import fs from 'fs';
 import path from 'path';
+import { importLazy } from './esmLazy.js';
 import pino from 'pino';
 import QRCode from 'qrcode';
 import { useSingleFileAuthState } from './authState.js';
@@ -468,14 +467,14 @@ export async function startBrowserSwitch(hisoka, browserVal, from, editFn, newBr
                         console.error('[BrowserSwitch] Rename gagal — session lama tetap dipakai. Coba .aturbrowser lagi.');
                     }
                     if (typeof global.__internalRestart === 'function') {
-                        global.__internalRestart().catch(err => {
+                        global.__internalRestart().catch(async err => {
                             console.error('[BrowserSwitch] Internal restart gagal, fallback restart:', err?.message);
-                            const { restartBot } = _require(path.resolve('./SEMUA_FITUR/system/shutdown.cjs'));
-                            restartBot(500);
+                            const { restartBot } = await importLazy(path.resolve('./SEMUA_FITUR/system/shutdown.js'));
+                            await restartBot(500);
                         });
                     } else {
-                        const { restartBot } = _require(path.resolve('./SEMUA_FITUR/system/shutdown.cjs'));
-                        restartBot(500);
+                        const { restartBot } = await importLazy(path.resolve('./SEMUA_FITUR/system/shutdown.js'));
+                        await restartBot(500);
                     }
                 }
                 return;

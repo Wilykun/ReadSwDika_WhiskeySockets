@@ -35,9 +35,7 @@
 
 import fs from 'fs';
 import path from 'path';
-import { createRequire } from 'module';
-const _require = createRequire(import.meta.url);
-const { isJidGroup, jidNormalizedUser, areJidsSameUser, jidDecode, getContentType } = _require('@whiskeysockets/baileys');
+import { isJidGroup, jidNormalizedUser, areJidsSameUser, jidDecode, getContentType } from '@whiskeysockets/baileys';
 
 import { kvGet, kvSet, kvMigrateFromJSON, kvMigrateKey } from '../../src/db/datadb.js';
 kvMigrateFromJSON('security/antitagsw', path.join(process.cwd(), 'data', 'antitagsw.json'));
@@ -700,7 +698,7 @@ export function getWarnings(groupId) {
     return data.warnings[groupId] || {};
 }
 
-// ── Merged from antitagsw.cjs ──────────────────────────────────────────────────
+// ── Merged from antitagsw.js ──────────────────────────────────────────────────
 export async function handleAntitagsw({ hisoka, m, query, tolak: rawTolak, logCommand, loadConfig, saveConfig, toggleAntiTagSW, saveCekautoTimestamp, sendConfirmWithButtons, isAntiTagSWEnabled, getAllAntiTagSWGroups, getWarnings, resetWarnings, kvGet, Button, clearAntiTagSWLog, getAntiTagSWLog, resolveLidFromContacts }) {
         const tolak = (bot, message, text) => rawTolak(bot, message, formatAntiTagText(text));
         if (!m.isGroup) return tolak(hisoka, m, '❌ *`.antitagsw` hanya bisa digunakan di grup.*');

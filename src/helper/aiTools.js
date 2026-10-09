@@ -25,6 +25,7 @@
 
 import axios from 'axios';
 import path from 'path';
+import { importLazy } from './esmLazy.js';
 import fs from 'fs';
 import { exec } from 'child_process';
 import util from 'util';
@@ -218,9 +219,7 @@ export async function extractCuacaFromText(text) {
         cleanText = cleanText.split(fullMarker).join('');
         if (!kota) continue;
         try {
-            const { createRequire } = await import('module');
-            const _require = createRequire(import.meta.url);
-            const { getWeather, formatWeatherReport } = _require('../../SEMUA_FITUR/tools/cuaca.cjs');
+            const { getWeather, formatWeatherReport } = await importLazy(path.join(import.meta.dirname, '../../SEMUA_FITUR/tools/cuaca.js'));
             const result = await getWeather(kota);
             const report = formatWeatherReport(result);
             cuacas.push({ kota, report });

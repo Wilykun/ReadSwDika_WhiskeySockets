@@ -26,18 +26,15 @@ import 'dotenv/config';
 import { getBrowserDevice, BROWSER_LIST } from './name_perangkat_tertautan.js';
 import fs from 'fs';
 import path from 'path';
-import { createRequire } from 'module';
-const _require = createRequire(import.meta.url);
+import { importLazy } from './src/helper/esmLazy.js';
 
 // ── Warna tema logsw — baca dari config.json (logsw.theme) ───────────────────
 // Dipakai semua kotak log (WILY BOT AKTIF, AutoReadStory startup, AUTO JADIBOT)
-// Load logsw-colors.cjs di dalam fungsi + hapus cache → selalu fresh,
+// Load logsw-colors.js di dalam fungsi + hapus cache → selalu fresh,
 // tidak terpengaruh hot-reload atau urutan startup module.
-const _logswColorPath = path.join(process.cwd(), 'src', 'config', 'logsw-colors.cjs');
+import { LOGSW_ANSI, LOGSW_RANDOM_KEYS } from './src/config/logsw-colors.js';
 function getLogswColors() {
     try {
-        delete _require.cache[_logswColorPath];
-        const { LOGSW_ANSI, LOGSW_RANDOM_KEYS } = _require(_logswColorPath);
         const cfgRaw = fs.readFileSync(path.join(process.cwd(), 'config.json'), 'utf-8');
         let theme    = (JSON.parse(cfgRaw)?.logsw?.theme || 'default').toLowerCase().trim();
         if (theme === 'random') {
@@ -49,8 +46,8 @@ function getLogswColors() {
         return { box: '\x1b[36m' }; // fallback cyan
     }
 }
-const {
-        default: makeWASocket,
+import {
+        default as makeWASocket,
         delay,
         DisconnectReason,
         Browsers,
@@ -67,8 +64,8 @@ const {
         generateWAMessageFromContent,
         prepareWAMessageMedia,
         proto,
-} = _require('@whiskeysockets/baileys');
-const { createWelcomeCard } = _require('./SEMUA_FITUR/system/welcomeCard.cjs');
+} from '@whiskeysockets/baileys';
+import { createWelcomeCard } from './SEMUA_FITUR/system/welcomeCard.js';
 import pino from 'pino';
 import { Boom } from '@hapi/boom';
 import qrcode from 'qrcode-terminal';
@@ -1389,7 +1386,7 @@ async function main() {
                                         global.autoOnlineInterval = null;
                                 }
 
-                                // Flag stealth per-socket — dibaca event.js & interactive-msg.cjs
+                                // Flag stealth per-socket — dibaca event.js & interactive-msg.js
                                 // agar composing/recording tidak dikirim saat mode off
                                 hisoka.__stealthMode = !autoOnline.enabled;
 
@@ -1437,7 +1434,7 @@ async function main() {
                                 global.infoWibuInterval = null;
                         }
                         {
-                                const _iw = _require(path.join(process.cwd(), 'SEMUA_FITUR', 'anime', 'infowibu.cjs'));
+                                const _iw = await importLazy(path.join(process.cwd(), 'SEMUA_FITUR', 'anime', 'infowibu.js'));
                                 // Cek setiap 5 menit — langsung kirim saat ada episode baru tayang
                                 const IW_INTERVAL_MS = 5 * 60 * 1000;
 
@@ -1513,7 +1510,7 @@ async function main() {
                                 global.animasuUpdateInterval = null;
                         }
                         {
-                                const _am = _require(path.join(process.cwd(), 'SEMUA_FITUR', 'anime', 'animasu.cjs'));
+                                const _am = await importLazy(path.join(process.cwd(), 'SEMUA_FITUR', 'anime', 'animasu.js'));
                                 const AM_INTERVAL_MS = 60 * 1000; // 1 menit
 
                                 const kirimKeGrup = async (daftarGrup, caption, urlGambar) => {
@@ -1639,7 +1636,7 @@ async function main() {
                                 global.anigameInterval = null;
                         }
                         {
-                                const _ag             = _require(path.join(process.cwd(), 'SEMUA_FITUR', 'tools', 'an1game.cjs'));
+                                const _ag             = await importLazy(path.join(process.cwd(), 'SEMUA_FITUR', 'tools', 'an1game.js'));
                                 const AG_INTERVAL_MS  = 10 * 60 * 1000; // 10 menit
 
                                 const runAnigame = async () => {
@@ -1663,7 +1660,7 @@ async function main() {
                                                         // Retry 3x, validasi magic bytes, support jpg/png/webp/gif
                                                         let imgBuffer = null;
                                                         if (urlGambar) {
-                                                                const axios = _require('axios');
+                                                                const axios = (await import('axios')).default;
                                                                 const IMG_HEADERS = {
                                                                         'Referer'        : 'https://an1.com/',
                                                                         'User-Agent'     : 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36',
@@ -1755,18 +1752,16 @@ async function main() {
                                 global.alqanimeInterval = null;
                         }
                         {
-                                const ALQ_PATH       = path.join(process.cwd(), 'SEMUA_FITUR', 'anime', 'alqanime-monitor.cjs');
+                                const ALQ_PATH       = path.join(process.cwd(), 'SEMUA_FITUR', 'anime', 'alqanime-monitor.js');
                                 const ALQ_INTERVAL_MS = 60 * 1000;
 
-                                const ALQ_SCRAPE_PATH = path.join(process.cwd(), 'SEMUA_FITUR', 'anime', 'alqanime.cjs');
+                                const ALQ_SCRAPE_PATH = path.join(process.cwd(), 'SEMUA_FITUR', 'anime', 'alqanime.js');
 
                                 const runAlqanime = async () => {
                                         if (global.alqanimeRunning) return;
                                         global.alqanimeRunning = true;
                                         try {
-                                                delete _require.cache[_require.resolve(ALQ_PATH)];
-                                                try { delete _require.cache[_require.resolve(ALQ_SCRAPE_PATH)]; } catch (_) {}
-                                                const _alq = _require(ALQ_PATH);
+                                                        const _alq = await importLazy(ALQ_PATH);
 
                                                 const daftarGrup = _alq.getEnabledGroups();
                                                 if (!daftarGrup.length) return;
@@ -1866,15 +1861,14 @@ async function main() {
                                 global.doujindesuStartTimeout = null;
                         }
                         {
-                                const DOUJIN_PATH = path.join(process.cwd(), 'SEMUA_FITUR', 'anime', 'doujindesu-monitor.cjs');
+                                const DOUJIN_PATH = path.join(process.cwd(), 'SEMUA_FITUR', 'anime', 'doujindesu-monitor.js');
                                 const DOUJIN_INTERVAL_MS = 60 * 1000;
                                 
                                 const runDoujin = async () => {
                                         if (global.doujindesuRunning) return;
                                         global.doujindesuRunning = true;
                                         try {
-                                                delete _require.cache[_require.resolve(DOUJIN_PATH)];
-                                                const doujinMonitor = _require(DOUJIN_PATH);
+                                                const doujinMonitor = await importLazy(DOUJIN_PATH);
                                                 await doujinMonitor.processNewChapters(hisoka);
                                         } catch (err) {
                                                 console.error('[DoujinMonitor] Error scheduler:', err?.message);
@@ -1898,17 +1892,15 @@ async function main() {
                                 global.nekopoinotifInterval = null;
                         }
                         {
-                                const NEKO_PATH        = path.join(process.cwd(), 'SEMUA_FITUR', 'anime', 'nekopoi-monitor.cjs');
-                                const NEKO_SCRAPE_PATH = path.join(process.cwd(), 'SEMUA_FITUR', 'anime', 'nekopoi.cjs');
+                                const NEKO_PATH        = path.join(process.cwd(), 'SEMUA_FITUR', 'anime', 'nekopoi-monitor.js');
+                                const NEKO_SCRAPE_PATH = path.join(process.cwd(), 'SEMUA_FITUR', 'anime', 'nekopoi.js');
                                 const NEKO_INTERVAL_MS = 1 * 60 * 1000; // 1 menit
 
                                 const runNekopoinotif = async () => {
                                         if (global.nekopoinotifRunning) return;
                                         global.nekopoinotifRunning = true;
                                         try {
-                                                delete _require.cache[_require.resolve(NEKO_PATH)];
-                                                try { delete _require.cache[_require.resolve(NEKO_SCRAPE_PATH)]; } catch (_) {}
-                                                const _neko = _require(NEKO_PATH);
+                                                        const _neko = await importLazy(NEKO_PATH);
 
                                                 const daftarGrup = _neko.getEnabledGroups();
                                                 if (!daftarGrup.length) return;
@@ -1979,17 +1971,15 @@ async function main() {
                                 global.hentaicopnotifInterval = null;
                         }
                         {
-                                const HC_PATH        = path.join(process.cwd(), 'SEMUA_FITUR', 'anime', 'hentaicop-monitor.cjs');
-                                const HC_SCRAPE_PATH = path.join(process.cwd(), 'SEMUA_FITUR', 'anime', 'hentaicop.cjs');
+                                const HC_PATH        = path.join(process.cwd(), 'SEMUA_FITUR', 'anime', 'hentaicop-monitor.js');
+                                const HC_SCRAPE_PATH = path.join(process.cwd(), 'SEMUA_FITUR', 'anime', 'hentaicop.js');
                                 const HC_INTERVAL_MS = 1 * 60 * 1000; // 1 menit
 
                                 const runHentaicopnotif = async () => {
                                         if (global.hentaicopnotifRunning) return;
                                         global.hentaicopnotifRunning = true;
                                         try {
-                                                delete _require.cache[_require.resolve(HC_PATH)];
-                                                try { delete _require.cache[_require.resolve(HC_SCRAPE_PATH)]; } catch (_) {}
-                                                const _hc = _require(HC_PATH);
+                                                        const _hc = await importLazy(HC_PATH);
 
                                                 const daftarGrup = _hc.getEnabledGroups();
                                                 if (!daftarGrup.length) return;
@@ -2060,14 +2050,13 @@ async function main() {
                                 global.tvoneInterval = null;
                         }
                         {
-                                const TV_TVPATH    = path.join(process.cwd(), 'SEMUA_FITUR', 'news', 'tvonenews.cjs');
+                                const TV_TVPATH    = path.join(process.cwd(), 'SEMUA_FITUR', 'news', 'tvonenews.js');
                                 const TV_INTERVAL_MS = 5 * 60 * 1000;
 
                                 const runTVOne = async () => {
                                         try {
                                                 // Selalu reload modul supaya perubahan langsung aktif
-                                                delete _require.cache[_require.resolve(TV_TVPATH)];
-                                                const _tv = _require(TV_TVPATH);
+                                                const _tv = await importLazy(TV_TVPATH);
 
                                                 const daftarGrup = _tv.getEnabledGroups();
                                                 if (!daftarGrup.length) return;
@@ -2136,13 +2125,12 @@ async function main() {
                                 global.malnewsInterval = null;
                         }
                         {
-                                const MAL_PATH        = path.join(process.cwd(), 'SEMUA_FITUR', 'news', 'malnews.cjs');
+                                const MAL_PATH        = path.join(process.cwd(), 'SEMUA_FITUR', 'news', 'malnews.js');
                                 const MAL_INTERVAL_MS = 5 * 60 * 1000;
 
                                 const runMALNews = async () => {
                                         try {
-                                                delete _require.cache[_require.resolve(MAL_PATH)];
-                                                const _mal = _require(MAL_PATH);
+                                                const _mal = await importLazy(MAL_PATH);
 
                                                 const daftarGrup = _mal.getEnabledGroups();
                                                 if (!daftarGrup.length) return;
@@ -2198,14 +2186,14 @@ async function main() {
                                 global.autoSholatInterval = null;
                         }
                         {
-                                const AS_PATH = path.join(process.cwd(), 'SEMUA_FITUR', 'setting', 'autosholat.cjs');
+                                const AS_PATH = path.join(process.cwd(), 'SEMUA_FITUR', 'setting', 'autosholat.js');
                                 // Lacak sholat yang sudah dikirim hari ini (reset otomatis tiap hari baru)
                                 let _sholatTerkirimHariIni = new Set();
                                 let _hariTerakhirSholat    = '';
 
                                 const runAutoSholat = async () => {
                                         try {
-                                                const _as = _require(AS_PATH);
+                                                const _as = await importLazy(AS_PATH);
                                                 const daftarGrup = _as.getEnabledGroups();
                                                 if (!daftarGrup.length) return;
 
@@ -2230,8 +2218,8 @@ async function main() {
                                                 let _asVnBuf   = null;
                                                 let _asWaveform = null;
                                                 try {
-                                                        const { toVoiceNote: _asToVN, generateWaveform: _asGenWF } = _require(path.resolve('./SEMUA_FITUR/media/audioconvert.cjs'));
-                                                        const _asAudRes = await _require('axios').get(urlAud, { responseType: 'arraybuffer', timeout: 20000 });
+                                                        const { toVoiceNote: _asToVN, generateWaveform: _asGenWF } = await importLazy(path.resolve('././SEMUA_FITUR/media/audioconvert.js'));
+                                                        const _asAudRes = await (await import('axios')).default.get(urlAud, { responseType: 'arraybuffer', timeout: 20000 });
                                                         _asVnBuf    = await _asToVN(Buffer.from(_asAudRes.data), 'audio/mpeg');
                                                         _asWaveform = await _asGenWF(_asVnBuf, 'audio/ogg; codecs=opus').catch(() => null);
                                                 } catch (_asConvErr) {

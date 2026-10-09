@@ -43,8 +43,11 @@ jobs:
           node -e "for (const m of ['axios','pino','sharp','ws','qrcode-terminal','@whiskeysockets/baileys']) require.resolve(m, { paths: [process.cwd()] })"
           echo "Semua modul inti ter-resolve, install lengkap"
 
-      - name: Bulk validasi semua file .cjs
+      - name: Bulk validasi semua file .js (ESM import)
         run: npm run validate
+
+      - name: Cek inline logic di case message.js
+        run: node scripts/check-inline-cases.js
 
       - name: Syntax check semua file .js
         run: |

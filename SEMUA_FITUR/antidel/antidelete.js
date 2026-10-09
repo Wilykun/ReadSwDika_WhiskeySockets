@@ -33,9 +33,7 @@
 
 import fs from 'fs';
 import path from 'path';
-import { createRequire } from 'module';
-const _require = createRequire(import.meta.url);
-const { jidNormalizedUser, jidDecode, isJidGroup, getContentType, downloadMediaMessage } = _require('@whiskeysockets/baileys');
+import { jidNormalizedUser, jidDecode, isJidGroup, getContentType, downloadMediaMessage } from '@whiskeysockets/baileys';
 import { isPnUser } from '../../src/helper/socketCompat.js';
 import { getTmpPath } from '../../src/helper/cleaner.js';
 import { getJadibotAntidel, getJadibotNumber } from '../../src/helper/jadibotSettings.js';
@@ -449,7 +447,7 @@ function logAntiDelete(senderName, typeName, isGroup, groupName, sendTo = 'self'
         console.log(`${cyan}[AntiDelete]${reset} ${yellow}${typeName}${reset} dari ${bold}${senderName}${reset} @ ${location} → ${green}${dest}${reset}`);
 }
 
-// ── Merged from antidel.cjs ────────────────────────────────────────────────────
+// ── Merged from antidel.js ────────────────────────────────────────────────────
 export async function handleAd({ hisoka, m, query, tolak, logCommand, loadConfig, saveConfig, getJadibotNumber, getJadibotAntidel, setJadibotUserSetting }) {
 	const _isJadibotUserCtx_adel = hisoka?.isMainBot === false && (() => {
 		const _sn = (m.sender || '').split('@')[0].split(':')[0];

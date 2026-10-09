@@ -17,7 +17,7 @@
     "pm2:monit": "pm2 monit",
     "pm2:save": "pm2 save",
     "pm2:startup": "pm2 startup",
-    "validate": "node scripts/validate-cjs.cjs",
+    "validate": "node scripts/validate-esm.js",
     "postinstall": "node scripts/postinstall.js"
   },
   "keywords": [
