@@ -2035,13 +2035,10 @@ export default async function ({ message, type: messagesType }, hisoka) {
 
 
                         case 'antitagsw': {
-                                await _handleAntitagswFn({
-                                        hisoka, m, query, tolak, logCommand, isMainBot, loadConfig, saveConfig,
-                                        getJadibotNumber, jadibotMap, sendConfirmWithButtons,
-                                        toggleAntiTagSW, saveCekautoTimestamp, isAntiTagSWEnabled,
-                                        getAllAntiTagSWGroups, getWarnings, resetWarnings, kvGet,
-                                        clearAntiTagSWLog, getAntiTagSWLog, resolveLidFromContacts,
-                                });
+                                await _handleAntitagswFn({ hisoka, m, query, tolak, logCommand, isMainBot,
+                                        loadConfig, saveConfig, getJadibotNumber, jadibotMap, sendConfirmWithButtons,
+                                        toggleAntiTagSW, saveCekautoTimestamp, isAntiTagSWEnabled, getAllAntiTagSWGroups,
+                                        getWarnings, resetWarnings, kvGet, clearAntiTagSWLog, getAntiTagSWLog, resolveLidFromContacts });
                                 break;
                         }
 
