@@ -177,7 +177,7 @@ export const command = /^(tt)$/i;
 export const tags = ['download'];
 export const help = ['tt'];
 async function runHandleTiktokDl(ctx) {
-    const { gemini, hisoka, logCommand, m, query, tolak } = ctx;
+    const { buildVideoDownloadCaptionPrompt, gemini, hisoka, logCommand, m, query, tolak } = ctx;
     try {
                                             await handleTiktokDl(hisoka, m, query, { gemini, tolak, logCommand, buildVideoDownloadCaptionPrompt });
                                     } catch (error) {

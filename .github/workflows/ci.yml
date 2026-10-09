@@ -56,3 +56,13 @@ jobs:
         run: |
           find . -path ./node_modules -prune -o -name '*.js' -print | xargs -n1 node --check
           echo "Semua file .js lolos syntax check"
+
+      - name: Cek variabel tak terdefinisi (ESLint no-undef)
+        # node --check hanya cek syntax, tidak cek scope.
+        # no-undef menangkap ReferenceError seperti `pfx` / `commands`
+        # yang lolos semua cek di atas tapi crash saat runtime.
+        # Install --no-save agar package.json/lockfile tetap bersih.
+        run: |
+          npm install --no-save --no-audit --no-fund eslint globals
+          npx eslint .
+          echo "Tidak ada variabel tak terdefinisi"

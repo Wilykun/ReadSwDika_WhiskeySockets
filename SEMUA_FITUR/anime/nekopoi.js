@@ -287,9 +287,9 @@ function parseDownloadLinksHTML(content) {
     }
 
     // ── Strategi 2: fallback — blok [Resolusi] + LINK (format lama / WP REST) ─
+    const unduhM = content.match(/<(?:h[23]|strong|b)[^>]*>(?:Unduh|Download)[^<]*<\/(?:h[23]|strong|b)>([\s\S]+?)(?=<(?:h[23])[^>]*>(?!(?:Unduh|Download))|$)/i);
+    const section = unduhM ? unduhM[1] : content;
     if (!downloads.length) {
-        const unduhM = content.match(/<(?:h[23]|strong|b)[^>]*>(?:Unduh|Download)[^<]*<\/(?:h[23]|strong|b)>([\s\S]+?)(?=<(?:h[23])[^>]*>(?!(?:Unduh|Download))|$)/i);
-        const section = unduhM ? unduhM[1] : content;
 
         const blockRegex = /\[(4K|1080p|720p|480p|360p)\][\s\S]{0,400}?<(?:strong|b)>LINK<\/(?:strong|b)>([\s\S]{0,2000}?)(?=\[(4K|1080p|720p|480p|360p)\]|$)/gi;
         let bm;

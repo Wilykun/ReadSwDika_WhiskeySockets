@@ -537,7 +537,7 @@ async function fetchTile(url, timeout = 12000) {
   }
 }
 
-async function getWeatherMapImage(latitude, longitude, locationName, options = {}) { // eslint-disable-line no-unused-vars
+async function getWeatherMapImage(latitude, longitude, locationName, options = {}) {
 
   const TILE = 256;
   const OSM_ZOOM = 10;

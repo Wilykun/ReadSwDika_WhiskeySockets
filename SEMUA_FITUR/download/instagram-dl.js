@@ -400,7 +400,7 @@ export const command = /^(ig)$/i;
 export const tags = ['download'];
 export const help = ['ig'];
 async function runHandleInstagramDl(ctx) {
-    const { exec, gemini, hisoka, logCommand, m, query, tolak, util } = ctx;
+    const { buildIgCaptionPrompt, buildIgFallbackCaption, buildIgVisionPrompt, exec, formatIgCount, gemini, hisoka, logCommand, m, parseIgMetaHtml, query, tolak, util } = ctx;
     try {
                                             await handleInstagramDl(hisoka, m, query, { gemini, tolak, logCommand, exec, util, buildIgVisionPrompt, buildIgCaptionPrompt, buildIgFallbackCaption, parseIgMetaHtml, formatIgCount });
                                     } catch (error) {

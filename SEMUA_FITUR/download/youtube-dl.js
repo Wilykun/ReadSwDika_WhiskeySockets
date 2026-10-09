@@ -401,17 +401,17 @@ export const plugins = [
     { command: /^(ytmp4)$/i, tags: ['download'], help: ['ytmp4'], handler: 'runHandleYtmp4' },
 ];
 async function runHandlePlay(ctx) {
-    const { Button, hisoka, logCommand, m, query, tolak } = ctx;
+    const { Button, hisoka, logCommand, m, pendingPlayChoices, query, tolak } = ctx;
     await handlePlay(hisoka, m, query, { tolak, logCommand, pendingPlayChoices, Button });
 }
 export { runHandlePlay };
 async function runHandleYtmp3(ctx) {
-    const { gemini, hisoka, logCommand, m, query, tolak } = ctx;
+    const { buildVideoDownloadCaptionPrompt, gemini, hisoka, logCommand, m, query, tolak } = ctx;
     await handleYtmp3(hisoka, m, query, { gemini, tolak, logCommand, buildVideoDownloadCaptionPrompt });
 }
 export { runHandleYtmp3 };
 async function runHandleYtmp4(ctx) {
-    const { gemini, hisoka, logCommand, m, query, tolak } = ctx;
+    const { buildVideoDownloadCaptionPrompt, gemini, hisoka, logCommand, m, query, tolak } = ctx;
     await handleYtmp4(hisoka, m, query, { gemini, tolak, logCommand, buildVideoDownloadCaptionPrompt });
 }
 export { runHandleYtmp4 };

@@ -256,7 +256,7 @@ export const command = /^(font|fontgen|fontuntik)$/i;
 export const tags = ['tools'];
 export const help = ['font'];
 async function runHandleFontuntik(ctx) {
-    const { Button, getJadibotChoiceKey, hisoka, logCommand, m, tolak } = ctx;
+    const { Button, getJadibotChoiceKey, hisoka, logCommand, m, pendingFontuntikChoices, tolak } = ctx;
     await handleFontuntik(m, hisoka, { Button, logCommand, tolak, pendingFontuntikChoices, getJadibotChoiceKey });
 }
 export default runHandleFontuntik;

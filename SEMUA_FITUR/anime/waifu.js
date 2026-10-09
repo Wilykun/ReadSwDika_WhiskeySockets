@@ -836,7 +836,7 @@ export const command = /^(waifu)$/i;
 export const tags = ['anime'];
 export const help = ['waifu'];
 async function runHandleWaifu(ctx) {
-    const { Button, getJadibotChoiceKey, hisoka, logCommand, m, tolak } = ctx;
+    const { Button, getJadibotChoiceKey, hisoka, logCommand, m, pendingWaifuChoices, tolak } = ctx;
     await handleWaifu(m, hisoka, { Button, logCommand, tolak, pendingWaifuChoices, getJadibotChoiceKey });
 }
 export default runHandleWaifu;

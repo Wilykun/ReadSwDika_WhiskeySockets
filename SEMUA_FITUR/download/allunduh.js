@@ -290,7 +290,7 @@ export const command = /^(allunduh|unduhsemua|dl)$/i;
 export const tags = ['download'];
 export const help = ['allunduh'];
 async function runHandleAllUnduh(ctx) {
-    const { exec, gemini, hisoka, logCommand, m, query, tolak, util } = ctx;
+    const { buildFbCaptionPrompt, buildFbFallbackCaption, buildFbVisionPrompt, buildIgCaptionPrompt, buildIgFallbackCaption, buildIgVisionPrompt, buildVideoDownloadCaptionPrompt, exec, formatFbCount, formatIgCount, gemini, hisoka, logCommand, m, parseFbMetaHtml, parseIgMetaHtml, query, tolak, util } = ctx;
     try {
                                             await handleAllUnduh(hisoka, m, query, {
                                                     gemini, tolak, logCommand, exec, util,

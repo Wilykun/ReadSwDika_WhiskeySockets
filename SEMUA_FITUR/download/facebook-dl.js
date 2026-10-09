@@ -304,7 +304,7 @@ export const command = /^(fb|facebook|fbdl)$/i;
 export const tags = ['download'];
 export const help = ['fb'];
 async function runHandleFacebookDl(ctx) {
-    const { gemini, hisoka, logCommand, m, query, tolak } = ctx;
+    const { buildFbCaptionPrompt, buildFbFallbackCaption, buildFbVisionPrompt, formatFbCount, gemini, hisoka, logCommand, m, parseFbMetaHtml, query, tolak } = ctx;
     try {
                                             await handleFacebookDl(hisoka, m, query, { gemini, tolak, logCommand, buildFbVisionPrompt, buildFbCaptionPrompt, buildFbFallbackCaption, parseFbMetaHtml, formatFbCount });
                                     } catch (error) {

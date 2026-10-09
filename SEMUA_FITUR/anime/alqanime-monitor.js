@@ -32,7 +32,7 @@
  */
 'use strict';
 
-import { getHomepageData, getDetailAlqanime } from './alqanime.js';
+import { getHomepageData, getDetailAlqanime, handleAlq } from './alqanime.js';
 /**
  * ─────────────────────────────────────────────────────
  *  FITUR   : Alqanime.net Realtime Monitor
@@ -1508,7 +1508,7 @@ export const plugins = [
     { command: /^(alqanimenotif)$/i, tags: ['anime'], help: ['alqanimenotif'], handler: 'handleAlqanimeNotif' },
 ];
 async function runHandleAlqanimeNotif(ctx) {
-    const { Button, fs, getJadibotChoiceKey, getQuotedStanzaId, hisoka, loadConfig, logCommand, logError, m, path, pendingAlqNotifChoices, query, sendConfirmWithButtons, tolak } = ctx;
+    const { Button, fs, getJadibotChoiceKey, getQuotedStanzaId, hisoka, loadConfig, logCommand, logError, m, path, pendingAlqDlChoices, pendingAlqNotifChoices, query, sendConfirmWithButtons, tolak } = ctx;
     const _alqSub = (query || '').trim().toLowerCase();
                                     if (['on', 'off', 'status', 'test', 'help', 'test grup', 'add', 'del'].includes(_alqSub) || /^(add|del)\s/.test(_alqSub)) {
                                             await handleAlqanimeNotif({ hisoka, m, query, tolak, logCommand, sendConfirmWithButtons, fs, path, loadConfig, pendingAlqNotifChoices, getQuotedStanzaId, Button });

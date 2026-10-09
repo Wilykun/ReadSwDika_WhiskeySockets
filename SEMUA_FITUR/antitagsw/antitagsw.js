@@ -524,6 +524,9 @@ export default async function handleAntiTagSW(message, hisoka) {
         // Bangun statistik grup
         const stats = buildGroupStats(groupMeta, newWarn, maxWarnings);
 
+        const _pelanggarLabel = isLid ? `👤 *Pelanggar* ﹕_(ID tidak dikenal / akun privat)_\n` : `👤 *Pelanggar* ﹕@${senderNumber}\n`;
+        const _mentionList = isLid ? [] : [senderJid];
+
         if (newWarn >= maxWarnings) {
             // Reset warning setelah max tercapai
             delete freshData.warnings[remoteJid][senderJid];
@@ -533,8 +536,6 @@ export default async function handleAntiTagSW(message, hisoka) {
                 ? `💥 *Status*    ﹕ Telah di-*KICK* dari grup!`
                 : `⚠️ *Bot bukan admin* — tidak bisa kick!\n💡 Jadikan bot admin agar bisa kick otomatis.`;
 
-            const _pelanggarLabel = isLid ? `👤 *Pelanggar* ﹕_(ID tidak dikenal / akun privat)_\n` : `👤 *Pelanggar* ﹕@${senderNumber}\n`;
-            const _mentionList = isLid ? [] : [senderJid];
             const kickMsg =
                 `*⛔ ANTI-TAG STATUS*\n` +
                 `\n` +
