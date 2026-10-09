@@ -40,7 +40,7 @@
 'use strict';
 
 import path from 'path';
-import * as _gem from 'gemini.js';
+import * as _gem from './gemini.js';
 const Gemini = _gem && _gem.Gemini ? _gem.Gemini : _gem;
 
 class GemmyGemini {

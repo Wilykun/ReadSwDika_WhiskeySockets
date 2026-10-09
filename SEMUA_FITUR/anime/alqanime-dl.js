@@ -35,7 +35,7 @@
 import archiver from 'archiver';
 import { PassThrough } from 'stream';
 import axios from 'axios';
-import cheerio from 'cheerio';
+import * as cheerio from 'cheerio';
 import fs from 'fs';
 import path from 'path';
 

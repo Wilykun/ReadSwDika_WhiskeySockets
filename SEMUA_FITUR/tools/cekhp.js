@@ -33,7 +33,7 @@
 'use strict';
 
 import axios from 'axios';
-import cheerio from 'cheerio';
+import * as cheerio from 'cheerio';
 
 const BASE = 'https://www.gsmarena.com';
 const QUICKSEARCH_URL = 'https://www.gsmarena.com/quicksearch-8020.jpg';

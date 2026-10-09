@@ -25,7 +25,7 @@
 'use strict';
 
 import axios from 'axios';
-import cheerio from 'cheerio';
+import * as cheerio from 'cheerio';
 import FormData from 'form-data';
 import snapInstagram from 'cakkatrok-instagram-downloader';
 

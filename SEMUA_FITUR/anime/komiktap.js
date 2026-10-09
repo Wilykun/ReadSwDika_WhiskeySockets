@@ -34,7 +34,7 @@
 
 import ax from 'axios';
 import axios from 'axios';
-import cheerio from 'cheerio';
+import * as cheerio from 'cheerio';
 import sharp from 'sharp';
 import PDFDocument from 'pdfkit';
 

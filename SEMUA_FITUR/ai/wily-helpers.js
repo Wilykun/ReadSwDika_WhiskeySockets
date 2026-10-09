@@ -25,7 +25,7 @@
 'use strict';
 
 import { promisify as execAsync } from 'util';
-import { exec as _exec, promisify } from 'child_process';
+import { exec as _exec } from 'child_process';
 import { promisify as _p } from 'util';
 import fs from 'fs';
 import path from 'path';

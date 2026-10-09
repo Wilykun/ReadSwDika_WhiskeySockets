@@ -32,7 +32,7 @@
 // Source: https://github.com/hitlabmodv2/MD-FURINA/blob/main/SEMUA_FITUR/iloveimg.js
 
 import axios from 'axios';
-import cheerio from 'cheerio';
+import * as cheerio from 'cheerio';
 import FormData from 'form-data';
 
 async function getToken() {

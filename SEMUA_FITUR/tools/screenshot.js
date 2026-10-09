@@ -23,7 +23,7 @@
  * ───────────────────────────────
  */
 import axios from 'axios';
-import cheerio from 'cheerio';
+import * as cheerio from 'cheerio';
 
 /**
  * Normalize URL - auto tambah https:// kalau tidak ada
