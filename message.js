@@ -29,7 +29,7 @@ import path from 'path';
 import os from 'os';
 import { PassThrough } from 'stream';
 import { importLazy } from './src/helper/esmLazy.js';
-import { findPlugin, resolvePluginHandler } from './src/helper/pluginLoader.js';
+import { findPlugin, resolvePluginHandler } from './handler.js';
 import { isJidGroup, downloadMediaMessage, getContentType, generateWAMessageFromContent, generateWAMessageContent, prepareWAMessageMedia, proto, jidDecode, jidNormalizedUser } from '@whiskeysockets/baileys';
 import crypto from 'crypto';
 import { exec } from 'child_process';

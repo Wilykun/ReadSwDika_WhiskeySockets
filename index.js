@@ -1094,7 +1094,7 @@ async function main() {
                         // ── Status per-jadibot sudah ditampilkan langsung saat connect (di jadibot.js) ──
 
                         // Daftar command dari sistem plugin (SEMUA_FITUR), pengganti getCaseName(message.js)
-                        const { loadPlugins, getPluginCommandNames, invalidatePlugins } = await import('./src/helper/pluginLoader.js');
+                        const { loadPlugins, getPluginCommandNames, invalidatePlugins } = await import('./handler.js');
                         await loadPlugins();
                         hisoka.loadedCommands = await getPluginCommandNames();
 
