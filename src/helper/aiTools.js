@@ -235,7 +235,7 @@ export async function extractCuacaFromText(text) {
 // ════════════════════════════════════════════════════════════
 //  TIKTOK DOWNLOADER
 //  Marker: [TT: url]
-//  Pakai @tobyg74/tiktok-api-dl, coba v3→v2→v1
+//  Pakai API tikwm via tiktokApi.js (pengganti @tobyg74/tiktok-api-dl)
 //  Return: { videoUrl, images, author, desc, url }
 // ════════════════════════════════════════════════════════════
 
@@ -245,16 +245,13 @@ export async function extractCuacaFromText(text) {
  * @returns {Promise<{videoUrl: string|null, images: string[], author: string, desc: string, url: string}>}
  */
 export async function downloadTikTok(url) {
-    const { Downloader } = await import('@tobyg74/tiktok-api-dl');
+    const { tiktokDl } = await import('./tiktokApi.js');
 
     let result = null;
-    for (const version of ['v3', 'v2', 'v1']) {
-        try {
-            const res = await Downloader(url, { version });
-            if (res?.status === 'success' && res.result) { result = res; break; }
-        } catch (_) {}
-    }
-    if (!result) throw new Error('Gagal download TikTok: semua versi API gagal');
+    try {
+        result = await tiktokDl(url);
+    } catch (_) {}
+    if (!result) throw new Error('Gagal download TikTok: API gagal');
 
     const data = result.result;
     const author = data.author || {};

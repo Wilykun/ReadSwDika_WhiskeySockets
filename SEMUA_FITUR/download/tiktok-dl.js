@@ -19,12 +19,13 @@
  * ───────────────────────────────
  *
  *  tiktok-dl.js — Downloader TikTok (.tt)
- *  Download video TikTok tanpa watermark via @tobyg74
+ *  Download video TikTok tanpa watermark via API tikwm
+ *  (pengganti @tobyg74/tiktok-api-dl yang di-block Replit)
  * ───────────────────────────────
  */
 'use strict';
 
-import { Downloader } from '@tobyg74/tiktok-api-dl';
+import { tiktokDl } from '../../src/helper/tiktokApi.js';
 
 /**
  * Handler untuk command .tt
@@ -53,19 +54,11 @@ async function handleTiktokDl(hisoka, m, query, ctx) {
     let result = null;
     let lastError = null;
 
-    const versions = ['v3', 'v2', 'v1'];
-    for (const version of versions) {
-        try {
-            const res = await Downloader(ttUrl, { version });
-            if (res && res.status === 'success' && res.result) {
-                result = res;
-                console.log('[TikTok] Success with version:', version);
-                break;
-            }
-        } catch (e) {
-            lastError = e;
-            continue;
-        }
+    try {
+        result = await tiktokDl(ttUrl);
+        console.log('[TikTok] Success via tikwm API');
+    } catch (e) {
+        lastError = e;
     }
 
     if (!result || result.status !== 'success') {
