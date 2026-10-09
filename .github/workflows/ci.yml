@@ -25,26 +25,23 @@ jobs:
       - name: Info versi
         run: node --version && npm --version
 
-      - name: Install dependencies (dengan retry + verifikasi)
+      - name: Arahkan lockfile ke registry npm publik
+        # package-lock.json berisi URL mirror internal Replit (package-firewall.replit.*)
+        # yang hanya bisa diakses dari dalam Replit. Di GitHub Actions URL itu mati,
+        # jadi tulis ulang ke registry.npmjs.org (hanya di workspace CI, tidak di-commit).
+        # Path tarball-nya identik, versi & hash integrity tidak berubah.
         run: |
-          # npm kadang crash di tengah install tapi exit code-nya 0,
-          # jadi kelengkapan install diverifikasi manual lewat require.resolve
-          for i in 1 2 3; do
-            echo "--- Percobaan install #$i ---"
-            rm -rf node_modules
-            if [ "$i" = "2" ]; then LOGLEVEL="--loglevel verbose"; else LOGLEVEL=""; fi
-            npm ci --no-audit --no-fund $LOGLEVEL > /tmp/npmci-$i.log 2>&1 || true
-            echo "--- 40 baris terakhir log npm #$i ---"
-            tail -40 /tmp/npmci-$i.log
-            if node -e "for (const m of ['axios','pino','sharp','ws','qrcode-terminal','@whiskeysockets/baileys']) require.resolve(m, { paths: [process.cwd()] })" 2>/dev/null; then
-              echo "Install lengkap dan terverifikasi"
-              break
-            fi
-            echo "Install belum lengkap, coba lagi..."
-            sleep 5
-          done
-          node -e "for (const m of ['axios','pino','sharp','ws','qrcode-terminal','@whiskeysockets/baileys']) require.resolve(m, { paths: [process.cwd()] })" \
-            || { echo "GAGAL: install tidak lengkap setelah 3x percobaan"; exit 1; }
+          sed -i 's|http://package-firewall.replit.internal/npm|https://registry.npmjs.org|g' package-lock.json
+          sed -i 's|http://package-firewall.replit.local/npm|https://registry.npmjs.org|g' package-lock.json
+          grep -c "package-firewall" package-lock.json || echo "0 URL Replit tersisa (bagus)"
+
+      - name: Install dependencies
+        run: npm ci --no-audit --no-fund
+
+      - name: Verifikasi install lengkap
+        run: |
+          node -e "for (const m of ['axios','pino','sharp','ws','qrcode-terminal','@whiskeysockets/baileys']) require.resolve(m, { paths: [process.cwd()] })"
+          echo "Semua modul inti ter-resolve, install lengkap"
 
       - name: Bulk validasi semua file .cjs
         run: npm run validate
