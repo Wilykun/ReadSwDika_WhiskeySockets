@@ -55,3 +55,10 @@ async function handleQuoted({ hisoka, m, tolak, logCommand, injectMessage }) {
 }
 
 export { handleQuoted };
+/**
+ * ── Plugin ESM (auto-migrasi dari switch-case message.js) ──
+ */
+export const command = /^(q|quoted)$/i;
+export const tags = ['info'];
+export const help = ['q'];
+export default handleQuoted;

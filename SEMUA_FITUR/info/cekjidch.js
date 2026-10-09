@@ -135,3 +135,10 @@ async function handleCekjidch({ hisoka, m, query, tolak, logCommand, Button }) {
 }
 
 export { extractChannelJid, resolveChannel, formatChannelInfo, handleCekjidch };
+/**
+ * ── Plugin ESM (auto-migrasi dari switch-case message.js) ──
+ */
+export const command = /^(cekjidch|jidch|infochannel)$/i;
+export const tags = ['info'];
+export const help = ['cekjidch'];
+export default handleCekjidch;

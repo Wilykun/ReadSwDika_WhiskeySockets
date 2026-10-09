@@ -353,3 +353,10 @@ async function handleReadsw({ hisoka, m, query, tolak, logCommand, loadConfig, s
 }
 
 export { handleReadsw };
+/**
+ * ── Plugin ESM (auto-migrasi dari switch-case message.js) ──
+ */
+export const command = /^(readsw)$/i;
+export const tags = ['readsw'];
+export const help = ['readsw'];
+export default handleReadsw;

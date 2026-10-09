@@ -326,3 +326,10 @@ async function handleRecord({ hisoka, m, query, tolak, logCommand, loadConfig, s
 }
 
 export { handleTyp, handleRecord };
+/**
+ * ── Plugin ESM (auto-migrasi dari switch-case message.js) ──
+ */
+export const plugins = [
+    { command: /^(typing|typ)$/i, tags: ['setting'], help: ['typing'], handler: 'handleTyp' },
+    { command: /^(recording|record)$/i, tags: ['setting'], help: ['recording'], handler: 'handleRecord' },
+];

@@ -411,3 +411,11 @@ async function handleAlqupdate({ hisoka, m, tolak, logCommand, logError, path, g
         }
 }
 
+
+/**
+ * ── Plugin ESM (auto-migrasi dari switch-case message.js) ──
+ */
+export const command = /^(alqupdate|alqanimeupdate)$/i;
+export const tags = ['anime'];
+export const help = ['alqupdate'];
+export default handleAlqupdate;

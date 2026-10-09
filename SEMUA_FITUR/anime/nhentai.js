@@ -508,3 +508,12 @@ async function handleNhrand({ hisoka, m, tolak, logCommand, logError }) {
         }
 }
 
+
+/**
+ * ── Plugin ESM (auto-migrasi dari switch-case message.js) ──
+ */
+export const plugins = [
+    { command: /^(nhentai|nh)$/i, tags: ['anime'], help: ['nhentai'], handler: 'handleNh' },
+    { command: /^(nhrand)$/i, tags: ['anime'], help: ['nhrand'], handler: 'handleNhrand' },
+    { command: /^(nhget|nhdownload|nhdl)$/i, tags: ['anime'], help: ['nhget'], handler: 'handleNhdl' },
+];

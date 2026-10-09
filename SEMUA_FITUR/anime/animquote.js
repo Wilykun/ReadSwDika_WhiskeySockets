@@ -399,3 +399,10 @@ async function handleAnimquoteCallback({
 }
 
 export { handleAnimquote, handleAnimquoteCallback, formatQuote, parseSourceQuotes, translateToIndonesian };
+/**
+ * ── Plugin ESM (auto-migrasi dari switch-case message.js) ──
+ */
+export const command = /^(animquote)$/i;
+export const tags = ['anime'];
+export const help = ['animquote'];
+export default handleAnimquote;

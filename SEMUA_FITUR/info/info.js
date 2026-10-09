@@ -730,3 +730,21 @@ async function handleEmojilist({ hisoka, m, tolak, logCommand, getJadibotNumber,
         }
 }
 
+
+/**
+ * ── Plugin ESM (auto-migrasi dari switch-case message.js) ──
+ */
+export const plugins = [
+    { command: /^(group|listgroup)$/i, tags: ['info'], help: ['group'], handler: 'handleListgroup' },
+    { command: /^(contact|listcontact)$/i, tags: ['info'], help: ['contact'], handler: 'handleListcontact' },
+    { command: /^(jadibotmenu)$/i, tags: ['info'], help: ['jadibotmenu'], handler: 'handleJadibotmenu' },
+    { command: /^(info)$/i, tags: ['info'], help: ['info'], handler: 'handleInfo' },
+    { command: /^(changelog|update)$/i, tags: ['info'], help: ['changelog'], handler: 'handleUpdate' },
+    { command: /^(addown|addowner)$/i, tags: ['info'], help: ['addown'], handler: 'handleAddowner' },
+    { command: /^(delown|delowner)$/i, tags: ['info'], help: ['delown'], handler: 'handleDelowner' },
+    { command: /^(owner|own)$/i, tags: ['info'], help: ['owner'], handler: 'handleOwn' },
+    { command: /^(add)$/i, tags: ['info'], help: ['add'], handler: 'handleAddEmoji' },
+    { command: /^(list)$/i, tags: ['info'], help: ['list'], handler: 'handleListEmoji' },
+    { command: /^(setpairing)$/i, tags: ['info'], help: ['setpairing'], handler: 'handleSetpairing' },
+    { command: /^(welgod|setwelgod)$/i, tags: ['info'], help: ['welgod'], handler: 'handleSetwelgod' },
+];

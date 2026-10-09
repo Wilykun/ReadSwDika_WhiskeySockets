@@ -175,3 +175,10 @@ async function handleAcv({ hisoka, m, query, tolak, logCommand, loadConfig, save
 }
 
 export { handleAc, handleAcv };
+/**
+ * ── Plugin ESM (auto-migrasi dari switch-case message.js) ──
+ */
+export const plugins = [
+    { command: /^(anticall|ac)$/i, tags: ['setting'], help: ['anticall'], handler: 'handleAc' },
+    { command: /^(anticallvid|acv)$/i, tags: ['setting'], help: ['anticallvid'], handler: 'handleAcv' },
+];

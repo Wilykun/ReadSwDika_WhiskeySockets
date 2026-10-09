@@ -318,3 +318,11 @@ async function handlePixiv({ hisoka, m, query, tolak, logCommand, logError }) {
         }
 }
 
+
+/**
+ * ── Plugin ESM (auto-migrasi dari switch-case message.js) ──
+ */
+export const command = /^(pixiv)$/i;
+export const tags = ['anime'];
+export const help = ['pixiv'];
+export default handlePixiv;

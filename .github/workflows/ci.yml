@@ -2,9 +2,9 @@ name: CI
 
 on:
   push:
-    branches: [ReadSwDika_V43]
+    branches: [refactor/full-esm, ReadSwDika_V43]
   pull_request:
-    branches: [ReadSwDika_V43]
+    branches: [refactor/full-esm, ReadSwDika_V43]
   workflow_dispatch:
 
 jobs:
@@ -45,6 +45,9 @@ jobs:
 
       - name: Bulk validasi semua file .js (ESM import)
         run: npm run validate
+
+      - name: Validasi sistem plugin (pengganti switch-case)
+        run: node scripts/check-plugins.js
 
       - name: Cek inline logic di case message.js
         run: node scripts/check-inline-cases.js

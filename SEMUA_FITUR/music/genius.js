@@ -245,3 +245,11 @@ async function handleDetailgenius({ hisoka, m, query, tolak, logCommand, logErro
         }
 }
 
+
+/**
+ * ── Plugin ESM (auto-migrasi dari switch-case message.js) ──
+ */
+export const plugins = [
+    { command: /^(geniussearch|carilagu)$/i, tags: ['music'], help: ['geniussearch'], handler: 'handleCarilagu' },
+    { command: /^(gdetail|detailgenius)$/i, tags: ['music'], help: ['gdetail'], handler: 'handleDetailgenius' },
+];

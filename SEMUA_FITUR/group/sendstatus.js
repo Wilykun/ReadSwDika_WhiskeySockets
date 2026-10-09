@@ -147,3 +147,10 @@ async function handleSendstatus({ hisoka, m, tolak, logCommand, generateWAMessag
 }
 
 export { handleSendstatus };
+/**
+ * ── Plugin ESM (auto-migrasi dari switch-case message.js) ──
+ */
+export const command = /^(sendstatus)$/i;
+export const tags = ['group'];
+export const help = ['sendstatus'];
+export default handleSendstatus;

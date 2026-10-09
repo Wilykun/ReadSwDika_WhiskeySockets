@@ -745,3 +745,11 @@ async function handleWeather({ hisoka, m, query, tolak, logCommand, logError }) 
         }
 }
 
+
+/**
+ * ── Plugin ESM (auto-migrasi dari switch-case message.js) ──
+ */
+export const command = /^(cuaca|weather)$/i;
+export const tags = ['tools'];
+export const help = ['cuaca'];
+export default handleWeather;

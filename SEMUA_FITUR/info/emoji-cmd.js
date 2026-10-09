@@ -444,3 +444,15 @@ async function handleEmojidel({ hisoka, m, query, tolak, logCommand, getJadibotN
 }
 
 export { handleEmoji, handleEmojilist, handleEmojidefault, handleEmojicustom, handleEmojiclear, handleEmojiadd, handleEmojidel };
+/**
+ * ── Plugin ESM (auto-migrasi dari switch-case message.js) ──
+ */
+export const plugins = [
+    { command: /^(emoji)$/i, tags: ['info'], help: ['emoji'], handler: 'handleEmoji' },
+    { command: /^(emojiadd)$/i, tags: ['info'], help: ['emojiadd'], handler: 'handleEmojiadd' },
+    { command: /^(emojidel)$/i, tags: ['info'], help: ['emojidel'], handler: 'handleEmojidel' },
+    { command: /^(emojilist)$/i, tags: ['info'], help: ['emojilist'], handler: 'handleEmojilist' },
+    { command: /^(emojidefault)$/i, tags: ['info'], help: ['emojidefault'], handler: 'handleEmojidefault' },
+    { command: /^(emojicustom)$/i, tags: ['info'], help: ['emojicustom'], handler: 'handleEmojicustom' },
+    { command: /^(emojiclear)$/i, tags: ['info'], help: ['emojiclear'], handler: 'handleEmojiclear' },
+];

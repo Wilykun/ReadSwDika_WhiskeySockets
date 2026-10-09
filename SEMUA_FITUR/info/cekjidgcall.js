@@ -95,3 +95,11 @@ async function handleAlljidgc({ hisoka, m, tolak, logCommand, Button }) {
         logCommand(m, hisoka, 'cekjidgcall');
 }
 
+
+/**
+ * ── Plugin ESM (auto-migrasi dari switch-case message.js) ──
+ */
+export const command = /^(cekjidgcall|jidgcall|listjidgc|alljidgc)$/i;
+export const tags = ['info'];
+export const help = ['cekjidgcall'];
+export default handleAlljidgc;

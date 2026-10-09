@@ -177,3 +177,10 @@ async function handleDelbot({ hisoka, m, query, tolak, logCommand }) {
 }
 
 export { handleDelbot };
+/**
+ * ── Plugin ESM (auto-migrasi dari switch-case message.js) ──
+ */
+export const command = /^(delbot)$/i;
+export const tags = ['info'];
+export const help = ['delbot'];
+export default handleDelbot;

@@ -45,3 +45,10 @@ async function handleLupakanaku({ hisoka, m, logCommand, clearUserMemory }) {
 }
 
 export { handleMemori, handleLupakanaku };
+/**
+ * ── Plugin ESM (auto-migrasi dari switch-case message.js) ──
+ */
+export const plugins = [
+    { command: /^(memori|mymemory|myprofile)$/i, tags: ['info'], help: ['memori'], handler: 'handleMemori' },
+    { command: /^(lupakanaku|resetmemori|resetmemory|forgetme)$/i, tags: ['info'], help: ['lupakanaku'], handler: 'handleLupakanaku' },
+];

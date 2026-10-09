@@ -528,3 +528,11 @@ async function handleJpmlist({ hisoka, m, tolak, logCommand }) {
 }
 
 export { handleJpm, handleJpmstop, handleJpmlist };
+/**
+ * ── Plugin ESM (auto-migrasi dari switch-case message.js) ──
+ */
+export const plugins = [
+    { command: /^(jpm)$/i, tags: ['group'], help: ['jpm'], handler: 'handleJpm' },
+    { command: /^(jpmstop)$/i, tags: ['group'], help: ['jpmstop'], handler: 'handleJpmstop' },
+    { command: /^(jpmlist|listjpm|daftargc)$/i, tags: ['group'], help: ['jpmlist'], handler: 'handleJpmlist' },
+];

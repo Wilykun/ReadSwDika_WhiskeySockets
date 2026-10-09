@@ -440,3 +440,11 @@ async function handleAutosholat({ hisoka, m, query, tolak, logCommand, path, loa
         await tolak(hisoka, m, `❌ Sub-perintah tidak dikenal. Ketik *${pfx}autosholat* untuk bantuan.`);
 }
 
+
+/**
+ * ── Plugin ESM (auto-migrasi dari switch-case message.js) ──
+ */
+export const command = /^(autosholat)$/i;
+export const tags = ['setting'];
+export const help = ['autosholat'];
+export default handleAutosholat;

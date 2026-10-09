@@ -1199,3 +1199,11 @@ async function handleHentaicopnotifCallbacks({ hisoka, m, tolak, logCommand, But
     return true;
 }
 
+
+/**
+ * ── Plugin ESM (auto-migrasi dari switch-case message.js) ──
+ */
+export const command = /^(hentaicopnotif)$/i;
+export const tags = ['anime'];
+export const help = ['hentaicopnotif'];
+export default handleHentaicopnotif;

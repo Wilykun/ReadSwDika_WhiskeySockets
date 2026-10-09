@@ -177,3 +177,19 @@ async function handleTiktokDl(hisoka, m, query, ctx) {
 }
 
 export { handleTiktokDl };
+/**
+ * ── Plugin ESM (auto-migrasi dari switch-case message.js) ──
+ */
+export const command = /^(tt)$/i;
+export const tags = ['download'];
+export const help = ['tt'];
+async function runHandleTiktokDl(ctx) {
+    const { gemini, hisoka, logCommand, m, query, tolak } = ctx;
+    try {
+                                            await handleTiktokDl(hisoka, m, query, { gemini, tolak, logCommand, buildVideoDownloadCaptionPrompt });
+                                    } catch (error) {
+                                            console.error('\x1b[31m[TikTok] Error:\x1b[39m', error.message);
+                                            await tolak(hisoka, m, `❌ Error: ${error.message}`);
+                                    }
+}
+export default runHandleTiktokDl;

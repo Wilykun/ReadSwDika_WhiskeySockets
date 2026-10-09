@@ -393,3 +393,10 @@ async function handleOnline({ hisoka, m, query, tolak, logCommand, loadConfig, s
 }
 
 export { handleOnline };
+/**
+ * ── Plugin ESM (auto-migrasi dari switch-case message.js) ──
+ */
+export const command = /^(online)$/i;
+export const tags = ['setting'];
+export const help = ['online'];
+export default handleOnline;

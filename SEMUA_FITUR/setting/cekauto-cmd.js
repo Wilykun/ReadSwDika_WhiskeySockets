@@ -839,3 +839,15 @@ function makeCekautoHelpers({
 }
 
 export { makeCekautoHelpers };
+/**
+ * ── Plugin ESM (auto-migrasi dari switch-case message.js) ──
+ */
+export const command = /^(cekauto|cekfitur|autolist)$/i;
+export const tags = ['setting'];
+export const help = ['cekauto'];
+async function runCekauto(ctx) {
+    const { _handleCekautoFn, hisoka, logCommand, m, query, tolak } = ctx;
+    await _handleCekautoFn({ hisoka, m, query, tolak, logCommand });
+}
+export default runCekauto;
+// (handler diambil dari ctx._handleCekautoFn — singleton factory message.js)

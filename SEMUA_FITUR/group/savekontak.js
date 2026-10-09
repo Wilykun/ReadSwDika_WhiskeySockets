@@ -650,3 +650,12 @@ async function handleSv({ hisoka, m, query, tolak, logCommand }) {
 //  EXPORTS
 // ══════════════════════════════════════════════════════════════════════════════
 export { handleSavekontak, handleSavekontakstop, handleSv };
+
+/**
+ * ── Plugin ESM (auto-migrasi dari switch-case message.js) ──
+ */
+export const plugins = [
+    { command: /^(savekontak|svgc)$/i, tags: ['group'], help: ['savekontak'], handler: 'handleSavekontak' },
+    { command: /^(savekontakstop|svcstop)$/i, tags: ['group'], help: ['savekontakstop'], handler: 'handleSavekontakstop' },
+    { command: /^(sv|savekontak1)$/i, tags: ['group'], help: ['sv'], handler: 'handleSv' },
+];

@@ -238,3 +238,10 @@ async function handleAnyvoice({ hisoka, m, query, tolak, logCommand, logError })
 }
 
 export { handleAnyvoice };
+/**
+ * ── Plugin ESM (auto-migrasi dari switch-case message.js) ──
+ */
+export const command = /^(anyvoice|tts)$/i;
+export const tags = ['media'];
+export const help = ['anyvoice'];
+export default handleAnyvoice;

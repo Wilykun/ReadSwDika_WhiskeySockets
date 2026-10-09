@@ -1311,3 +1311,11 @@ async function handleNekopoinotifCallbacks({ hisoka, m, tolak, logCommand, Butto
     return true;
 }
 
+
+/**
+ * ── Plugin ESM (auto-migrasi dari switch-case message.js) ──
+ */
+export const command = /^(nekopoinotif)$/i;
+export const tags = ['anime'];
+export const help = ['nekopoinotif'];
+export default handleNekopoinotif;

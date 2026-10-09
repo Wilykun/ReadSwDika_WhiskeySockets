@@ -342,3 +342,11 @@ async function handleWebinfo({ hisoka, m, query, tolak, logCommand }) {
         }
 }
 
+
+/**
+ * ── Plugin ESM (auto-migrasi dari switch-case message.js) ──
+ */
+export const plugins = [
+    { command: /^(ss|screenshot)$/i, tags: ['tools'], help: ['ss'], handler: 'handleScreenshot' },
+    { command: /^(scrapeweb|webinfo)$/i, tags: ['tools'], help: ['scrapeweb'], handler: 'handleWebinfo' },
+];

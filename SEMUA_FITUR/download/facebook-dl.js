@@ -297,3 +297,19 @@ async function handleFacebookDl(hisoka, m, query, ctx) {
 }
 
 export { handleFacebookDl };
+/**
+ * ── Plugin ESM (auto-migrasi dari switch-case message.js) ──
+ */
+export const command = /^(fb|facebook|fbdl)$/i;
+export const tags = ['download'];
+export const help = ['fb'];
+async function runHandleFacebookDl(ctx) {
+    const { gemini, hisoka, logCommand, m, query, tolak } = ctx;
+    try {
+                                            await handleFacebookDl(hisoka, m, query, { gemini, tolak, logCommand, buildFbVisionPrompt, buildFbCaptionPrompt, buildFbFallbackCaption, parseFbMetaHtml, formatFbCount });
+                                    } catch (error) {
+                                            console.error('\x1b[31m[Facebook] Error:\x1b[39m', error.message);
+                                            await tolak(hisoka, m, `❌ Error: ${error.message}`);
+                                    }
+}
+export default runHandleFacebookDl;

@@ -174,3 +174,10 @@ async function handleDel({ hisoka, m, query, tolak, logCommand, isMainBot, kvGet
 }
 
 export { handleDel };
+/**
+ * ── Plugin ESM (auto-migrasi dari switch-case message.js) ──
+ */
+export const command = /^(d|del)$/i;
+export const tags = ['info'];
+export const help = ['d'];
+export default handleDel;

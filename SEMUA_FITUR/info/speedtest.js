@@ -427,3 +427,11 @@ async function handleTestnet({ hisoka, m, tolak, logCommand }) {
         }
 }
 
+
+/**
+ * ── Plugin ESM (auto-migrasi dari switch-case message.js) ──
+ */
+export const command = /^(cekspeed|testnet)$/i;
+export const tags = ['info'];
+export const help = ['cekspeed'];
+export default handleTestnet;

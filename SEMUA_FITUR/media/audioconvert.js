@@ -339,3 +339,23 @@ async function handleTomp3({ hisoka, m, tolak, logCommand, downloadMediaMessage,
         }
 }
 
+
+/**
+ * ── Plugin ESM (auto-migrasi dari switch-case message.js) ──
+ */
+export const plugins = [
+    { command: /^(tovn)$/i, tags: ['media'], help: ['tovn'], handler: 'runHandleTovn' },
+    { command: /^(tomp3)$/i, tags: ['media'], help: ['tomp3'], handler: 'runHandleTomp3' },
+];
+async function runHandleTovn(ctx) {
+    const { downloadMediaMessage, hisoka, logCommand, m, tolak } = ctx;
+    const pfx = m.prefix || '.';
+                                    await handleTovn({ hisoka, m, tolak, logCommand, downloadMediaMessage, pfx });
+}
+export { runHandleTovn };
+async function runHandleTomp3(ctx) {
+    const { downloadMediaMessage, hisoka, logCommand, m, tolak } = ctx;
+    const pfx = m.prefix || '.';
+                                    await handleTomp3({ hisoka, m, tolak, logCommand, downloadMediaMessage, pfx });
+}
+export { runHandleTomp3 };

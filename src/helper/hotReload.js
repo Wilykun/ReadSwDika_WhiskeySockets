@@ -290,6 +290,15 @@ function watchFile(rel, key, type = 'esm', lazy = false) {
                     }
                 }
 
+                // Sistem plugin: metadata command di-cache pluginLoader — segarkan
+                // saat ada file SEMUA_FITUR berubah agar command baru terdeteksi.
+                if (rel.startsWith('SEMUA_FITUR/')) {
+                    try {
+                        const { invalidatePlugins } = await import('./pluginLoader.js');
+                        invalidatePlugins();
+                    } catch {}
+                }
+
                 if (event === 'rename') {
                     watchFile(rel, key, type, lazy);
                 }

@@ -866,3 +866,11 @@ async function handleInfowibu({ hisoka, m, query, tolak, logCommand, loadConfig,
         await tolak(hisoka, m, `❌ Sub-perintah tidak dikenal. Ketik *${pfx}infowibu* untuk bantuan.`);
 }
 export { handleInfowibu };
+
+/**
+ * ── Plugin ESM (auto-migrasi dari switch-case message.js) ──
+ */
+export const command = /^(infowibu)$/i;
+export const tags = ['anime'];
+export const help = ['infowibu'];
+export default handleInfowibu;

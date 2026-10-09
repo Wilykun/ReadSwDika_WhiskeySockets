@@ -84,3 +84,10 @@ async function handleHidetag({ hisoka, m, query, tolak, logCommand, getQuotedMed
 }
 
 export { handleHidetag };
+/**
+ * ── Plugin ESM (auto-migrasi dari switch-case message.js) ──
+ */
+export const command = /^(hidetag|ht|all)$/i;
+export const tags = ['group'];
+export const help = ['hidetag'];
+export default handleHidetag;

@@ -429,3 +429,13 @@ async function handleCeksesi({ hisoka, m, tolak, logCommand, getJadibotNumber, j
         }
 }
 
+
+/**
+ * ── Plugin ESM (auto-migrasi dari switch-case message.js) ──
+ */
+export const plugins = [
+    { command: /^(sessiondb|sessionstat)$/i, tags: ['jadibot'], help: ['sessiondb'], handler: 'handleSessionstat' },
+    { command: /^(memory)$/i, tags: ['jadibot'], help: ['memory'], handler: 'handleMemory' },
+    { command: /^(ram)$/i, tags: ['jadibot'], help: ['ram'], handler: 'handleRam' },
+    { command: /^(ceksesi)$/i, tags: ['jadibot'], help: ['ceksesi'], handler: 'handleCeksesi' },
+];

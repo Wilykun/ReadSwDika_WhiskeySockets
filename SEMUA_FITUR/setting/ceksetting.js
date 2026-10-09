@@ -100,3 +100,10 @@ async function handleCeksetting({ hisoka, m, tolak, logCommand, getJadibotNumber
 }
 
 export { handleCeksetting };
+/**
+ * ── Plugin ESM (auto-migrasi dari switch-case message.js) ──
+ */
+export const command = /^(ceksetting)$/i;
+export const tags = ['setting'];
+export const help = ['ceksetting'];
+export default handleCeksetting;

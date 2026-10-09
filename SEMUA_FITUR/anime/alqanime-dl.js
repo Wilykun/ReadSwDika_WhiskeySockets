@@ -309,3 +309,11 @@ const parts   = input.split(/\s+/);
         }
 }
 
+
+/**
+ * ── Plugin ESM (auto-migrasi dari switch-case message.js) ──
+ */
+export const command = /^(alqdl|alqdownload)$/i;
+export const tags = ['anime'];
+export const help = ['alqdl'];
+export default handleAlqdownload;

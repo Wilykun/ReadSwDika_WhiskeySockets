@@ -84,3 +84,10 @@ async function handleSessioncleaner({ hisoka, m, query, tolak, logCommand, loadC
 }
 
 export { handleSessioncleaner };
+/**
+ * ── Plugin ESM (auto-migrasi dari switch-case message.js) ──
+ */
+export const command = /^(sessioncleaner)$/i;
+export const tags = ['system'];
+export const help = ['sessioncleaner'];
+export default handleSessioncleaner;

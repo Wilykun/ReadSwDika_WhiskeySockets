@@ -682,3 +682,10 @@ async function handleCekidff({ hisoka, m, query, tolak }) {
 }
 
 export { handleCekidff, lookupFreeFirePlayer, normalizeUid, buildFreeFireCard, buildCekidffCaption, buildCekidffProgress };
+/**
+ * ── Plugin ESM (auto-migrasi dari switch-case message.js) ──
+ */
+export const command = /^(cekidff)$/i;
+export const tags = ['tools'];
+export const help = ['cekidff'];
+export default handleCekidff;

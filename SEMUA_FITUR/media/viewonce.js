@@ -187,3 +187,10 @@ async function handleVo({ hisoka, m, query, tolak, logCommand, quoted, downloadM
 }
 
 export { handleVo };
+/**
+ * ── Plugin ESM (auto-migrasi dari switch-case message.js) ──
+ */
+export const command = /^(rvo|viewonce|vo)$/i;
+export const tags = ['media'];
+export const help = ['rvo'];
+export default handleVo;

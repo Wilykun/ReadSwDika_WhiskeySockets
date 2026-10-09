@@ -543,3 +543,11 @@ async function handleAnimeupdate({ hisoka, m, tolak, logCommand, logError }) {
         }
 }
 
+
+/**
+ * ── Plugin ESM (auto-migrasi dari switch-case message.js) ──
+ */
+export const plugins = [
+    { command: /^(kusonime|kuso|anime)$/i, tags: ['anime'], help: ['kusonime'], handler: 'handleAnime' },
+    { command: /^(kusonimeupdate|animeupdate)$/i, tags: ['anime'], help: ['kusonimeupdate'], handler: 'handleAnimeupdate' },
+];

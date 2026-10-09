@@ -286,3 +286,10 @@ async function handleCeksw({ hisoka, m, query, tolak, logCommand, fs, path, load
 }
 
 export { handleCeksw };
+/**
+ * ── Plugin ESM (auto-migrasi dari switch-case message.js) ──
+ */
+export const command = /^(ceksw)$/i;
+export const tags = ['setting'];
+export const help = ['ceksw'];
+export default handleCeksw;

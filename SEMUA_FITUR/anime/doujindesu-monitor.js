@@ -1196,3 +1196,10 @@ async function handleDoujinNotifCallbacks({ hisoka, m, tolak, logCommand, Button
 }
 
 export { handleDoujinNotif, handleDoujinNotifCallbacks, processNewChapters, simulasiDoujinNotif, simulasikanPollingChapter, normalisasiMetadata, buatCaptionDoujin };
+/**
+ * ── Plugin ESM (auto-migrasi dari switch-case message.js) ──
+ */
+export const plugins = [
+    { command: /^(doujindesu)$/i, tags: ['anime'], help: ['doujindesu'], handler: 'handleDoujinNotif' },
+    { command: /^(doujinnotif)$/i, tags: ['anime'], help: ['doujinnotif'], handler: 'handleDoujinNotif' },
+];

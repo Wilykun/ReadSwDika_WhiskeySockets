@@ -128,3 +128,10 @@ async function handleWmCommand({ hisoka, m, query, tolak, logCommand, downloadMe
 }
 
 export { makeWmSticker, handleWmCommand };
+/**
+ * ── Plugin ESM (auto-migrasi dari switch-case message.js) ──
+ */
+export const command = /^(wm|swm)$/i;
+export const tags = ['media'];
+export const help = ['wm'];
+export default handleWmCommand;

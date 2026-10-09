@@ -648,3 +648,10 @@ async function handleRamdisk({ hisoka, m, query, tolak, logCommand, loadConfig, 
 }
 
 export { handleRamdisk };
+/**
+ * ── Plugin ESM (auto-migrasi dari switch-case message.js) ──
+ */
+export const command = /^(ramdisk|diskram)$/i;
+export const tags = ['setting'];
+export const help = ['ramdisk'];
+export default handleRamdisk;

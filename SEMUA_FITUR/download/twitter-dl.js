@@ -307,3 +307,19 @@ async function handleTwitterDl(hisoka, m, query, ctx = {}) {
 }
 
 export { handleTwitterDl, parseTwitterUrl };
+/**
+ * ── Plugin ESM (auto-migrasi dari switch-case message.js) ──
+ */
+export const command = /^(twdl|xdl|twitterdl|twitter)$/i;
+export const tags = ['download'];
+export const help = ['twdl'];
+async function runHandleTwitterDl(ctx) {
+    const { hisoka, logCommand, m, query, tolak } = ctx;
+    try {
+                                            await handleTwitterDl(hisoka, m, query, { tolak, logCommand });
+                                    } catch (error) {
+                                            console.error('\x1b[31m[TwitterDl] Error:\x1b[39m', error.message);
+                                            await tolak(hisoka, m, `❌ Error: ${error.message}`);
+                                    }
+}
+export default runHandleTwitterDl;

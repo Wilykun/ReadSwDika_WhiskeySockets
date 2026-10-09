@@ -221,3 +221,10 @@ async function handleMenu({
 }
 
 export { handleMenu };
+/**
+ * ── Plugin ESM (auto-migrasi dari switch-case message.js) ──
+ */
+export const command = /^(menu)$/i;
+export const tags = ['menu'];
+export const help = ['menu'];
+export default handleMenu;

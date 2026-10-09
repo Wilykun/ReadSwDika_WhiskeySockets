@@ -370,3 +370,10 @@ async function handleCosplay({ hisoka, m, query, tolak, logCommand, logError, pa
 }
 
 export { cosplayteleSearch, cosplayteleGetPost, cosplayteleRandom, downloadBuffer, formatCosplayteleCaption, formatCosplayteleSearchList, handleCosplay };
+/**
+ * ── Plugin ESM (auto-migrasi dari switch-case message.js) ──
+ */
+export const command = /^(cosplayrand|cosplayrandom|cosplay|ctele)$/i;
+export const tags = ['anime'];
+export const help = ['cosplayrand'];
+export default handleCosplay;

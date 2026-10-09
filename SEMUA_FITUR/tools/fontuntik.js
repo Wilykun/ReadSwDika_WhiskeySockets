@@ -249,3 +249,14 @@ async function handleFontuntikChoice({
 }
 
 export { handleFontuntik, handleFontuntikChoice };
+/**
+ * ── Plugin ESM (auto-migrasi dari switch-case message.js) ──
+ */
+export const command = /^(font|fontgen|fontuntik)$/i;
+export const tags = ['tools'];
+export const help = ['font'];
+async function runHandleFontuntik(ctx) {
+    const { Button, getJadibotChoiceKey, hisoka, logCommand, m, tolak } = ctx;
+    await handleFontuntik(m, hisoka, { Button, logCommand, tolak, pendingFontuntikChoices, getJadibotChoiceKey });
+}
+export default runHandleFontuntik;

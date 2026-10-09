@@ -116,3 +116,10 @@ async function handleBotadmin({ hisoka, m, query, tolak, logCommand, isMainBot, 
 }
 
 export { handleBotadmin };
+/**
+ * ── Plugin ESM (auto-migrasi dari switch-case message.js) ──
+ */
+export const command = /^(botadmin)$/i;
+export const tags = ['setting'];
+export const help = ['botadmin'];
+export default handleBotadmin;

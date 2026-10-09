@@ -407,3 +407,11 @@ async function handleStikerpack({ hisoka, m, query, tolak, logCommand, path }) {
         }
 }
 
+
+/**
+ * ── Plugin ESM (auto-migrasi dari switch-case message.js) ──
+ */
+export const command = /^(stickerly|stikerly|stickly|stickerpack|stikerpack)$/i;
+export const tags = ['download'];
+export const help = ['stickerly'];
+export default handleStikerpack;

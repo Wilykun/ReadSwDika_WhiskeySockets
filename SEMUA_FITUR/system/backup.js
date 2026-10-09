@@ -304,3 +304,14 @@ async function runBackup(hisoka, m, query, tolak, loadConfig, logCommand) {
 }
 
 export { runBackup };
+/**
+ * ── Plugin ESM (auto-migrasi dari switch-case message.js) ──
+ */
+export const command = /^(backup)$/i;
+export const tags = ['system'];
+export const help = ['backup'];
+async function runRunBackup(ctx) {
+    const { hisoka, loadConfig, logCommand, m, query, tolak } = ctx;
+    await runBackup(hisoka, m, query, tolak, loadConfig, logCommand);
+}
+export default runRunBackup;

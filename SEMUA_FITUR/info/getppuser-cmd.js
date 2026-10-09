@@ -130,3 +130,10 @@ async function handleGetppuser({ hisoka, m, tolak, logCommand }) {
 }
 
 export { handleGetppuser };
+/**
+ * ── Plugin ESM (auto-migrasi dari switch-case message.js) ──
+ */
+export const command = /^(getppuser)$/i;
+export const tags = ['info'];
+export const help = ['getppuser'];
+export default handleGetppuser;

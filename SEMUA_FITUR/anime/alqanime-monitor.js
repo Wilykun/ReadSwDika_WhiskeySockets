@@ -1499,3 +1499,21 @@ async function handleAlqNotifReply({ hisoka, m, pendingAlqNotifChoices, getQuote
         return true;
 }
 
+
+/**
+ * ── Plugin ESM (auto-migrasi dari switch-case message.js) ──
+ */
+export const plugins = [
+    { command: /^(alqanime|alq)$/i, tags: ['anime'], help: ['alqanime'], handler: 'runHandleAlqanimeNotif' },
+    { command: /^(alqanimenotif)$/i, tags: ['anime'], help: ['alqanimenotif'], handler: 'handleAlqanimeNotif' },
+];
+async function runHandleAlqanimeNotif(ctx) {
+    const { Button, fs, getJadibotChoiceKey, getQuotedStanzaId, hisoka, loadConfig, logCommand, logError, m, path, pendingAlqNotifChoices, query, sendConfirmWithButtons, tolak } = ctx;
+    const _alqSub = (query || '').trim().toLowerCase();
+                                    if (['on', 'off', 'status', 'test', 'help', 'test grup', 'add', 'del'].includes(_alqSub) || /^(add|del)\s/.test(_alqSub)) {
+                                            await handleAlqanimeNotif({ hisoka, m, query, tolak, logCommand, sendConfirmWithButtons, fs, path, loadConfig, pendingAlqNotifChoices, getQuotedStanzaId, Button });
+                                    } else {
+                                            await handleAlq({ hisoka, m, query, tolak, logCommand, logError, path, pendingAlqDlChoices, getJadibotChoiceKey });
+                                    }
+}
+export { runHandleAlqanimeNotif };

@@ -76,3 +76,10 @@ async function handleCekerror({ hisoka, m, query, tolak, logCommand, clearErrors
 }
 
 export { handleCekerror };
+/**
+ * ── Plugin ESM (auto-migrasi dari switch-case message.js) ──
+ */
+export const command = /^(cekerror)$/i;
+export const tags = ['setting'];
+export const help = ['cekerror'];
+export default handleCekerror;

@@ -160,3 +160,10 @@ async function handleListbot({ hisoka, m, tolak, logCommand, isMainBot, jadibotM
 }
 
 export { handleListbot };
+/**
+ * ── Plugin ESM (auto-migrasi dari switch-case message.js) ──
+ */
+export const command = /^(listbot)$/i;
+export const tags = ['jadibot'];
+export const help = ['listbot'];
+export default handleListbot;

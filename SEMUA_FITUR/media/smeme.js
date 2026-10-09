@@ -327,3 +327,10 @@ async function handleSmeme({
 }
 
 export { handleSmeme, parseSmemeText, renderMemeSticker };
+/**
+ * ── Plugin ESM (auto-migrasi dari switch-case message.js) ──
+ */
+export const command = /^(smeme)$/i;
+export const tags = ['media'];
+export const help = ['smeme'];
+export default handleSmeme;

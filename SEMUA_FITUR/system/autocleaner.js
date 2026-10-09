@@ -97,3 +97,10 @@ async function handleAutocleaner({ hisoka, m, query, tolak, logCommand, loadConf
 }
 
 export { handleAutocleaner };
+/**
+ * ── Plugin ESM (auto-migrasi dari switch-case message.js) ──
+ */
+export const command = /^(autocleaner)$/i;
+export const tags = ['system'];
+export const help = ['autocleaner'];
+export default handleAutocleaner;

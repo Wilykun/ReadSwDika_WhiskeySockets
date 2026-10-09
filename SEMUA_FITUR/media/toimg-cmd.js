@@ -108,3 +108,10 @@ async function handleToimg({ hisoka, m, query, tolak, logCommand, quoted, downlo
 }
 
 export { handleToimg };
+/**
+ * ── Plugin ESM (auto-migrasi dari switch-case message.js) ──
+ */
+export const command = /^(toimg)$/i;
+export const tags = ['media'];
+export const help = ['toimg'];
+export default handleToimg;

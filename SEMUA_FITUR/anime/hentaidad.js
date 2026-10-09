@@ -983,3 +983,10 @@ async function handleHentaidadConfirm({
 }
 
 export { handleHentaidad, handleHentaidadChoice, handleHentaidadConfirm };
+/**
+ * ── Plugin ESM (auto-migrasi dari switch-case message.js) ──
+ */
+export const plugins = [
+    { command: /^(hentaidad)$/i, tags: ['anime'], help: ['hentaidad'], handler: 'handleHentaidad' },
+    { command: /^(hdad)$/i, tags: ['anime'], help: ['hdad'], handler: 'handleHentaidad' },
+];

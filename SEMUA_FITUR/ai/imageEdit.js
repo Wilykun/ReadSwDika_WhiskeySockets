@@ -208,3 +208,11 @@ async function handleAiedit({ hisoka, m, query, tolak, logCommand, downloadMedia
         }
 }
 
+
+/**
+ * ── Plugin ESM (auto-migrasi dari switch-case message.js) ──
+ */
+export const command = /^(aiedit|editgambar|editai)$/i;
+export const tags = ['ai'];
+export const help = ['aiedit'];
+export default handleAiedit;

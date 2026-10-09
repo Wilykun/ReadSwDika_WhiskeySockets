@@ -292,3 +292,11 @@ async function handlePushkontakgcstop({ hisoka, m, tolak, logCommand }) {
         logCommand(m, hisoka, 'pushkontakgcstop');
 }
 
+
+/**
+ * ── Plugin ESM (auto-migrasi dari switch-case message.js) ──
+ */
+export const plugins = [
+    { command: /^(pushkontakgc)$/i, tags: ['group'], help: ['pushkontakgc'], handler: 'handlePushkontakgc' },
+    { command: /^(pushkontakgcstop|pkgstop)$/i, tags: ['group'], help: ['pushkontakgcstop'], handler: 'handlePushkontakgcstop' },
+];

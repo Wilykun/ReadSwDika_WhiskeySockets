@@ -193,3 +193,10 @@ async function handleSticker({ hisoka, m, query, tolak, logCommand, loadConfig, 
 }
 
 export { handleSticker };
+/**
+ * ── Plugin ESM (auto-migrasi dari switch-case message.js) ──
+ */
+export const command = /^(stiker|sticker|s)$/i;
+export const tags = ['media'];
+export const help = ['stiker'];
+export default handleSticker;

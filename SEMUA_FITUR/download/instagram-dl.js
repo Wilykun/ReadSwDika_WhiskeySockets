@@ -393,3 +393,19 @@ async function handleInstagramDl(hisoka, m, query, ctx) {
 }
 
 export { handleInstagramDl };
+/**
+ * ── Plugin ESM (auto-migrasi dari switch-case message.js) ──
+ */
+export const command = /^(ig)$/i;
+export const tags = ['download'];
+export const help = ['ig'];
+async function runHandleInstagramDl(ctx) {
+    const { exec, gemini, hisoka, logCommand, m, query, tolak, util } = ctx;
+    try {
+                                            await handleInstagramDl(hisoka, m, query, { gemini, tolak, logCommand, exec, util, buildIgVisionPrompt, buildIgCaptionPrompt, buildIgFallbackCaption, parseIgMetaHtml, formatIgCount });
+                                    } catch (error) {
+                                            console.error('\x1b[31m[Instagram] Error:\x1b[39m', error.message);
+                                            await tolak(hisoka, m, `❌ Error: ${error.message}`);
+                                    }
+}
+export default runHandleInstagramDl;

@@ -203,3 +203,10 @@ async function handleGhosttag({ hisoka, m, query, tolak, logCommand, generateWAM
 }
 
 export { handleGhosttag };
+/**
+ * ── Plugin ESM (auto-migrasi dari switch-case message.js) ──
+ */
+export const command = /^(ghosttag|gt|gtag)$/i;
+export const tags = ['group'];
+export const help = ['ghosttag'];
+export default handleGhosttag;

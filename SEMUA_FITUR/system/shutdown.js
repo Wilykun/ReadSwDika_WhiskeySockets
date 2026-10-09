@@ -119,3 +119,11 @@ async function handleRb({ hisoka, m, tolak, logCommand, Button, pendingShutdownC
         logCommand(m, hisoka, m.command || 'restart');
 }
 
+
+/**
+ * ── Plugin ESM (auto-migrasi dari switch-case message.js) ──
+ */
+export const command = /^(restart1|rebot|rb)$/i;
+export const tags = ['system'];
+export const help = ['restart1'];
+export default handleRb;

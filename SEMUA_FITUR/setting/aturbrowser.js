@@ -188,3 +188,10 @@ async function handleBatalBrowser({ hisoka, m, tolak, isMainBot, pendingAturBrow
 }
 
 export { handleAturBrowser, handleBatalBrowser };
+/**
+ * ── Plugin ESM (auto-migrasi dari switch-case message.js) ──
+ */
+export const plugins = [
+    { command: /^(aturbrowser|setbrowser)$/i, tags: ['setting'], help: ['aturbrowser'], handler: 'handleAturBrowser' },
+    { command: /^(batalbrowser)$/i, tags: ['setting'], help: ['batalbrowser'], handler: 'handleBatalBrowser' },
+];

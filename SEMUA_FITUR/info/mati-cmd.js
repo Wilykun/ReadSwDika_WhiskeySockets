@@ -78,3 +78,10 @@ async function handleMati({ hisoka, m, tolak, logCommand, Button, pendingShutdow
 }
 
 export { handleMati };
+/**
+ * ── Plugin ESM (auto-migrasi dari switch-case message.js) ──
+ */
+export const command = /^(mati|shutdown|matiin)$/i;
+export const tags = ['info'];
+export const help = ['mati'];
+export default handleMati;

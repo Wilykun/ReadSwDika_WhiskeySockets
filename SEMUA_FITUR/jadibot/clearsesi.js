@@ -260,3 +260,11 @@ async function handleClearsesi({ hisoka, m, tolak, logCommand, getJadibotNumber,
         logCommand(m, hisoka, 'clearsesi');
 }
 
+
+/**
+ * ── Plugin ESM (auto-migrasi dari switch-case message.js) ──
+ */
+export const command = /^(clearsesi|cs)$/i;
+export const tags = ['jadibot'];
+export const help = ['clearsesi'];
+export default handleClearsesi;

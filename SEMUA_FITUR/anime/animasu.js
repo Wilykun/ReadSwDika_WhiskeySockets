@@ -1120,3 +1120,11 @@ async function handleAnimasu({ hisoka, m, query, tolak, logCommand, sendConfirmW
         await tolak(hisoka, m, `❌ *Sub-perintah tidak dikenal.*\n_Ketik_ \`${pfx}animasu\` _untuk bantuan._`);
 }
 
+
+/**
+ * ── Plugin ESM (auto-migrasi dari switch-case message.js) ──
+ */
+export const command = /^(animasu)$/i;
+export const tags = ['anime'];
+export const help = ['animasu'];
+export default handleAnimasu;

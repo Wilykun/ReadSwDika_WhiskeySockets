@@ -819,3 +819,10 @@ async function handleWily({
 }
 
 export { handleWily };
+/**
+ * ── Plugin ESM (auto-migrasi dari switch-case message.js) ──
+ */
+export const command = /^(wily|ai|tanya)$/i;
+export const tags = ['ai'];
+export const help = ['wily'];
+export default handleWily;

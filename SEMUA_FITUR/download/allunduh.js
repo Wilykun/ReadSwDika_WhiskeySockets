@@ -283,3 +283,24 @@ async function handleAllUnduh(hisoka, m, query, ctx) {
 }
 
 export { handleAllUnduh, detectPlatform };
+/**
+ * ── Plugin ESM (auto-migrasi dari switch-case message.js) ──
+ */
+export const command = /^(allunduh|unduhsemua|dl)$/i;
+export const tags = ['download'];
+export const help = ['allunduh'];
+async function runHandleAllUnduh(ctx) {
+    const { exec, gemini, hisoka, logCommand, m, query, tolak, util } = ctx;
+    try {
+                                            await handleAllUnduh(hisoka, m, query, {
+                                                    gemini, tolak, logCommand, exec, util,
+                                                    buildVideoDownloadCaptionPrompt,
+                                                    buildIgVisionPrompt, buildIgCaptionPrompt, buildIgFallbackCaption, parseIgMetaHtml, formatIgCount,
+                                                    buildFbVisionPrompt, buildFbCaptionPrompt, buildFbFallbackCaption, parseFbMetaHtml, formatFbCount,
+                                            });
+                                    } catch (error) {
+                                            console.error('\x1b[31m[AllUnduh] Error:\x1b[39m', error.message);
+                                            await tolak(hisoka, m, `❌ Error: ${error.message}`);
+                                    }
+}
+export default runHandleAllUnduh;

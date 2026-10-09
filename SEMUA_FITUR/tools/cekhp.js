@@ -578,3 +578,10 @@ async function handleCekhp({ hisoka, m, query, tolak, logCommand, logError, path
 }
 
 export { cekHP, getHPImage, formatHPSpecs, handleCekhp };
+/**
+ * ── Plugin ESM (auto-migrasi dari switch-case message.js) ──
+ */
+export const command = /^(cekhp|spechp|infohp)$/i;
+export const tags = ['tools'];
+export const help = ['cekhp'];
+export default handleCekhp;

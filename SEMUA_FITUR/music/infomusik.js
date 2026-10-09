@@ -128,3 +128,10 @@ async function handleInfomusik({ hisoka, m, tolak, logCommand, getMediaTypeFromM
 }
 
 export { handleInfomusik };
+/**
+ * ── Plugin ESM (auto-migrasi dari switch-case message.js) ──
+ */
+export const command = /^(infomusik|infolirik|musicinfo|cekmusik)$/i;
+export const tags = ['music'];
+export const help = ['infomusik'];
+export default handleInfomusik;

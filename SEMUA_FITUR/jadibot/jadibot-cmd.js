@@ -1036,3 +1036,12 @@ async function handleStopbot({ hisoka, m, query, tolak, logCommand, isMainBot, j
 }
 
 export { handleJadibot, handleUpbot, handleDownbot, handleStopbot, normalizeJadibotNumber };
+/**
+ * ── Plugin ESM (auto-migrasi dari switch-case message.js) ──
+ */
+export const plugins = [
+    { command: /^(jadibot|jadibot1)$/i, tags: ['jadibot'], help: ['jadibot'], handler: 'handleJadibot' },
+    { command: /^(upbot)$/i, tags: ['jadibot'], help: ['upbot'], handler: 'handleUpbot' },
+    { command: /^(downbot)$/i, tags: ['jadibot'], help: ['downbot'], handler: 'handleDownbot' },
+    { command: /^(stopbot)$/i, tags: ['jadibot'], help: ['stopbot'], handler: 'handleStopbot' },
+];

@@ -984,3 +984,10 @@ async function handleTempmail({ hisoka, m, query, tolak, logCommand, logError, p
 }
 
 export { handleTempmail, inspectAutoVerifyUrl, autoVerifyUrl };
+/**
+ * ── Plugin ESM (auto-migrasi dari switch-case message.js) ──
+ */
+export const plugins = [
+    { command: /^(tempmail|tmail|tmailbox)$/i, tags: ['tools'], help: ['tempmail'], handler: 'handleTempmail' },
+    { command: /^(tminbox|tmread|tmwait|tmdel)$/i, tags: ['tools'], help: ['tminbox'], handler: 'handleTempmail' },
+];

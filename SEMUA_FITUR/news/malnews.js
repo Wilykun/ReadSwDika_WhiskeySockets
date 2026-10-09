@@ -789,3 +789,11 @@ async function handleMalnews({ hisoka, m, query, tolak, logCommand, sendConfirmW
         await tolak(hisoka, m, `❌ Sub-perintah tidak dikenal. Ketik *${pfx}malnews* untuk bantuan.`);
 }
 
+
+/**
+ * ── Plugin ESM (auto-migrasi dari switch-case message.js) ──
+ */
+export const command = /^(malnews)$/i;
+export const tags = ['news'];
+export const help = ['malnews'];
+export default handleMalnews;

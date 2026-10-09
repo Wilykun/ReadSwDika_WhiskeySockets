@@ -295,3 +295,11 @@ async function handleFilesize({ hisoka, m, tolak, logCommand }) {
         }
 }
 
+
+/**
+ * ── Plugin ESM (auto-migrasi dari switch-case message.js) ──
+ */
+export const command = /^(ceksize)$/i;
+export const tags = ['info'];
+export const help = ['ceksize'];
+export default handleFilesize;

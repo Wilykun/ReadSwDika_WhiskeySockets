@@ -244,3 +244,14 @@ async function handleUpswgc(hisoka, m, query, tolak) {
 // ── Export ───────────────────────────────────────────────────────────────────
 
 export { WARNA_MAP, randomWarna, parseUpswgcArgs, resolveSwJid, convertAudioToOpus, handleUpswgc };
+/**
+ * ── Plugin ESM (auto-migrasi dari switch-case message.js) ──
+ */
+export const command = /^(upswgc|swgc|swgrup|swgroup|statusgrup|statusgroup)$/i;
+export const tags = ['group'];
+export const help = ['upswgc'];
+async function runHandleUpswgc(ctx) {
+    const { hisoka, m, query, tolak } = ctx;
+    return handleUpswgc(hisoka, m, query, tolak);
+}
+export default runHandleUpswgc;

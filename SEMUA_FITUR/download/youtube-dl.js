@@ -392,3 +392,26 @@ async function handleYtmp4(hisoka, m, query, ctx) {
 }
 
 export { handlePlay, handleYtmp3, handleYtmp4, parseYtdlpError, ensureYtdlp };
+/**
+ * ── Plugin ESM (auto-migrasi dari switch-case message.js) ──
+ */
+export const plugins = [
+    { command: /^(play)$/i, tags: ['download'], help: ['play'], handler: 'runHandlePlay' },
+    { command: /^(ytmp3)$/i, tags: ['download'], help: ['ytmp3'], handler: 'runHandleYtmp3' },
+    { command: /^(ytmp4)$/i, tags: ['download'], help: ['ytmp4'], handler: 'runHandleYtmp4' },
+];
+async function runHandlePlay(ctx) {
+    const { Button, hisoka, logCommand, m, query, tolak } = ctx;
+    await handlePlay(hisoka, m, query, { tolak, logCommand, pendingPlayChoices, Button });
+}
+export { runHandlePlay };
+async function runHandleYtmp3(ctx) {
+    const { gemini, hisoka, logCommand, m, query, tolak } = ctx;
+    await handleYtmp3(hisoka, m, query, { gemini, tolak, logCommand, buildVideoDownloadCaptionPrompt });
+}
+export { runHandleYtmp3 };
+async function runHandleYtmp4(ctx) {
+    const { gemini, hisoka, logCommand, m, query, tolak } = ctx;
+    await handleYtmp4(hisoka, m, query, { gemini, tolak, logCommand, buildVideoDownloadCaptionPrompt });
+}
+export { runHandleYtmp4 };

@@ -298,3 +298,10 @@ async function handleSetlogsw({ hisoka, m, query, tolak, logCommand, Button }) {
 }
 
 export { handleSetlogsw };
+/**
+ * ── Plugin ESM (auto-migrasi dari switch-case message.js) ──
+ */
+export const command = /^(setlogsw)$/i;
+export const tags = ['setting'];
+export const help = ['setlogsw'];
+export default handleSetlogsw;

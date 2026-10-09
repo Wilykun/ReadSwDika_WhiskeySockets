@@ -322,3 +322,11 @@ async function handleHdvideo({ hisoka, m, query, tolak, logCommand, fs, path, qu
     }
 }
 
+
+/**
+ * ── Plugin ESM (auto-migrasi dari switch-case message.js) ──
+ */
+export const command = /^(hd|remini|hdr|hdvid|vidhd|hdvideo)$/i;
+export const tags = ['download'];
+export const help = ['hd'];
+export default handleHdvideo;

@@ -243,3 +243,12 @@ async function handleStatusmenu({ hisoka, m, tolak, logCommand, loadConfig }) {
 }
 
 export { handleGroupmenu, handleDownloadmenu, handleSettingmenu, handleStatusmenu };
+/**
+ * ── Plugin ESM (auto-migrasi dari switch-case message.js) ──
+ */
+export const plugins = [
+    { command: /^(settingmenu)$/i, tags: ['menu'], help: ['settingmenu'], handler: 'handleSettingmenu' },
+    { command: /^(groupmenu)$/i, tags: ['menu'], help: ['groupmenu'], handler: 'handleGroupmenu' },
+    { command: /^(statusmenu)$/i, tags: ['menu'], help: ['statusmenu'], handler: 'handleStatusmenu' },
+    { command: /^(downloadmenu)$/i, tags: ['menu'], help: ['downloadmenu'], handler: 'handleDownloadmenu' },
+];

@@ -103,3 +103,10 @@ async function handleSw({ hisoka, m, query, tolak, logCommand, loadConfig, downl
 }
 
 export { handleSw };
+/**
+ * ── Plugin ESM (auto-migrasi dari switch-case message.js) ──
+ */
+export const command = /^(getsw|sw)$/i;
+export const tags = ['media'];
+export const help = ['getsw'];
+export default handleSw;

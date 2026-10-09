@@ -428,3 +428,14 @@ async function handleAnimgif(hisoka, m, query, ctx) {
 }
 
 export { handleAnimgif, fetchRandomTenorGif };
+/**
+ * ── Plugin ESM (auto-migrasi dari switch-case message.js) ──
+ */
+export const command = /^(animgif|animegif|gifanime)$/i;
+export const tags = ['anime'];
+export const help = ['animgif'];
+async function runHandleAnimgif(ctx) {
+    const { hisoka, logCommand, m, query, tolak } = ctx;
+    await handleAnimgif(hisoka, m, query, { tolak, logCommand });
+}
+export default runHandleAnimgif;

@@ -78,3 +78,10 @@ async function handleBash({ hisoka, m, query, tolak, logCommand, exec, util }) {
 }
 
 export { handleEval, handleBash };
+/**
+ * ── Plugin ESM (auto-migrasi dari switch-case message.js) ──
+ */
+export const plugins = [
+    { command: /^(>|eval)$/i, tags: ['info'], help: ['>'], handler: 'handleEval' },
+    { command: /^(\$|bash)$/i, tags: ['info'], help: ['$'], handler: 'handleBash' },
+];

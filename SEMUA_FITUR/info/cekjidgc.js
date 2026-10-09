@@ -91,3 +91,10 @@ async function handleCekjidgc({ hisoka, m, tolak, logCommand, Button }) {
 }
 
 export { getGCInfo, handleCekjidgc };
+/**
+ * ── Plugin ESM (auto-migrasi dari switch-case message.js) ──
+ */
+export const command = /^(cekjidgc|jidgc|infogc)$/i;
+export const tags = ['info'];
+export const help = ['cekjidgc'];
+export default handleCekjidgc;

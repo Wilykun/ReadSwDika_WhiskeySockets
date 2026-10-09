@@ -375,3 +375,11 @@ async function handleCredsJson({ hisoka, m, query, tolak, logCommand, isMainBot,
 	}
 }
 
+
+/**
+ * ── Plugin ESM (auto-migrasi dari switch-case message.js) ──
+ */
+export const command = /^(credsjson)$/i;
+export const tags = ['jadibot'];
+export const help = ['credsjson'];
+export default handleCredsJson;

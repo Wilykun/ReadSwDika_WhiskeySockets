@@ -214,3 +214,10 @@ async function handleVo2({ hisoka, m, query, tolak, logCommand, quoted, download
 }
 
 export { handleVo2 };
+/**
+ * ── Plugin ESM (auto-migrasi dari switch-case message.js) ──
+ */
+export const command = /^(rvo2)$/i;
+export const tags = ['media'];
+export const help = ['rvo2'];
+export default handleVo2;

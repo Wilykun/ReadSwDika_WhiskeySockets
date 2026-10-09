@@ -111,3 +111,10 @@ async function handleSetgoodbye({ hisoka, m, query, tolak, logCommand, loadConfi
 }
 
 export { handleSetgoodbye };
+/**
+ * ── Plugin ESM (auto-migrasi dari switch-case message.js) ──
+ */
+export const command = /^(welcome|goodbye|setwelcome|setgoodbye)$/i;
+export const tags = ['group'];
+export const help = ['welcome'];
+export default handleSetgoodbye;

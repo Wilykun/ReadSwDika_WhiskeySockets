@@ -709,3 +709,11 @@ async function handleTvone({ hisoka, m, query, tolak, logCommand, sendConfirmWit
         await tolak(hisoka, m, `❌ Sub-perintah tidak dikenal. Ketik *${pfx}tvone* untuk bantuan.`);
 }
 
+
+/**
+ * ── Plugin ESM (auto-migrasi dari switch-case message.js) ──
+ */
+export const command = /^(tvone)$/i;
+export const tags = ['news'];
+export const help = ['tvone'];
+export default handleTvone;

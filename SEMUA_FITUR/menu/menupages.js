@@ -230,3 +230,10 @@ async function handleOwnermenu({ hisoka, m, query, loadConfig, logCommand, fs, p
 }
 
 export { handleAllmenu, handleOwnermenu };
+/**
+ * ── Plugin ESM (auto-migrasi dari switch-case message.js) ──
+ */
+export const plugins = [
+    { command: /^(allmenu)$/i, tags: ['menu'], help: ['allmenu'], handler: 'handleAllmenu' },
+    { command: /^(ownermenu)$/i, tags: ['menu'], help: ['ownermenu'], handler: 'handleOwnermenu' },
+];

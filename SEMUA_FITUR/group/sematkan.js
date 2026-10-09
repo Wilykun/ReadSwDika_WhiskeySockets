@@ -293,3 +293,15 @@ async function handleSematkan(hisoka, m, query, tolak, kvGet) {
 }
 
 export { handleSematkan };
+/**
+ * ── Plugin ESM (auto-migrasi dari switch-case message.js) ──
+ */
+export const command = /^(sematkan|pin|pinpesan)$/i;
+export const tags = ['group'];
+export const help = ['sematkan'];
+async function runHandleSematkan(ctx) {
+    const { hisoka, kvGet, logCommand, m, query, tolak } = ctx;
+    const _smOk = await handleSematkan(hisoka, m, query, tolak, kvGet);
+                                    if (_smOk) logCommand(m, hisoka, 'sematkan');
+}
+export default runHandleSematkan;

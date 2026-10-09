@@ -555,3 +555,10 @@ async function handlePing({ hisoka, m, tolak, logCommand, getBotStats, os }) {
 }
 
 export { handlePing };
+/**
+ * ── Plugin ESM (auto-migrasi dari switch-case message.js) ──
+ */
+export const command = /^(ping|p)$/i;
+export const tags = ['info'];
+export const help = ['ping'];
+export default handlePing;

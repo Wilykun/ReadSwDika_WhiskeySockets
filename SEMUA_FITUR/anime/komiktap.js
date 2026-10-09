@@ -566,3 +566,13 @@ async function handleKomikinfo({ hisoka, m, query, tolak, logError }) {
         }
 }
 
+
+/**
+ * ── Plugin ESM (auto-migrasi dari switch-case message.js) ──
+ */
+export const plugins = [
+    { command: /^(komiktap|komik)$/i, tags: ['anime'], help: ['komiktap'], handler: 'handleKomik' },
+    { command: /^(komikinfo)$/i, tags: ['anime'], help: ['komikinfo'], handler: 'handleKomikinfo' },
+    { command: /^(komikget|komikdl)$/i, tags: ['anime'], help: ['komikget'], handler: 'handleKomikdl' },
+    { command: /^(komikupdate|komikup)$/i, tags: ['anime'], help: ['komikupdate'], handler: 'handleKomikup' },
+];

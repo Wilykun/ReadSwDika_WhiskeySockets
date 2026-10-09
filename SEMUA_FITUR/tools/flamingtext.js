@@ -640,3 +640,10 @@ async function handleFlamingtext({ hisoka, m, query, tolak, logCommand, logError
 }
 
 export { handleFlamingtext, STYLE_LIST, generateLogo };
+/**
+ * ── Plugin ESM (auto-migrasi dari switch-case message.js) ──
+ */
+export const command = /^(logo)$/i;
+export const tags = ['tools'];
+export const help = ['logo'];
+export default handleFlamingtext;

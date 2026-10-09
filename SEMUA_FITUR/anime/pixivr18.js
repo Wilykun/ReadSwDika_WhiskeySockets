@@ -264,3 +264,11 @@ async function handlePixiv18({ hisoka, m, query, tolak, logCommand, logError }) 
     }
 }
 
+
+/**
+ * ── Plugin ESM (auto-migrasi dari switch-case message.js) ──
+ */
+export const command = /^(pixivr18|pixiv18)$/i;
+export const tags = ['anime'];
+export const help = ['pixivr18'];
+export default handlePixiv18;

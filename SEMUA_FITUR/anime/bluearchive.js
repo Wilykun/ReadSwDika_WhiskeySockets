@@ -201,3 +201,11 @@ async function handleBa({ hisoka, m, query, tolak, logCommand, logError }) {
         }
 }
 
+
+/**
+ * ── Plugin ESM (auto-migrasi dari switch-case message.js) ──
+ */
+export const command = /^(bluearchive|bachar|ba)$/i;
+export const tags = ['anime'];
+export const help = ['bluearchive'];
+export default handleBa;

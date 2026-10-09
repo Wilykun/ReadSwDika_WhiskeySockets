@@ -1013,3 +1013,11 @@ async function handleVsbandingkan({ hisoka, m, query, tolak, logCommand, logErro
         }
 }
 
+
+/**
+ * ── Plugin ESM (auto-migrasi dari switch-case message.js) ──
+ */
+export const command = /^(compare|vsbandingkan)$/i;
+export const tags = ['tools'];
+export const help = ['compare'];
+export default handleVsbandingkan;

@@ -935,3 +935,10 @@ async function handleWhatsmusik({ hisoka, m, query, tolak, logCommand, logError,
 }
 
 export { identifyWhatsMusic, identifyWhatsMusicFromYoutube, downloadWhatsMusicVoiceNote, formatWhatsMusic, isYoutubeUrl, extractYoutubeUrl, enrichWithRealtimeYoutube, handleWhatsmusik };
+/**
+ * ── Plugin ESM (auto-migrasi dari switch-case message.js) ──
+ */
+export const command = /^(whatsmusik|whatmusic|wmusik|tebaklagu|shazam|carijudullagu)$/i;
+export const tags = ['music'];
+export const help = ['whatsmusik'];
+export default handleWhatsmusik;

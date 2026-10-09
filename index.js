@@ -75,7 +75,7 @@ import { kvGet, kvSet, kvMigrateFromJSON, kvMigrateKey } from './src/db/datadb.j
 import { initBotStats, getUptime as getBotUptime, getBotStats } from './src/db/botStats.js';
 import { startPm2Metrics } from './src/metrics/pm2Metrics.js';
 import { injectClient, injectMessage } from './src/helper/inject.js';
-import { getCaseName, loadConfig, saveConfig } from './src/helper/utils.js';
+import { loadConfig, saveConfig } from './src/helper/utils.js';
 import { getStatusEmojis, getRandomEmoji } from './src/helper/emoji.js';
 import { MemoryMonitor } from './src/helper/memoryMonitor.js';
 import { DiskMonitor } from './src/helper/diskMonitor.js';
@@ -1093,12 +1093,15 @@ async function main() {
 
                         // ── Status per-jadibot sudah ditampilkan langsung saat connect (di jadibot.js) ──
 
-                        const commands = await getCaseName(path.join(process.cwd(), 'message.js'));
-                        hisoka.loadedCommands = commands;
+                        // Daftar command dari sistem plugin (SEMUA_FITUR), pengganti getCaseName(message.js)
+                        const { loadPlugins, getPluginCommandNames, invalidatePlugins } = await import('./src/helper/pluginLoader.js');
+                        await loadPlugins();
+                        hisoka.loadedCommands = await getPluginCommandNames();
 
                         onReload('message', async () => {
                                 try {
-                                        const refreshed = await getCaseName(path.join(process.cwd(), 'message.js'));
+                                        invalidatePlugins();
+                                        const refreshed = await getPluginCommandNames();
                                         hisoka.loadedCommands = refreshed;
                                         console.log(`\x1b[32m[HotReload] ✓ loadedCommands diperbarui: ${refreshed.length} commands\x1b[39m`);
                                 } catch (e) {

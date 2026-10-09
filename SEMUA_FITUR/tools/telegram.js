@@ -140,3 +140,10 @@ async function handleTele({ hisoka, m, query, tolak, logCommand, isMainBot, load
 }
 
 export { handleTele };
+/**
+ * ── Plugin ESM (auto-migrasi dari switch-case message.js) ──
+ */
+export const command = /^(telegram|tele)$/i;
+export const tags = ['tools'];
+export const help = ['telegram'];
+export default handleTele;

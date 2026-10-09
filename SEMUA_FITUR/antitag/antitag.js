@@ -510,3 +510,10 @@ export async function handleAntitag({ hisoka, m, query, tolak, logCommand }) {
         `${BOX_TOP}\n│\n│ ❓ Perintah tidak dikenal.\n│ Gunakan: *on* atau *off*\n│\n${BOX_BTM}`
     );
 }
+
+/**
+ * ── Plugin ESM (auto-migrasi dari switch-case message.js) ──
+ */
+export const plugins = [
+    { command: /^(antitag)$/i, tags: ['antitag'], help: ['antitag'], handler: 'handleAntitag' },
+];

@@ -440,3 +440,11 @@ async function handleSimi({ hisoka, m, query, tolak, logCommand, loadConfig, sav
     }
 }
 
+
+/**
+ * ── Plugin ESM (auto-migrasi dari switch-case message.js) ──
+ */
+export const plugins = [
+    { command: /^(simi)$/i, tags: ['tools'], help: ['simi'], handler: 'handleSimi' },
+    { command: /^(wilyai)$/i, tags: ['tools'], help: ['wilyai'], handler: 'handleWilyai' },
+];

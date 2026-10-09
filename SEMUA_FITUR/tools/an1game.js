@@ -1015,3 +1015,11 @@ async function handleAn1game({ hisoka, m, query, tolak, logCommand, sendConfirmW
         }
 }
 
+
+/**
+ * ── Plugin ESM (auto-migrasi dari switch-case message.js) ──
+ */
+export const command = /^(anigame|gamean1|an1game)$/i;
+export const tags = ['tools'];
+export const help = ['anigame'];
+export default handleAn1game;
