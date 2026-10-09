@@ -34,9 +34,7 @@
 
 import fs from 'fs';
 import path from 'path';
-import { createRequire } from 'module';
-const _require = createRequire(import.meta.url);
-const { jidNormalizedUser, toNumber, jidDecode, proto, isJidGroup, delay } = _require('@whiskeysockets/baileys');
+import { jidNormalizedUser, toNumber, jidDecode, proto, isJidGroup, delay } from '@whiskeysockets/baileys';
 import { isPnUser } from '../../src/helper/socketCompat.js';
 import { getJadibotReadchat, getJadibotNumber, getJadibotEmojiMode, getJadibotAutoTyping, getJadibotAutoRecording } from '../../src/helper/jadibotSettings.js';
 

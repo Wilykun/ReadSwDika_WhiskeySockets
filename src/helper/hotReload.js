@@ -33,10 +33,6 @@
 import fs from 'fs';
 import path from 'path';
 import { pathToFileURL } from 'url';
-import { createRequire } from 'module';
-
-// Digunakan untuk membersihkan CJS require.cache saat file .cjs berubah
-const _cjsReq = createRequire(import.meta.url);
 
 const ROOT = process.cwd();
 const DEBOUNCE_MS = 600;
@@ -47,8 +43,9 @@ const _debounceTimers = {};
 const _reloadCallbacks = {};
 
 // type: 'esm' → reload via ESM import() cache-busting (default)
-// type: 'cjs' → reload via require.cache deletion (untuk file .cjs yang di-require() lazy di message.js)
-// SKIP top-level CJS (diload saat startup, butuh restart): wm, cekauto-cmd, interactive-msg,
+// lazy: true → watch-only; file tetap di-load lazy via importLazy() di pemanggil,
+//   watcher di sini hanya validasi + log saat file berubah (tanpa restart).
+// SKIP top-level (diload saat startup, butuh restart): wm, cekauto-cmd, interactive-msg,
 //   media-helper, log-cmd, jadibot-cmd, alqolam-helpers, wily-helpers, autosimi-cmd,
 //   musikai-cmd, musikai2-cmd, alqanime-cmd, cosplay-cmd, komiktap-cmd, setbrowser-cmd, play-cmd
 const WATCHED_FILES = [
@@ -100,138 +97,138 @@ const WATCHED_FILES = [
 
     // ── CJS lazy-loaded (cache clear on change) ──
     // Info / utilities
-    { key: 'cjs:info',         rel: 'SEMUA_FITUR/info/info.cjs',           type: 'cjs' },
-    { key: 'cjs:emojiCmd',     rel: 'SEMUA_FITUR/info/emoji-cmd.cjs',      type: 'cjs' },
-    { key: 'cjs:delCmd',       rel: 'SEMUA_FITUR/info/del-cmd.cjs',        type: 'cjs' },
-    { key: 'cjs:delbotCmd',    rel: 'SEMUA_FITUR/info/delbot-cmd.cjs',     type: 'cjs' },
-    { key: 'cjs:memoryCmd',    rel: 'SEMUA_FITUR/info/memory-cmd.cjs',     type: 'cjs' },
-    { key: 'cjs:memori',       rel: 'SEMUA_FITUR/info/memori.cjs',         type: 'cjs' },
-    { key: 'cjs:quoted',       rel: 'SEMUA_FITUR/info/quoted.cjs',         type: 'cjs' },
-    { key: 'cjs:quotedCmd',    rel: 'SEMUA_FITUR/info/quoted-cmd.cjs',     type: 'cjs' },
-    { key: 'cjs:ping',         rel: 'SEMUA_FITUR/info/ping.cjs',           type: 'cjs' },
-    { key: 'cjs:speedtest',    rel: 'SEMUA_FITUR/info/speedtest.cjs',      type: 'cjs' },
-    { key: 'cjs:ceksize',      rel: 'SEMUA_FITUR/info/ceksize.cjs',        type: 'cjs' },
-    { key: 'cjs:evalCmd',      rel: 'SEMUA_FITUR/info/eval-cmd.cjs',       type: 'cjs' },
-    { key: 'cjs:matiCmd',      rel: 'SEMUA_FITUR/info/mati-cmd.cjs',       type: 'cjs' },
-    { key: 'cjs:cekjidgc',     rel: 'SEMUA_FITUR/info/cekjidgc.cjs',      type: 'cjs' },
-    { key: 'cjs:cekjidgcall',  rel: 'SEMUA_FITUR/info/cekjidgcall.cjs',   type: 'cjs' },
-    { key: 'cjs:cekjidch',     rel: 'SEMUA_FITUR/info/cekjidch.cjs',      type: 'cjs' },
-    { key: 'cjs:getppuser',    rel: 'SEMUA_FITUR/info/getppuser-cmd.cjs', type: 'cjs' },
+    { key: 'info', rel: 'SEMUA_FITUR/info/info.js', lazy: true },
+    { key: 'emojiCmd', rel: 'SEMUA_FITUR/info/emoji-cmd.js', lazy: true },
+    { key: 'delCmd', rel: 'SEMUA_FITUR/info/del-cmd.js', lazy: true },
+    { key: 'delbotCmd', rel: 'SEMUA_FITUR/info/delbot-cmd.js', lazy: true },
+    { key: 'memoryCmd', rel: 'SEMUA_FITUR/info/memory-cmd.js', lazy: true },
+    { key: 'memori', rel: 'SEMUA_FITUR/info/memori.js', lazy: true },
+    { key: 'quoted', rel: 'SEMUA_FITUR/info/quoted.js', lazy: true },
+    { key: 'quotedCmd', rel: 'SEMUA_FITUR/info/quoted-cmd.js', lazy: true },
+    { key: 'ping', rel: 'SEMUA_FITUR/info/ping.js', lazy: true },
+    { key: 'speedtest', rel: 'SEMUA_FITUR/info/speedtest.js', lazy: true },
+    { key: 'ceksize', rel: 'SEMUA_FITUR/info/ceksize.js', lazy: true },
+    { key: 'evalCmd', rel: 'SEMUA_FITUR/info/eval-cmd.js', lazy: true },
+    { key: 'matiCmd', rel: 'SEMUA_FITUR/info/mati-cmd.js', lazy: true },
+    { key: 'cekjidgc', rel: 'SEMUA_FITUR/info/cekjidgc.js', lazy: true },
+    { key: 'cekjidgcall', rel: 'SEMUA_FITUR/info/cekjidgcall.js', lazy: true },
+    { key: 'cekjidch', rel: 'SEMUA_FITUR/info/cekjidch.js', lazy: true },
+    { key: 'getppuser', rel: 'SEMUA_FITUR/info/getppuser-cmd.js', lazy: true },
     // Group
-    { key: 'cjs:hidetag',      rel: 'SEMUA_FITUR/group/hidetag.cjs',       type: 'cjs' },
-    { key: 'cjs:sematkan',     rel: 'SEMUA_FITUR/group/sematkan.cjs',      type: 'cjs' },
-    { key: 'cjs:jpm',          rel: 'SEMUA_FITUR/group/jpm.cjs',           type: 'cjs' },
-    { key: 'cjs:pushkontakgc', rel: 'SEMUA_FITUR/group/pushkontakgc.cjs', type: 'cjs' },
-    { key: 'cjs:ghosttag',     rel: 'SEMUA_FITUR/group/ghosttag.cjs',      type: 'cjs' },
-    { key: 'cjs:sendstatus',   rel: 'SEMUA_FITUR/group/sendstatus.cjs',    type: 'cjs' },
-    { key: 'cjs:setgoodbye',   rel: 'SEMUA_FITUR/group/setgoodbye.cjs',    type: 'cjs' },
-    { key: 'cjs:upswgc',       rel: 'SEMUA_FITUR/group/upswgc.cjs',        type: 'cjs' },
+    { key: 'hidetag', rel: 'SEMUA_FITUR/group/hidetag.js', lazy: true },
+    { key: 'sematkan', rel: 'SEMUA_FITUR/group/sematkan.js', lazy: true },
+    { key: 'jpm', rel: 'SEMUA_FITUR/group/jpm.js', lazy: true },
+    { key: 'pushkontakgc', rel: 'SEMUA_FITUR/group/pushkontakgc.js', lazy: true },
+    { key: 'ghosttag', rel: 'SEMUA_FITUR/group/ghosttag.js', lazy: true },
+    { key: 'sendstatus', rel: 'SEMUA_FITUR/group/sendstatus.js', lazy: true },
+    { key: 'setgoodbye', rel: 'SEMUA_FITUR/group/setgoodbye.js', lazy: true },
+    { key: 'upswgc', rel: 'SEMUA_FITUR/group/upswgc.js', lazy: true },
 
     // Jadibot
-    { key: 'cjs:clearsesi',    rel: 'SEMUA_FITUR/jadibot/clearsesi.cjs',   type: 'cjs' },
-    { key: 'cjs:ceksesi',      rel: 'SEMUA_FITUR/jadibot/ceksesi.cjs',     type: 'cjs' },
-    { key: 'cjs:credsjson',    rel: 'SEMUA_FITUR/jadibot/credsjson.cjs',   type: 'cjs' },
-    { key: 'cjs:listbotCmd',   rel: 'SEMUA_FITUR/jadibot/listbot-cmd.cjs', type: 'cjs' },
+    { key: 'clearsesi', rel: 'SEMUA_FITUR/jadibot/clearsesi.js', lazy: true },
+    { key: 'ceksesi', rel: 'SEMUA_FITUR/jadibot/ceksesi.js', lazy: true },
+    { key: 'credsjson', rel: 'SEMUA_FITUR/jadibot/credsjson.js', lazy: true },
+    { key: 'listbotCmd', rel: 'SEMUA_FITUR/jadibot/listbot-cmd.js', lazy: true },
     // Setting
-    { key: 'cjs:anticall',     rel: 'SEMUA_FITUR/setting/anticall.cjs',    type: 'cjs' },
-    { key: 'cjs:aturbrowser',  rel: 'SEMUA_FITUR/setting/aturbrowser.cjs', type: 'cjs' },
-    { key: 'cjs:autosholat',   rel: 'SEMUA_FITUR/setting/autosholat.cjs',  type: 'cjs' },
-    { key: 'cjs:autotyprec',   rel: 'SEMUA_FITUR/setting/autotyprec.cjs',  type: 'cjs' },
-    { key: 'cjs:botadminCmd',  rel: 'SEMUA_FITUR/setting/botadmin-cmd.cjs',type: 'cjs' },
-    { key: 'cjs:cekerrorCmd',  rel: 'SEMUA_FITUR/setting/cekerror-cmd.cjs',type: 'cjs' },
-    { key: 'cjs:ceksetting',   rel: 'SEMUA_FITUR/setting/ceksetting.cjs',  type: 'cjs' },
-    { key: 'cjs:ceksw',        rel: 'SEMUA_FITUR/setting/ceksw.cjs',       type: 'cjs' },
-    { key: 'cjs:online',       rel: 'SEMUA_FITUR/setting/online.cjs',      type: 'cjs' },
-    { key: 'cjs:readchat',     rel: 'SEMUA_FITUR/setting/readchat.cjs',    type: 'cjs' },
-    { key: 'cjs:setlogsw',     rel: 'SEMUA_FITUR/setting/setlogsw.cjs',    type: 'cjs' },
-    { key: 'cjs:diskram',      rel: 'SEMUA_FITUR/setting/diskram.cjs',     type: 'cjs' },
+    { key: 'anticall', rel: 'SEMUA_FITUR/setting/anticall.js', lazy: true },
+    { key: 'aturbrowser', rel: 'SEMUA_FITUR/setting/aturbrowser.js', lazy: true },
+    { key: 'autosholat', rel: 'SEMUA_FITUR/setting/autosholat.js', lazy: true },
+    { key: 'autotyprec', rel: 'SEMUA_FITUR/setting/autotyprec.js', lazy: true },
+    { key: 'botadminCmd', rel: 'SEMUA_FITUR/setting/botadmin-cmd.js', lazy: true },
+    { key: 'cekerrorCmd', rel: 'SEMUA_FITUR/setting/cekerror-cmd.js', lazy: true },
+    { key: 'ceksetting', rel: 'SEMUA_FITUR/setting/ceksetting.js', lazy: true },
+    { key: 'ceksw', rel: 'SEMUA_FITUR/setting/ceksw.js', lazy: true },
+    { key: 'online', rel: 'SEMUA_FITUR/setting/online.js', lazy: true },
+    { key: 'readchat', rel: 'SEMUA_FITUR/setting/readchat.js', lazy: true },
+    { key: 'setlogsw', rel: 'SEMUA_FITUR/setting/setlogsw.js', lazy: true },
+    { key: 'diskram', rel: 'SEMUA_FITUR/setting/diskram.js', lazy: true },
     // System
-    { key: 'cjs:shutdown',     rel: 'SEMUA_FITUR/system/shutdown.cjs',     type: 'cjs' },
-    { key: 'cjs:autocleaner',  rel: 'SEMUA_FITUR/system/autocleaner.cjs',  type: 'cjs' },
-    { key: 'cjs:backup',       rel: 'SEMUA_FITUR/system/backup.cjs',       type: 'cjs' },
-    { key: 'cjs:sessionclnr',  rel: 'SEMUA_FITUR/system/sessioncleaner.cjs',type:'cjs' },
-    { key: 'cjs:welcomeCard',  rel: 'SEMUA_FITUR/system/welcomeCard.cjs',  type: 'cjs' },
+    { key: 'shutdown', rel: 'SEMUA_FITUR/system/shutdown.js', lazy: true },
+    { key: 'autocleaner', rel: 'SEMUA_FITUR/system/autocleaner.js', lazy: true },
+    { key: 'backup', rel: 'SEMUA_FITUR/system/backup.js', lazy: true },
+    { key: 'sessionclnr', rel: 'SEMUA_FITUR/system/sessioncleaner.js', lazy: true },
+    { key: 'welcomeCard', rel: 'SEMUA_FITUR/system/welcomeCard.js', lazy: true },
     // Menu
-    { key: 'cjs:menuCmd',      rel: 'SEMUA_FITUR/menu/menu-cmd.cjs',       type: 'cjs' },
-    { key: 'cjs:menupages',    rel: 'SEMUA_FITUR/menu/menupages.cjs',      type: 'cjs' },
-    { key: 'cjs:menuPages2',   rel: 'SEMUA_FITUR/menu/menu-pages2.cjs',    type: 'cjs' },
+    { key: 'menuCmd', rel: 'SEMUA_FITUR/menu/menu-cmd.js', lazy: true },
+    { key: 'menupages', rel: 'SEMUA_FITUR/menu/menupages.js', lazy: true },
+    { key: 'menuPages2', rel: 'SEMUA_FITUR/menu/menu-pages2.js', lazy: true },
     // Media
-    { key: 'cjs:stickerCmd',   rel: 'SEMUA_FITUR/media/sticker-cmd.cjs',   type: 'cjs' },
-    { key: 'cjs:smeme',        rel: 'SEMUA_FITUR/media/smeme.cjs',         type: 'cjs' },
-    { key: 'cjs:wm',            rel: 'SEMUA_FITUR/media/wm.cjs',             type: 'cjs' },
-    { key: 'cjs:toImgCmd',     rel: 'SEMUA_FITUR/media/toimg-cmd.cjs',     type: 'cjs' },
-    { key: 'cjs:getsw',        rel: 'SEMUA_FITUR/media/getsw.cjs',         type: 'cjs' },
-    { key: 'cjs:audioconvert', rel: 'SEMUA_FITUR/media/audioconvert.cjs',  type: 'cjs' },
-    { key: 'cjs:viewonce',     rel: 'SEMUA_FITUR/media/viewonce.cjs',      type: 'cjs' },
-    { key: 'cjs:anyvoice',     rel: 'SEMUA_FITUR/media/anyvoice.cjs',      type: 'cjs' },
+    { key: 'stickerCmd', rel: 'SEMUA_FITUR/media/sticker-cmd.js', lazy: true },
+    { key: 'smeme', rel: 'SEMUA_FITUR/media/smeme.js', lazy: true },
+    { key: 'wm', rel: 'SEMUA_FITUR/media/wm.js', lazy: true },
+    { key: 'toImgCmd', rel: 'SEMUA_FITUR/media/toimg-cmd.js', lazy: true },
+    { key: 'getsw', rel: 'SEMUA_FITUR/media/getsw.js', lazy: true },
+    { key: 'audioconvert', rel: 'SEMUA_FITUR/media/audioconvert.js', lazy: true },
+    { key: 'viewonce', rel: 'SEMUA_FITUR/media/viewonce.js', lazy: true },
+    { key: 'anyvoice', rel: 'SEMUA_FITUR/media/anyvoice.js', lazy: true },
     // Download
-    { key: 'cjs:downloader',   rel: 'SEMUA_FITUR/download/downloader.cjs', type: 'cjs' },
-    { key: 'cjs:hdvid',        rel: 'SEMUA_FITUR/download/hdvid.cjs',      type: 'cjs' },
-    { key: 'cjs:stickerly',    rel: 'SEMUA_FITUR/download/stickerly.cjs',  type: 'cjs' },
-    { key: 'cjs:allunduh',     rel: 'SEMUA_FITUR/download/allunduh.cjs',   type: 'cjs' },
-    { key: 'cjs:facebookDl',   rel: 'SEMUA_FITUR/download/facebook-dl.cjs',type: 'cjs' },
-    { key: 'cjs:instagramDl',  rel: 'SEMUA_FITUR/download/instagram-dl.cjs',type:'cjs' },
-    { key: 'cjs:tiktokDl',     rel: 'SEMUA_FITUR/download/tiktok-dl.cjs', type: 'cjs' },
-    { key: 'cjs:twitterDl',    rel: 'SEMUA_FITUR/download/twitter-dl.cjs', type: 'cjs' },
-    { key: 'cjs:youtubeDl',    rel: 'SEMUA_FITUR/download/youtube-dl.cjs', type: 'cjs' },
+    { key: 'downloader', rel: 'SEMUA_FITUR/download/downloader.js', lazy: true },
+    { key: 'hdvid', rel: 'SEMUA_FITUR/download/hdvid.js', lazy: true },
+    { key: 'stickerly', rel: 'SEMUA_FITUR/download/stickerly.js', lazy: true },
+    { key: 'allunduh', rel: 'SEMUA_FITUR/download/allunduh.js', lazy: true },
+    { key: 'facebookDl', rel: 'SEMUA_FITUR/download/facebook-dl.js', lazy: true },
+    { key: 'instagramDl', rel: 'SEMUA_FITUR/download/instagram-dl.js', lazy: true },
+    { key: 'tiktokDl', rel: 'SEMUA_FITUR/download/tiktok-dl.js', lazy: true },
+    { key: 'twitterDl', rel: 'SEMUA_FITUR/download/twitter-dl.js', lazy: true },
+    { key: 'youtubeDl', rel: 'SEMUA_FITUR/download/youtube-dl.js', lazy: true },
     // Music
-    { key: 'cjs:genius',       rel: 'SEMUA_FITUR/music/genius.cjs',        type: 'cjs' },
-    { key: 'cjs:infomusik',    rel: 'SEMUA_FITUR/music/infomusik.cjs',     type: 'cjs' },
-    { key: 'cjs:whatsmusik',   rel: 'SEMUA_FITUR/music/whatsmusik.cjs',    type: 'cjs' },
-    { key: 'cjs:whatgenre',    rel: 'SEMUA_FITUR/music/whatgenre.cjs',     type: 'cjs' },
+    { key: 'genius', rel: 'SEMUA_FITUR/music/genius.js', lazy: true },
+    { key: 'infomusik', rel: 'SEMUA_FITUR/music/infomusik.js', lazy: true },
+    { key: 'whatsmusik', rel: 'SEMUA_FITUR/music/whatsmusik.js', lazy: true },
+    { key: 'whatgenre', rel: 'SEMUA_FITUR/music/whatgenre.js', lazy: true },
     // Anime
-    { key: 'cjs:alqanime',     rel: 'SEMUA_FITUR/anime/alqanime.cjs',      type: 'cjs' },
-    { key: 'cjs:alqanimeDl',   rel: 'SEMUA_FITUR/anime/alqanime-dl.cjs',   type: 'cjs' },
-    { key: 'cjs:alqanimeMonitor',rel:'SEMUA_FITUR/anime/alqanime-monitor.cjs',type:'cjs'},
-    { key: 'cjs:doujindesu',      rel: 'SEMUA_FITUR/anime/doujindesu.cjs',      type: 'cjs' },
-    { key: 'cjs:doujindesuMonitor',rel:'SEMUA_FITUR/anime/doujindesu-monitor.cjs',type:'cjs'},
-    { key: 'cjs:nekopoi',        rel: 'SEMUA_FITUR/anime/nekopoi.cjs',            type: 'cjs' },
-    { key: 'cjs:nekopoinotif',   rel: 'SEMUA_FITUR/anime/nekopoi-monitor.cjs',  type: 'cjs' },
-    { key: 'cjs:hentaicop',      rel: 'SEMUA_FITUR/anime/hentaicop.cjs',        type: 'cjs' },
-    { key: 'cjs:hentaicopnotif', rel: 'SEMUA_FITUR/anime/hentaicop-monitor.cjs',type: 'cjs' },
-    { key: 'cjs:animasu',      rel: 'SEMUA_FITUR/anime/animasu.cjs',       type: 'cjs' },
-    { key: 'cjs:bluearchive',  rel: 'SEMUA_FITUR/anime/bluearchive.cjs',   type: 'cjs' },
-    { key: 'cjs:cosplaytele',  rel: 'SEMUA_FITUR/anime/cosplaytele.cjs',   type: 'cjs' },
-    { key: 'cjs:infowibu',     rel: 'SEMUA_FITUR/anime/infowibu.cjs',      type: 'cjs' },
-    { key: 'cjs:komiktap',     rel: 'SEMUA_FITUR/anime/komiktap.cjs',      type: 'cjs' },
-    { key: 'cjs:kusonime',     rel: 'SEMUA_FITUR/anime/kusonime.cjs',      type: 'cjs' },
-    { key: 'cjs:kusonimePdf',  rel: 'SEMUA_FITUR/anime/kusonime-pdf.cjs',  type: 'cjs' },
-    { key: 'cjs:tenorGif',     rel: 'SEMUA_FITUR/anime/tenor-gif.cjs',     type: 'cjs' },
-    { key: 'cjs:nhentai',      rel: 'SEMUA_FITUR/anime/nhentai.cjs',       type: 'cjs' },
-    { key: 'cjs:hentaidad',    rel: 'SEMUA_FITUR/anime/hentaidad.cjs',     type: 'cjs' },
-    { key: 'cjs:pixiv',        rel: 'SEMUA_FITUR/anime/pixiv.cjs',         type: 'cjs' },
-    { key: 'cjs:pixivr18',     rel: 'SEMUA_FITUR/anime/pixivr18.cjs',      type: 'cjs' },
-    { key: 'cjs:animquote',    rel: 'SEMUA_FITUR/anime/animquote.cjs',     type: 'cjs' },
+    { key: 'alqanime', rel: 'SEMUA_FITUR/anime/alqanime.js', lazy: true },
+    { key: 'alqanimeDl', rel: 'SEMUA_FITUR/anime/alqanime-dl.js', lazy: true },
+    { key: 'alqanimeMonitor', rel: 'SEMUA_FITUR/anime/alqanime-monitor.js', lazy: true },
+    { key: 'doujindesu', rel: 'SEMUA_FITUR/anime/doujindesu.js', lazy: true },
+    { key: 'doujindesuMonitor', rel: 'SEMUA_FITUR/anime/doujindesu-monitor.js', lazy: true },
+    { key: 'nekopoi', rel: 'SEMUA_FITUR/anime/nekopoi.js', lazy: true },
+    { key: 'nekopoinotif', rel: 'SEMUA_FITUR/anime/nekopoi-monitor.js', lazy: true },
+    { key: 'hentaicop', rel: 'SEMUA_FITUR/anime/hentaicop.js', lazy: true },
+    { key: 'hentaicopnotif', rel: 'SEMUA_FITUR/anime/hentaicop-monitor.js', lazy: true },
+    { key: 'animasu', rel: 'SEMUA_FITUR/anime/animasu.js', lazy: true },
+    { key: 'bluearchive', rel: 'SEMUA_FITUR/anime/bluearchive.js', lazy: true },
+    { key: 'cosplaytele', rel: 'SEMUA_FITUR/anime/cosplaytele.js', lazy: true },
+    { key: 'infowibu', rel: 'SEMUA_FITUR/anime/infowibu.js', lazy: true },
+    { key: 'komiktap', rel: 'SEMUA_FITUR/anime/komiktap.js', lazy: true },
+    { key: 'kusonime', rel: 'SEMUA_FITUR/anime/kusonime.js', lazy: true },
+    { key: 'kusonimePdf', rel: 'SEMUA_FITUR/anime/kusonime-pdf.js', lazy: true },
+    { key: 'tenorGif', rel: 'SEMUA_FITUR/anime/tenor-gif.js', lazy: true },
+    { key: 'nhentai', rel: 'SEMUA_FITUR/anime/nhentai.js', lazy: true },
+    { key: 'hentaidad', rel: 'SEMUA_FITUR/anime/hentaidad.js', lazy: true },
+    { key: 'pixiv', rel: 'SEMUA_FITUR/anime/pixiv.js', lazy: true },
+    { key: 'pixivr18', rel: 'SEMUA_FITUR/anime/pixivr18.js', lazy: true },
+    { key: 'animquote', rel: 'SEMUA_FITUR/anime/animquote.js', lazy: true },
     // AI
-    { key: 'cjs:imageEdit',    rel: 'SEMUA_FITUR/ai/imageEdit.cjs',        type: 'cjs' },
-    { key: 'cjs:wilycmd',      rel: 'SEMUA_FITUR/ai/wilycmd.cjs',          type: 'cjs' },
-    { key: 'cjs:geminiAi',     rel: 'SEMUA_FITUR/ai/gemini.cjs',           type: 'cjs' },
-    { key: 'cjs:gemmyGemini',  rel: 'SEMUA_FITUR/ai/gemmyGemini.cjs',     type: 'cjs' },
-    { key: 'cjs:iloveimg',     rel: 'SEMUA_FITUR/ai/iloveimg.cjs',         type: 'cjs' },
-    { key: 'cjs:sparkpix',     rel: 'SEMUA_FITUR/ai/sparkpix.cjs',         type: 'cjs' },
+    { key: 'imageEdit', rel: 'SEMUA_FITUR/ai/imageEdit.js', lazy: true },
+    { key: 'wilycmd', rel: 'SEMUA_FITUR/ai/wilycmd.js', lazy: true },
+    { key: 'geminiAi', rel: 'SEMUA_FITUR/ai/gemini.js', lazy: true },
+    { key: 'gemmyGemini', rel: 'SEMUA_FITUR/ai/gemmyGemini.js', lazy: true },
+    { key: 'iloveimg', rel: 'SEMUA_FITUR/ai/iloveimg.js', lazy: true },
+    { key: 'sparkpix', rel: 'SEMUA_FITUR/ai/sparkpix.js', lazy: true },
     // Tools
-    { key: 'cjs:cuaca',        rel: 'SEMUA_FITUR/tools/cuaca.cjs',         type: 'cjs' },
-    { key: 'cjs:tempmail',     rel: 'SEMUA_FITUR/tools/tempmail.cjs',      type: 'cjs' },
-    { key: 'cjs:tmail',        rel: 'SEMUA_FITUR/tools/tmail.cjs',         type: 'cjs' },
-    { key: 'cjs:cekhp',        rel: 'SEMUA_FITUR/tools/cekhp.cjs',         type: 'cjs' },
-    { key: 'cjs:cekidff',      rel: 'SEMUA_FITUR/tools/cekidff.cjs',       type: 'cjs' },
-    { key: 'cjs:bandingkanhp', rel: 'SEMUA_FITUR/tools/bandingkanhp.cjs',  type: 'cjs' },
-    { key: 'cjs:an1game',      rel: 'SEMUA_FITUR/tools/an1game.cjs',       type: 'cjs' },
-    { key: 'cjs:screenshot',   rel: 'SEMUA_FITUR/tools/screenshot.cjs',    type: 'cjs' },
-    { key: 'cjs:telegramTools',rel: 'SEMUA_FITUR/tools/telegram.cjs',      type: 'cjs' },
-    { key: 'cjs:wilyai',       rel: 'SEMUA_FITUR/tools/wilyai.cjs',        type: 'cjs' },
-    { key: 'cjs:flamingtext',  rel: 'SEMUA_FITUR/tools/flamingtext.cjs',   type: 'cjs' },
-    { key: 'cjs:fontgenerator',rel: 'SEMUA_FITUR/tools/fontgenerator.cjs', type: 'cjs' },
-    { key: 'cjs:fontuntik',    rel: 'SEMUA_FITUR/tools/fontuntik.cjs',     type: 'cjs' },
-    { key: 'cjs:waifu',        rel: 'SEMUA_FITUR/anime/waifu.cjs',         type: 'cjs' },
+    { key: 'cuaca', rel: 'SEMUA_FITUR/tools/cuaca.js', lazy: true },
+    { key: 'tempmail', rel: 'SEMUA_FITUR/tools/tempmail.js', lazy: true },
+    { key: 'tmail', rel: 'SEMUA_FITUR/tools/tmail.js', lazy: true },
+    { key: 'cekhp', rel: 'SEMUA_FITUR/tools/cekhp.js', lazy: true },
+    { key: 'cekidff', rel: 'SEMUA_FITUR/tools/cekidff.js', lazy: true },
+    { key: 'bandingkanhp', rel: 'SEMUA_FITUR/tools/bandingkanhp.js', lazy: true },
+    { key: 'an1game', rel: 'SEMUA_FITUR/tools/an1game.js', lazy: true },
+    { key: 'screenshot', rel: 'SEMUA_FITUR/tools/screenshot.js', lazy: true },
+    { key: 'telegramTools', rel: 'SEMUA_FITUR/tools/telegram.js', lazy: true },
+    { key: 'wilyai', rel: 'SEMUA_FITUR/tools/wilyai.js', lazy: true },
+    { key: 'flamingtext', rel: 'SEMUA_FITUR/tools/flamingtext.js', lazy: true },
+    { key: 'fontgenerator', rel: 'SEMUA_FITUR/tools/fontgenerator.js', lazy: true },
+    { key: 'fontuntik', rel: 'SEMUA_FITUR/tools/fontuntik.js', lazy: true },
+    { key: 'waifu', rel: 'SEMUA_FITUR/anime/waifu.js', lazy: true },
     // News
-    { key: 'cjs:malnews',      rel: 'SEMUA_FITUR/news/malnews.cjs',        type: 'cjs' },
-    { key: 'cjs:tvonenews',    rel: 'SEMUA_FITUR/news/tvonenews.cjs',      type: 'cjs' },
+    { key: 'malnews', rel: 'SEMUA_FITUR/news/malnews.js', lazy: true },
+    { key: 'tvonenews', rel: 'SEMUA_FITUR/news/tvonenews.js', lazy: true },
     // Reaction / Read
-    { key: 'cjs:readsw',       rel: 'SEMUA_FITUR/readsw/readsw.cjs',       type: 'cjs' },
+    { key: 'readsw', rel: 'SEMUA_FITUR/readsw/readsw.js', lazy: true },
 
     // ── Config CJS (dependency file, bukan handler) ──────────────────────────
-    { key: 'cjs:logswColors', rel: 'src/config/logsw-colors.cjs', type: 'cjs' },
+    { key: 'logswColors', rel: 'src/config/logsw-colors.js', lazy: true },
 
     // ── SKIP ESM (memegang state/timer aktif) ────
     // crashGuard.js    → handle signal proses, berbahaya
@@ -243,11 +240,11 @@ const WATCHED_FILES = [
     // aiHistory.js     → punya _writeLock promise, bahaya direload saat menulis
     // pm2Metrics.js    → punya _timer setInterval aktif + process.send() IPC
 
-    // ── SKIP CJS top-level (diload saat startup, butuh restart) ─
-    // cekauto-cmd.cjs, interactive-msg.cjs, media-helper.cjs,
-    // log-cmd.cjs, jadibot-cmd.cjs, alqolam-helpers.cjs, wily-helpers.cjs,
-    // autosimi-cmd.cjs, musikai-cmd.cjs, musikai2-cmd.cjs, alqanime-cmd.cjs,
-    // cosplay-cmd.cjs, komiktap-cmd.cjs, setbrowser-cmd.cjs, play-cmd.cjs
+    // ── SKIP top-level (diload saat startup, butuh restart) ─
+    // cekauto-cmd.js, interactive-msg.js, media-helper.js,
+    // log-cmd.js, jadibot-cmd.js, alqolam-helpers.js, wily-helpers.js,
+    // autosimi-cmd.js, musikai-cmd.js, musikai2-cmd.js, alqanime-cmd.js,
+    // cosplay-cmd.js, komiktap-cmd.js, setbrowser-cmd.js, play-cmd.js
 ];
 
 async function loadModule(rel) {
@@ -262,20 +259,7 @@ async function loadModule(rel) {
     }
 }
 
-function clearCjsCache(abs) {
-    // Hapus dari require.cache agar _require() berikutnya load ulang dari disk
-    try {
-        if (_cjsReq.cache[abs]) {
-            delete _cjsReq.cache[abs];
-            return true;
-        }
-        return false;
-    } catch {
-        return false;
-    }
-}
-
-function watchFile(rel, key, type = 'esm') {
+function watchFile(rel, key, type = 'esm', lazy = false) {
     const abs = path.join(ROOT, rel);
 
     if (_watchers[key]) {
@@ -290,38 +274,24 @@ function watchFile(rel, key, type = 'esm') {
             _debounceTimers[key] = setTimeout(async () => {
                 console.log(`\x1b[36m[HotReload] Perubahan ter: ${rel}\x1b[39m`);
 
-                if (type === 'cjs') {
-                    // CJS: cukup hapus dari require.cache → _require() berikutnya load fresh
-                    const cleared = clearCjsCache(abs);
-                    if (cleared) {
-                        console.log(`\x1b[32m[HotReload] ✓ CJS cache cleared: ${rel} — efektif di pemanggilan berikutnya!\x1b[39m`);
-                    } else {
-                        // File belum pernah di-require, tidak masalah
-                        console.log(`\x1b[32m[HotReload] ✓ CJS watch aktif: ${rel}\x1b[39m`);
-                    }
-                    if (typeof _reloadCallbacks[key] === 'function') {
-                        try { await _reloadCallbacks[key](rel); } catch (cbErr) {
-                            console.error(`\x1b[31m[HotReload] Callback error for '${key}':\x1b[39m`, cbErr.message);
-                        }
-                    }
+                // ESM: reload dengan cache-busting URL (validasi + log).
+                // Konsumen lazy (case handler) pakai importLazy yang cek mtime tiap panggil,
+                // jadi di sini cukup validasi & catat — tidak perlu push ke _handlers.
+                const mod = await loadModule(rel);
+                if (mod !== null) {
+                    if (!lazy) _handlers[key] = mod;
+                    console.log(`\x1b[32m[HotReload] ✓ '${rel}' berhasil di-reload tanpa restart bot!\x1b[39m`);
                 } else {
-                    // ESM: reload dengan cache-busting URL
-                    const mod = await loadModule(rel);
-                    if (mod !== null) {
-                        _handlers[key] = mod;
-                        console.log(`\x1b[32m[HotReload] ✓ '${rel}' berhasil di-reload tanpa restart bot!\x1b[39m`);
-                        if (typeof _reloadCallbacks[key] === 'function') {
-                            try { await _reloadCallbacks[key](rel); } catch (cbErr) {
-                                console.error(`\x1b[31m[HotReload] Callback error for '${key}':\x1b[39m`, cbErr.message);
-                            }
-                        }
-                    } else {
-                        console.error(`\x1b[31m[HotReload] ✗ Gagal reload '${rel}', pakai versi lama.\x1b[39m`);
+                    console.error(`\x1b[31m[HotReload] ✗ Gagal reload '${rel}', pakai versi lama.\x1b[39m`);
+                }
+                if (typeof _reloadCallbacks[key] === 'function') {
+                    try { await _reloadCallbacks[key](rel); } catch (cbErr) {
+                        console.error(`\x1b[31m[HotReload] Callback error for '${key}':\x1b[39m`, cbErr.message);
                     }
                 }
 
                 if (event === 'rename') {
-                    watchFile(rel, key, type);
+                    watchFile(rel, key, type, lazy);
                 }
             }, DEBOUNCE_MS);
         });
@@ -335,14 +305,15 @@ export async function initHotReload() {
     let fail = 0;
     const failed = [];
 
-    let okCjs = 0;
-    for (const { key, rel, type = 'esm' } of WATCHED_FILES) {
+    let okLazy = 0;
+    for (const { key, rel, lazy = false } of WATCHED_FILES) {
         const abs = path.join(ROOT, rel);
-        if (type === 'cjs') {
-            // CJS: tidak perlu load sekarang — cukup pasang watcher untuk clear cache saat berubah
+        if (lazy) {
+            // Lazy: tidak di-load saat init (tetap lazy via importLazy di pemanggil),
+            // cukup pasang watcher untuk validasi + log saat file berubah.
             if (fs.existsSync(abs)) {
-                watchFile(rel, key, 'cjs');
-                okCjs++;
+                watchFile(rel, key, 'esm', true);
+                okLazy++;
             }
             // File tidak ada → skip diam-diam (mungkin fitur opsional)
             continue;
@@ -360,9 +331,9 @@ export async function initHotReload() {
     }
 
     if (fail === 0) {
-        console.log(`\x1b[32m→ Reload   :\x1b[39m ${ok} ESM aktif, ${okCjs} CJS watched`);
+        console.log(`\x1b[32m→ Reload   :\x1b[39m ${ok} ESM aktif, ${okLazy} lazy watched`);
     } else {
-        console.log(`\x1b[33m→ Reload   :\x1b[39m ${ok} ESM aktif, ${okCjs} CJS watched, ${fail} gagal (${failed.join(', ')})`);
+        console.log(`\x1b[33m→ Reload   :\x1b[39m ${ok} ESM aktif, ${okLazy} lazy watched, ${fail} gagal (${failed.join(', ')})`);
     }
 }
 

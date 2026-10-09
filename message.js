@@ -28,9 +28,8 @@ import fs from 'fs';
 import path from 'path';
 import os from 'os';
 import { PassThrough } from 'stream';
-import { createRequire } from 'module';
-const _require = createRequire(import.meta.url);
-const { isJidGroup, downloadMediaMessage, getContentType, generateWAMessageFromContent, generateWAMessageContent, prepareWAMessageMedia, proto, jidDecode, jidNormalizedUser } = _require('@whiskeysockets/baileys');
+import { importLazy } from './src/helper/esmLazy.js';
+import { isJidGroup, downloadMediaMessage, getContentType, generateWAMessageFromContent, generateWAMessageContent, prepareWAMessageMedia, proto, jidDecode, jidNormalizedUser } from '@whiskeysockets/baileys';
 import crypto from 'crypto';
 import { exec } from 'child_process';
 import util from 'util';
@@ -65,22 +64,22 @@ import { getJadibotAntidel, getJadibotReadsw, getJadibotAnticall, getJadibotAnti
 import { getMode as getMainEmojiMode } from './src/helper/emoji.js';
 import { pruneSwStatsAt, countActiveSW } from './src/helper/swtrack.js';
 import { getHandler } from './src/helper/hotReload.js';
-const { makeCekautoHelpers: _makeCekautoHelpers } = _require(path.resolve('./SEMUA_FITUR/setting/cekauto-cmd.cjs'));
-const { resolveThumbnailMedia, startTyping, makeInteractiveMsg: _makeInteractiveMsg } = _require(path.resolve('./SEMUA_FITUR/helper/interactive-msg.cjs'));
-const { AI_MEDIA_CACHE_TTL, AI_MEDIA_TYPES, ensureAIMediaCache, rememberAIMedia, getQuotedStanzaId, getCachedQuotedMedia, unwrapMessagePayload, getMediaTypeFromMessage, downloadMediaBuffer, getQuotedMediaBuffer, getMediaInfo } = _require(path.resolve('./SEMUA_FITUR/helper/media-helper.cjs'));
-const { makeLogCmd: _makeLogCmd } = _require(path.resolve('./SEMUA_FITUR/helper/log-cmd.cjs'));
-const { normalizeJadibotNumber } = _require(path.resolve('./SEMUA_FITUR/jadibot/jadibot-cmd.cjs'));
-const { formatAlqLinkMsg, pickBestAlqLink, getAllAlqLinksByPriority } = _require(path.resolve('./SEMUA_FITUR/anime/alqolam-helpers.cjs'));
-const { detectImageSearchQuery, extractImageCount, cleanImageTitle, makeWilyHelpers: _makeWilyHelpers } = _require(path.resolve('./SEMUA_FITUR/ai/wily-helpers.cjs'));
-const { handleAutoSimi } = _require(path.resolve('./SEMUA_FITUR/ai/autosimi-cmd.cjs'));
+import { makeCekautoHelpers as _makeCekautoHelpers } from './SEMUA_FITUR/setting/cekauto-cmd.js';
+import { resolveThumbnailMedia, startTyping, makeInteractiveMsg as _makeInteractiveMsg } from './SEMUA_FITUR/helper/interactive-msg.js';
+import { AI_MEDIA_CACHE_TTL, AI_MEDIA_TYPES, ensureAIMediaCache, rememberAIMedia, getQuotedStanzaId, getCachedQuotedMedia, unwrapMessagePayload, getMediaTypeFromMessage, downloadMediaBuffer, getQuotedMediaBuffer, getMediaInfo } from './SEMUA_FITUR/helper/media-helper.js';
+import { makeLogCmd as _makeLogCmd } from './SEMUA_FITUR/helper/log-cmd.js';
+import { normalizeJadibotNumber } from './SEMUA_FITUR/jadibot/jadibot-cmd.js';
+import { formatAlqLinkMsg, pickBestAlqLink, getAllAlqLinksByPriority } from './SEMUA_FITUR/anime/alqolam-helpers.js';
+import { detectImageSearchQuery, extractImageCount, cleanImageTitle, makeWilyHelpers as _makeWilyHelpers } from './SEMUA_FITUR/ai/wily-helpers.js';
+import { handleAutoSimi } from './SEMUA_FITUR/ai/autosimi-cmd.js';
 // ─── musikai & musikai2 dihentikan (backend API tidak lagi gratis, memerlukan pembayaran) ───
-// const { handleMusicAICallbacks } = _require(path.resolve('./SEMUA_FITUR/music/musikai-cmd.cjs'));
-// const { handleMusicAI2Callbacks } = _require(path.resolve('./SEMUA_FITUR/music/musikai2-cmd.cjs'));
-const { handleAlqUpdateChoice, handleAlqDlChoice } = _require(path.resolve('./SEMUA_FITUR/anime/alqanime-cmd.cjs'));
-const { handleCosplayChoice, sendCosplayImages: _sendCosplayImages } = _require(path.resolve('./SEMUA_FITUR/anime/cosplay-cmd.cjs'));
-const { handleKomiktapChoice } = _require(path.resolve('./SEMUA_FITUR/anime/komiktap-cmd.cjs'));
-const { handleSetbrowserListReply, handleSetbrowserConfirmReply } = _require(path.resolve('./SEMUA_FITUR/setting/setbrowser-cmd.cjs'));
-const { handlePlayChoice } = _require(path.resolve('./SEMUA_FITUR/music/play-cmd.cjs'));
+// const { handleMusicAICallbacks } = await importLazy(path.resolve('./SEMUA_FITUR/music/musikai-cmd.js'));
+// const { handleMusicAI2Callbacks } = await importLazy(path.resolve('./SEMUA_FITUR/music/musikai2-cmd.js'));
+import { handleAlqUpdateChoice, handleAlqDlChoice } from './SEMUA_FITUR/anime/alqanime-cmd.js';
+import { handleCosplayChoice, sendCosplayImages as _sendCosplayImages } from './SEMUA_FITUR/anime/cosplay-cmd.js';
+import { handleKomiktapChoice } from './SEMUA_FITUR/anime/komiktap-cmd.js';
+import { handleSetbrowserListReply, handleSetbrowserConfirmReply } from './SEMUA_FITUR/setting/setbrowser-cmd.js';
+import { handlePlayChoice } from './SEMUA_FITUR/music/play-cmd.js';
 
 const WILY_VERBOSE_LOGS = process.env.WILY_VERBOSE_LOGS === 'true' || process.env.BOT_DEBUG_LOG === 'true';
 const wilyLog = (...args) => {
@@ -98,7 +97,7 @@ const { listbut2, sendConfirmWithButtons, sendAudioWithButtons } = _makeInteract
 // ── Initialize log command helpers ──
 const { logCommand, _logCmdBox } = _makeLogCmd({ maskNumber });
 
-// ── Initialize AI image/media helpers from wily-helpers.cjs ──
+// ── Initialize AI image/media helpers from wily-helpers.js ──
 const {
     buildSmartImageWaitText, buildSmartAlbumCaptions, sendImageAlbum,
     buildSmartImageHistoryReply, ensureYtdlp, processAIMediaAndSend,
@@ -113,7 +112,7 @@ const {
     wilyLog, wilyError,
 });
 
-// ── Initialize cekauto helpers from cekauto-cmd.cjs ──
+// ── Initialize cekauto helpers from cekauto-cmd.js ──
 const {
     CEKAUTO_FITUR_LIST,
     saveCekautoTimestamp,
@@ -432,7 +431,7 @@ export default async function ({ message, type: messagesType }, hisoka) {
 
                 // Anti-Tag Bot sudah dihandle via dedicated listener di index.js
 
-                // AutoSimi / WilyAutoReply → autosimi-cmd.cjs
+                // AutoSimi / WilyAutoReply → autosimi-cmd.js
                 if (await handleAutoSimi({ hisoka, m, messagesType,
                         loadConfig, gemini, getUserName, getAIPersonaName, getAIPersonaGreeting,
                         getMediaTypeFromMessage, getCachedQuotedMedia, getQuotedMediaBuffer, getMediaInfo,
@@ -865,102 +864,102 @@ export default async function ({ message, type: messagesType }, hisoka) {
 
                 // ── Handle tombol .animquote — hapus quote lama lalu kirim quote baru ──
                 {
-                        const { handleAnimquoteCallback } = _require(path.resolve('./SEMUA_FITUR/anime/animquote.cjs'));
+                        const { handleAnimquoteCallback } = await importLazy(path.resolve('./SEMUA_FITUR/anime/animquote.js'));
                         if (await handleAnimquoteCallback({ hisoka, m, tolak, logCommand, logError, Button, getQuotedStanzaId })) return;
                 }
 
-                // ── Handle pending alqupdate list choice → alqanime-cmd.cjs ──
+                // ── Handle pending alqupdate list choice → alqanime-cmd.js ──
                 if (await handleAlqUpdateChoice({ hisoka, m, fs, pendingAlqUpdateChoices, pendingAlqDlChoices, getJadibotChoiceKey, getQuotedStanzaId, pickBestAlqLink, getAllAlqLinksByPriority, formatAlqLinkMsg, tolak, logError })) return;
 
 
-                // ── Handle pending alqdl choice → alqanime-cmd.cjs ──
+                // ── Handle pending alqdl choice → alqanime-cmd.js ──
                 if (await handleAlqDlChoice({ hisoka, m, fs, pendingAlqDlChoices, getJadibotChoiceKey, getQuotedStanzaId, pickBestAlqLink, getAllAlqLinksByPriority, formatAlqLinkMsg, tolak, logError })) return;
 
                 // ── Handle reply ke status alqanimenotif (add/del GC) ──
                 {
-                        const { handleAlqNotifReply } = _require(path.resolve('./SEMUA_FITUR/anime/alqanime-monitor.cjs'));
+                        const { handleAlqNotifReply } = await importLazy(path.resolve('./SEMUA_FITUR/anime/alqanime-monitor.js'));
                         if (await handleAlqNotifReply({ hisoka, m, pendingAlqNotifChoices, getQuotedStanzaId, tolak, logCommand, loadConfig, fs, path })) return;
                 }
 
                 // ── Handle button callback alqanimenotif (__alqnotif_*) ──
                 {
-                        const { handleAlqanimeNotifCallbacks } = _require(path.resolve('./SEMUA_FITUR/anime/alqanime-monitor.cjs'));
+                        const { handleAlqanimeNotifCallbacks } = await importLazy(path.resolve('./SEMUA_FITUR/anime/alqanime-monitor.js'));
                         if (await handleAlqanimeNotifCallbacks({ hisoka, m, tolak, logCommand, Button, loadConfig, fs, path })) return;
                 }
 
                 // ── Handle button callback doujindesu (__doujinnotif_*) ──
                 {
-                        const { handleDoujinNotifCallbacks } = _require(path.resolve('./SEMUA_FITUR/anime/doujindesu-monitor.cjs'));
+                        const { handleDoujinNotifCallbacks } = await importLazy(path.resolve('./SEMUA_FITUR/anime/doujindesu-monitor.js'));
                         if (await handleDoujinNotifCallbacks({ hisoka, m, tolak, logCommand, Button, loadConfig, saveConfig })) return;
                 }
 
                 // ── Handle reply ke status nekopoinotif (add/del GC) ──
                 {
-                        const { handleNekpoiNotifReply } = _require(path.resolve('./SEMUA_FITUR/anime/nekopoi-monitor.cjs'));
+                        const { handleNekpoiNotifReply } = await importLazy(path.resolve('./SEMUA_FITUR/anime/nekopoi-monitor.js'));
                         if (await handleNekpoiNotifReply({ hisoka, m, pendingNekpoiNotifChoices, getQuotedStanzaId, tolak, logCommand, loadConfig, fs, path })) return;
                 }
 
                 // ── Handle button callback nekopoinotif (__nknotif_*) ──
                 {
-                        const { handleNekopoinotifCallbacks } = _require(path.resolve('./SEMUA_FITUR/anime/nekopoi-monitor.cjs'));
+                        const { handleNekopoinotifCallbacks } = await importLazy(path.resolve('./SEMUA_FITUR/anime/nekopoi-monitor.js'));
                         if (await handleNekopoinotifCallbacks({ hisoka, m, tolak, logCommand, Button, loadConfig, fs, path })) return;
                 }
 
                 // ── Handle reply ke status hentaicopnotif (add/del GC) ──
                 {
-                        const { handleHentaicopNotifReply } = _require(path.resolve('./SEMUA_FITUR/anime/hentaicop-monitor.cjs'));
+                        const { handleHentaicopNotifReply } = await importLazy(path.resolve('./SEMUA_FITUR/anime/hentaicop-monitor.js'));
                         if (await handleHentaicopNotifReply({ hisoka, m, pendingHentaicopNotifChoices, getQuotedStanzaId, tolak, logCommand, loadConfig, fs, path })) return;
                 }
 
                 // ── Handle button callback hentaicopnotif (__hcnotif_*) ──
                 {
-                        const { handleHentaicopnotifCallbacks } = _require(path.resolve('./SEMUA_FITUR/anime/hentaicop-monitor.cjs'));
+                        const { handleHentaicopnotifCallbacks } = await importLazy(path.resolve('./SEMUA_FITUR/anime/hentaicop-monitor.js'));
                         if (await handleHentaicopnotifCallbacks({ hisoka, m, tolak, logCommand, Button, loadConfig, fs, path })) return;
                 }
 
                 // ── Handle tap button single-select .wilyai ───────────────────────────
                 {
-                        const { handleWilyaiCallbacks } = _require(path.resolve('./SEMUA_FITUR/tools/wilyai.cjs'));
+                        const { handleWilyaiCallbacks } = await importLazy(path.resolve('./SEMUA_FITUR/tools/wilyai.js'));
                         if (await handleWilyaiCallbacks({ hisoka, m, tolak, logCommand, loadConfig, saveConfig, isMainBot, countHistory, clearAllHistory, clearAllUserMemory, Button })) return;
                 }
 
-                // ── Handle pending hentaidad confirm (Lanjutkan/Tidak) → hentaidad.cjs ──
+                // ── Handle pending hentaidad confirm (Lanjutkan/Tidak) → hentaidad.js ──
                 {
-                        const { handleHentaidadConfirm } = _require(path.resolve('./SEMUA_FITUR/anime/hentaidad.cjs'));
+                        const { handleHentaidadConfirm } = await importLazy(path.resolve('./SEMUA_FITUR/anime/hentaidad.js'));
                         if (await handleHentaidadConfirm({ hisoka, m, pendingHentaidadConfirm, getQuotedStanzaId, logError })) return;
                 }
 
-                // ── Handle pending hentaidad choice → hentaidad.cjs ──
+                // ── Handle pending hentaidad choice → hentaidad.js ──
                 {
-                        const { handleHentaidadChoice } = _require(path.resolve('./SEMUA_FITUR/anime/hentaidad.cjs'));
+                        const { handleHentaidadChoice } = await importLazy(path.resolve('./SEMUA_FITUR/anime/hentaidad.js'));
                         if (await handleHentaidadChoice({ hisoka, m, pendingHentaidadChoices, pendingHentaidadConfirm, getQuotedStanzaId, tolak, logCommand, logError })) return;
                 }
 
-                // ── Handle pending cosplaytele search choice → cosplay-cmd.cjs ──
+                // ── Handle pending cosplaytele search choice → cosplay-cmd.js ──
                 if (await handleCosplayChoice({ hisoka, m, pendingCosplayChoices, getQuotedStanzaId, tolak, logCommand, logError })) return;
 
-                // ── Handle pending komiktap interactive reply → komiktap-cmd.cjs ──
+                // ── Handle pending komiktap interactive reply → komiktap-cmd.js ──
                 if (await handleKomiktapChoice({ hisoka, m, pendingKomikChoices, getJadibotChoiceKey, getQuotedStanzaId, tolak, logError })) return;
 
-                // ── Handle reply ke pesan list .setbrowser → setbrowser-cmd.cjs ──
+                // ── Handle reply ke pesan list .setbrowser → setbrowser-cmd.js ──
                 if (await handleSetbrowserListReply({ hisoka, m, listAturBrowserMap, pendingAturBrowser, isMainBot, loadConfig, getQuotedStanzaId, BROWSER_LIST, logCommand, Button })) return;
 
-                // ── Handle reply ke pesan konfirmasi .setbrowser → setbrowser-cmd.cjs ──
+                // ── Handle reply ke pesan konfirmasi .setbrowser → setbrowser-cmd.js ──
                 if (await handleSetbrowserConfirmReply({ hisoka, m, pendingAturBrowser, isMainBot, loadConfig, getQuotedStanzaId, BROWSER_LIST, logCommand })) return;
 
-                // ── Handle pending fontuntik choice → fontuntik.cjs ──
+                // ── Handle pending fontuntik choice → fontuntik.js ──
                 {
-                        const { handleFontuntikChoice } = _require(path.resolve('./SEMUA_FITUR/tools/fontuntik.cjs'));
+                        const { handleFontuntikChoice } = await importLazy(path.resolve('./SEMUA_FITUR/tools/fontuntik.js'));
                         if (await handleFontuntikChoice({ hisoka, m, pendingFontuntikChoices, getJadibotChoiceKey, getQuotedStanzaId, Button, tolak, logCommand })) return;
                 }
 
-                // ── Handle pending waifu choice → waifu.cjs ──
+                // ── Handle pending waifu choice → waifu.js ──
                 {
-                        const { handleWaifuChoice } = _require(path.resolve('./SEMUA_FITUR/anime/waifu.cjs'));
+                        const { handleWaifuChoice } = await importLazy(path.resolve('./SEMUA_FITUR/anime/waifu.js'));
                         if (await handleWaifuChoice({ hisoka, m, pendingWaifuChoices, getJadibotChoiceKey, getQuotedStanzaId, Button, tolak, logCommand })) return;
                 }
 
-                // ── Handle pending play choice → play-cmd.cjs ──
+                // ── Handle pending play choice → play-cmd.js ──
                 if (await handlePlayChoice({ hisoka, m, pendingPlayChoices, ensureYtdlp, parseYtdlpError, tolak, logCommand })) return;
 
                 // ─── Cekauto callbacks (interaktif button/list reply) ──────────────────
@@ -1003,7 +1002,7 @@ export default async function ({ message, type: messagesType }, hisoka) {
                                 if (_sdIsYes) {
                                         if (_sdPending.timeout) clearTimeout(_sdPending.timeout);
                                         pendingShutdownConfirm.delete(m.sender);
-                                        const { shutdownBot, restartBot } = _require(path.resolve('./SEMUA_FITUR/system/shutdown.cjs'));
+                                        const { shutdownBot, restartBot } = await importLazy(path.resolve('./SEMUA_FITUR/system/shutdown.js'));
                                         if (_sdPending.type === 'mati') {
                                                 await hisoka.sendMessage(m.from, { react: { text: '⛔', key: m.key } });
                                                 await tolak(hisoka, m,
@@ -1066,7 +1065,7 @@ export default async function ({ message, type: messagesType }, hisoka) {
                         case 'hidetag':
                         case 'ht':
                         case 'all': {
-                                const { handleHidetag } = _require(path.resolve('./SEMUA_FITUR/group/hidetag.cjs'));
+                                const { handleHidetag } = await importLazy(path.resolve('./SEMUA_FITUR/group/hidetag.js'));
                                 await handleHidetag({ hisoka, m, query, tolak, logCommand, getQuotedMediaBuffer });
                                 break;
                         }
@@ -1074,68 +1073,61 @@ export default async function ({ message, type: messagesType }, hisoka) {
                         case 'sematkan':
                         case 'pin':
                         case 'pinpesan': {
-                                const { handleSematkan } = _require(path.resolve('./SEMUA_FITUR/group/sematkan.cjs'));
+                                const { handleSematkan } = await importLazy(path.resolve('./SEMUA_FITUR/group/sematkan.js'));
                                 const _smOk = await handleSematkan(hisoka, m, query, tolak, kvGet);
                                 if (_smOk) logCommand(m, hisoka, 'sematkan');
                                 break;
                         }
 
                         case 'pushkontakgc': {
-                                const _pkgPath = path.resolve('./SEMUA_FITUR/group/pushkontakgc.cjs');
-                                delete _require.cache[_pkgPath];
-                                const { handlePushkontakgc } = _require(_pkgPath);
+                                const _pkgPath = path.resolve('./SEMUA_FITUR/group/pushkontakgc.js');
+const { handlePushkontakgc } = await importLazy(_pkgPath);
                                 await handlePushkontakgc({ hisoka, m, query, tolak, logCommand, getQuotedMediaBuffer });
                                 break;
                         }
 
                         case 'pushkontakgcstop':
                         case 'pkgstop': {
-                                const _pkgPath = path.resolve('./SEMUA_FITUR/group/pushkontakgc.cjs');
-                                delete _require.cache[_pkgPath];
-                                const { handlePushkontakgcstop } = _require(_pkgPath);
+                                const _pkgPath = path.resolve('./SEMUA_FITUR/group/pushkontakgc.js');
+const { handlePushkontakgcstop } = await importLazy(_pkgPath);
                                 await handlePushkontakgcstop({ hisoka, m, tolak, logCommand });
                                 break;
                         }
 
                         case 'savekontak':
                         case 'svgc': {
-                                const _svcPath = path.resolve('./SEMUA_FITUR/group/savekontak.cjs');
-                                delete _require.cache[_svcPath];
-                                const { handleSavekontak } = _require(_svcPath);
+                                const _svcPath = path.resolve('./SEMUA_FITUR/group/savekontak.js');
+const { handleSavekontak } = await importLazy(_svcPath);
                                 await handleSavekontak({ hisoka, m, query, tolak, logCommand });
                                 break;
                         }
 
                         case 'savekontakstop':
                         case 'svcstop': {
-                                const _svcPath = path.resolve('./SEMUA_FITUR/group/savekontak.cjs');
-                                delete _require.cache[_svcPath];
-                                const { handleSavekontakstop } = _require(_svcPath);
+                                const _svcPath = path.resolve('./SEMUA_FITUR/group/savekontak.js');
+const { handleSavekontakstop } = await importLazy(_svcPath);
                                 await handleSavekontakstop({ hisoka, m, tolak, logCommand });
                                 break;
                         }
 
                         case 'sv':
                         case 'savekontak1': {
-                                const _svcPath = path.resolve('./SEMUA_FITUR/group/savekontak.cjs');
-                                delete _require.cache[_svcPath];
-                                const { handleSv } = _require(_svcPath);
+                                const _svcPath = path.resolve('./SEMUA_FITUR/group/savekontak.js');
+const { handleSv } = await importLazy(_svcPath);
                                 await handleSv({ hisoka, m, query, tolak, logCommand });
                                 break;
                         }
 
                         case 'jpm': {
-                                const _jpmPath = path.resolve('./SEMUA_FITUR/group/jpm.cjs');
-                                delete _require.cache[_jpmPath];
-                                const { handleJpm } = _require(_jpmPath);
+                                const _jpmPath = path.resolve('./SEMUA_FITUR/group/jpm.js');
+const { handleJpm } = await importLazy(_jpmPath);
                                 await handleJpm({ hisoka, m, query, tolak, logCommand, getQuotedMediaBuffer, Button });
                                 break;
                         }
 
                         case 'jpmstop': {
-                                const _jpmPath = path.resolve('./SEMUA_FITUR/group/jpm.cjs');
-                                delete _require.cache[_jpmPath];
-                                const { handleJpmstop } = _require(_jpmPath);
+                                const _jpmPath = path.resolve('./SEMUA_FITUR/group/jpm.js');
+const { handleJpmstop } = await importLazy(_jpmPath);
                                 await handleJpmstop({ hisoka, m, tolak, logCommand });
                                 break;
                         }
@@ -1143,16 +1135,15 @@ export default async function ({ message, type: messagesType }, hisoka) {
                         case 'jpmlist':
                         case 'listjpm':
                         case 'daftargc': {
-                                const _jpmPath = path.resolve('./SEMUA_FITUR/group/jpm.cjs');
-                                delete _require.cache[_jpmPath];
-                                const { handleJpmlist } = _require(_jpmPath);
+                                const _jpmPath = path.resolve('./SEMUA_FITUR/group/jpm.js');
+const { handleJpmlist } = await importLazy(_jpmPath);
                                 await handleJpmlist({ hisoka, m, tolak, logCommand });
                                 break;
                         }
 
                         case 'clearsesi':
                         case 'cs': {
-                                const { handleClearsesi } = _require(path.resolve('./SEMUA_FITUR/jadibot/clearsesi.cjs'));
+                                const { handleClearsesi } = await importLazy(path.resolve('./SEMUA_FITUR/jadibot/clearsesi.js'));
                                 await handleClearsesi({ hisoka, m, query, tolak, logCommand, getJadibotNumber, jadibotClearSesiMap });
                                 break;
                         }
@@ -1160,7 +1151,7 @@ export default async function ({ message, type: messagesType }, hisoka) {
                         case 'cekjidgc':
                         case 'jidgc':
                         case 'infogc': {
-                                const { handleCekjidgc } = _require(path.resolve('./SEMUA_FITUR/info/cekjidgc.cjs'));
+                                const { handleCekjidgc } = await importLazy(path.resolve('./SEMUA_FITUR/info/cekjidgc.js'));
                                 await handleCekjidgc({ hisoka, m, tolak, logCommand, Button });
                                 break;
                         }
@@ -1168,7 +1159,7 @@ export default async function ({ message, type: messagesType }, hisoka) {
                         case 'cekjidch':
                         case 'jidch':
                         case 'infochannel': {
-                                const { handleCekjidch } = _require(path.resolve('./SEMUA_FITUR/info/cekjidch.cjs'));
+                                const { handleCekjidch } = await importLazy(path.resolve('./SEMUA_FITUR/info/cekjidch.js'));
                                 await handleCekjidch({ hisoka, m, query, tolak, logCommand, Button });
                                 break;
                         }
@@ -1177,7 +1168,7 @@ export default async function ({ message, type: messagesType }, hisoka) {
                         case 'jidgcall':
                         case 'listjidgc':
                         case 'alljidgc': {
-                                const { handleAlljidgc } = _require(path.resolve('./SEMUA_FITUR/info/cekjidgcall.cjs'));
+                                const { handleAlljidgc } = await importLazy(path.resolve('./SEMUA_FITUR/info/cekjidgcall.js'));
                                 await handleAlljidgc({ hisoka, m, tolak, logCommand, Button });
                                 break;
                         }
@@ -1185,7 +1176,7 @@ export default async function ({ message, type: messagesType }, hisoka) {
                         case 'memori':
                         case 'mymemory':
                         case 'myprofile': {
-                                const { handleMemori } = _require(path.resolve('./SEMUA_FITUR/info/memory-cmd.cjs'));
+                                const { handleMemori } = await importLazy(path.resolve('./SEMUA_FITUR/info/memory-cmd.js'));
                                 await handleMemori({ hisoka, m, logCommand, loadUserMemory, memoryToReadable });
                                 break;
                         }
@@ -1194,52 +1185,52 @@ export default async function ({ message, type: messagesType }, hisoka) {
                         case 'resetmemori':
                         case 'resetmemory':
                         case 'forgetme': {
-                                const { handleLupakanaku } = _require(path.resolve('./SEMUA_FITUR/info/memory-cmd.cjs'));
+                                const { handleLupakanaku } = await importLazy(path.resolve('./SEMUA_FITUR/info/memory-cmd.js'));
                                 await handleLupakanaku({ hisoka, m, logCommand, clearUserMemory });
                                 break;
                         }
 
                         case 'q':
                         case 'quoted': {
-                                const { handleQuoted } = _require(path.resolve('./SEMUA_FITUR/info/quoted-cmd.cjs'));
+                                const { handleQuoted } = await importLazy(path.resolve('./SEMUA_FITUR/info/quoted-cmd.js'));
                                 await handleQuoted({ hisoka, m, tolak, logCommand, injectMessage });
                                 break;
                         }
 
                         case 'getppuser': {
-                                const { handleGetppuser } = _require(path.resolve('./SEMUA_FITUR/info/getppuser-cmd.cjs'));
+                                const { handleGetppuser } = await importLazy(path.resolve('./SEMUA_FITUR/info/getppuser-cmd.js'));
                                 await handleGetppuser({ hisoka, m, tolak, logCommand });
                                 break;
                         }
 
                                 case 'ping':
                                 case 'p': {
-                                        const { handlePing } = _require(path.resolve('./SEMUA_FITUR/info/ping.cjs'));
+                                        const { handlePing } = await importLazy(path.resolve('./SEMUA_FITUR/info/ping.js'));
                                         await handlePing({ hisoka, m, tolak, logCommand, getBotStats, os });
                                         break;
                                 }
 
                         case 'cekspeed':
                         case 'testnet': {
-                                const { handleTestnet } = _require(path.resolve('./SEMUA_FITUR/info/speedtest.cjs'));
+                                const { handleTestnet } = await importLazy(path.resolve('./SEMUA_FITUR/info/speedtest.js'));
                                 await handleTestnet({ hisoka, m, tolak, logCommand });
                                 break;
                         }
                         case 'ceksize': {
-                                const { handleFilesize } = _require(path.resolve('./SEMUA_FITUR/info/ceksize.cjs'));
-                                await handleFilesize({ hisoka, m, tolak, logCommand, _require, path });
+                                const { handleFilesize } = await importLazy(path.resolve('./SEMUA_FITUR/info/ceksize.js'));
+                                await handleFilesize({ hisoka, m, tolak, logCommand, path });
                                 break;
                         }
                         case '>':
                         case 'eval': {
-                                const { handleEval } = _require(path.resolve('./SEMUA_FITUR/info/eval-cmd.cjs'));
+                                const { handleEval } = await importLazy(path.resolve('./SEMUA_FITUR/info/eval-cmd.js'));
                                 await handleEval({ hisoka, m, query, text, tolak, logCommand, util });
                                 break;
                         }
 
                         case '$':
                         case 'bash': {
-                                const { handleBash } = _require(path.resolve('./SEMUA_FITUR/info/eval-cmd.cjs'));
+                                const { handleBash } = await importLazy(path.resolve('./SEMUA_FITUR/info/eval-cmd.js'));
                                 await handleBash({ hisoka, m, query, tolak, logCommand, exec, util });
                                 break;
                         }
@@ -1247,131 +1238,131 @@ export default async function ({ message, type: messagesType }, hisoka) {
                         case 'mati':
                         case 'shutdown':
                         case 'matiin': {
-                                const { handleMati } = _require(path.resolve('./SEMUA_FITUR/info/mati-cmd.cjs'));
-                                await handleMati({ hisoka, m, tolak, logCommand, _require, path, Button, pendingShutdownConfirm });
+                                const { handleMati } = await importLazy(path.resolve('./SEMUA_FITUR/info/mati-cmd.js'));
+                                await handleMati({ hisoka, m, tolak, logCommand, path, Button, pendingShutdownConfirm });
                                 break;
                         }
 
                         case 'restart1':
                         case 'rebot':
                         case 'rb': {
-                                const { handleRb } = _require(path.resolve('./SEMUA_FITUR/system/shutdown.cjs'));
-                                await handleRb({ hisoka, m, tolak, logCommand, _require, Button, pendingShutdownConfirm });
+                                const { handleRb } = await importLazy(path.resolve('./SEMUA_FITUR/system/shutdown.js'));
+                                await handleRb({ hisoka, m, tolak, logCommand, Button, pendingShutdownConfirm });
                                 break;
                         }
                         case 'credsjson': {
-                                const { handleCredsJson } = _require(path.resolve('./SEMUA_FITUR/jadibot/credsjson.cjs'));
+                                const { handleCredsJson } = await importLazy(path.resolve('./SEMUA_FITUR/jadibot/credsjson.js'));
                                 await handleCredsJson({ hisoka, m, query, tolak, logCommand, isMainBot, path });
                                 break;
                         }
 
                         case 'sessiondb':
                         case 'sessionstat': {
-                                const { handleSessionstat } = _require(path.resolve('./SEMUA_FITUR/jadibot/ceksesi.cjs'));
+                                const { handleSessionstat } = await importLazy(path.resolve('./SEMUA_FITUR/jadibot/ceksesi.js'));
                                 await handleSessionstat({ hisoka, m, fs, path, logCommand });
                                 break;
                         }
                         case 'group':
                         case 'listgroup': {
-                                const { handleListgroup } = _require(path.resolve('./SEMUA_FITUR/info/info.cjs'));
+                                const { handleListgroup } = await importLazy(path.resolve('./SEMUA_FITUR/info/info.js'));
                                 await handleListgroup({ hisoka, m, tolak, logCommand });
                                 break;
                         }
                         case 'contact':
                         case 'listcontact': {
-                                const { handleListcontact } = _require(path.resolve('./SEMUA_FITUR/info/info.cjs'));
+                                const { handleListcontact } = await importLazy(path.resolve('./SEMUA_FITUR/info/info.js'));
                                 await handleListcontact({ hisoka, m, tolak, logCommand });
                                 break;
                         }
                         case 'cuaca':
                         case 'weather': {
-                                const { handleWeather } = _require(path.resolve('./SEMUA_FITUR/tools/cuaca.cjs'));
-                                await handleWeather({ hisoka, m, query, tolak, logCommand, logError, _require, path });
+                                const { handleWeather } = await importLazy(path.resolve('./SEMUA_FITUR/tools/cuaca.js'));
+                                await handleWeather({ hisoka, m, query, tolak, logCommand, logError, path });
                                 break;
                         }
                         case 'tempmail':
                         case 'tmail':
                         case 'tmailbox': {
-                                const { handleTempmail } = _require(path.resolve('./SEMUA_FITUR/tools/tempmail.cjs'));
-                                await handleTempmail({ hisoka, m, query, tolak, logCommand, logError, path, _require });
+                                const { handleTempmail } = await importLazy(path.resolve('./SEMUA_FITUR/tools/tempmail.js'));
+                                await handleTempmail({ hisoka, m, query, tolak, logCommand, logError, path });
                                 break;
                         }
                         case 'tminbox':
                         case 'tmread':
                         case 'tmwait':
                         case 'tmdel': {
-                                const { handleTempmail } = _require(path.resolve('./SEMUA_FITUR/tools/tempmail.cjs'));
-                                await handleTempmail({ hisoka, m, query, tolak, logCommand, logError, path, _require });
+                                const { handleTempmail } = await importLazy(path.resolve('./SEMUA_FITUR/tools/tempmail.js'));
+                                await handleTempmail({ hisoka, m, query, tolak, logCommand, logError, path });
                                 break;
                         }
 
                         case 'animgif':
                         case 'animegif':
                         case 'gifanime': {
-                                const { handleAnimgif } = _require(path.resolve('./SEMUA_FITUR/anime/tenor-gif.cjs'));
+                                const { handleAnimgif } = await importLazy(path.resolve('./SEMUA_FITUR/anime/tenor-gif.js'));
                                 await handleAnimgif(hisoka, m, query, { tolak, logCommand });
                                 break;
                         }
 
                         case 'pixiv': {
-                                const { handlePixiv } = _require(path.resolve('./SEMUA_FITUR/anime/pixiv.cjs'));
-                                await handlePixiv({ hisoka, m, query, tolak, logCommand, logError, path, _require });
+                                const { handlePixiv } = await importLazy(path.resolve('./SEMUA_FITUR/anime/pixiv.js'));
+                                await handlePixiv({ hisoka, m, query, tolak, logCommand, logError, path });
                                 break;
                         }
                         case 'nhentai':
                         case 'nh': {
-                                const { handleNh } = _require(path.resolve('./SEMUA_FITUR/anime/nhentai.cjs'));
-                                await handleNh({ hisoka, m, query, tolak, logCommand, logError, _require, path });
+                                const { handleNh } = await importLazy(path.resolve('./SEMUA_FITUR/anime/nhentai.js'));
+                                await handleNh({ hisoka, m, query, tolak, logCommand, logError, path });
                                 break;
                         }
                         case 'nhrand': {
-                                const { handleNhrand } = _require(path.resolve('./SEMUA_FITUR/anime/nhentai.cjs'));
+                                const { handleNhrand } = await importLazy(path.resolve('./SEMUA_FITUR/anime/nhentai.js'));
                                 await handleNhrand({ hisoka, m, tolak, logCommand, logError });
                                 break;
                         }
                         case 'nhget':
                         case 'nhdownload':
                         case 'nhdl': {
-                                const { handleNhdl } = _require(path.resolve('./SEMUA_FITUR/anime/nhentai.cjs'));
+                                const { handleNhdl } = await importLazy(path.resolve('./SEMUA_FITUR/anime/nhentai.js'));
                                 await handleNhdl({ hisoka, m, query, tolak, logCommand, logError, path });
                                 break;
                         }
 
                         case 'komiktap':
                         case 'komik': {
-                                const { handleKomik } = _require(path.resolve('./SEMUA_FITUR/anime/komiktap.cjs'));
+                                const { handleKomik } = await importLazy(path.resolve('./SEMUA_FITUR/anime/komiktap.js'));
                                 await handleKomik({ hisoka, m, query, tolak, logCommand, logError, path, pendingKomikChoices, getJadibotChoiceKey });
                                 break;
                         }
 
                         case 'komikinfo': {
-                                const { handleKomikinfo } = _require(path.resolve('./SEMUA_FITUR/anime/komiktap.cjs'));
-                                await handleKomikinfo({ hisoka, m, query, tolak, logError, _require, path });
+                                const { handleKomikinfo } = await importLazy(path.resolve('./SEMUA_FITUR/anime/komiktap.js'));
+                                await handleKomikinfo({ hisoka, m, query, tolak, logError, path });
                                 break;
                         }
                         case 'komikget':
                         case 'komikdl': {
-                                const { handleKomikdl } = _require(path.resolve('./SEMUA_FITUR/anime/komiktap.cjs'));
-                                await handleKomikdl({ hisoka, m, query, tolak, logCommand, logError, path, _require });
+                                const { handleKomikdl } = await importLazy(path.resolve('./SEMUA_FITUR/anime/komiktap.js'));
+                                await handleKomikdl({ hisoka, m, query, tolak, logCommand, logError, path });
                                 break;
                         }
                         case 'komikupdate':
                         case 'komikup': {
-                                const { handleKomikup } = _require(path.resolve('./SEMUA_FITUR/anime/komiktap.cjs'));
-                                await handleKomikup({ hisoka, m, tolak, logError, _require, path });
+                                const { handleKomikup } = await importLazy(path.resolve('./SEMUA_FITUR/anime/komiktap.js'));
+                                await handleKomikup({ hisoka, m, tolak, logError, path });
                                 break;
                         }
                         case 'kusonime':
                         case 'kuso':
                         case 'anime': {
-                                const { handleAnime } = _require(path.resolve('./SEMUA_FITUR/anime/kusonime.cjs'));
+                                const { handleAnime } = await importLazy(path.resolve('./SEMUA_FITUR/anime/kusonime.js'));
                                 await handleAnime({ hisoka, m, query, tolak, logCommand, logError, path });
                                 break;
                         }
 
                         case 'kusonimeupdate':
                         case 'animeupdate': {
-                                const { handleAnimeupdate } = _require(path.resolve('./SEMUA_FITUR/anime/kusonime.cjs'));
+                                const { handleAnimeupdate } = await importLazy(path.resolve('./SEMUA_FITUR/anime/kusonime.js'));
                                 await handleAnimeupdate({ hisoka, m, tolak, logCommand, logError });
                                 break;
                         }
@@ -1379,10 +1370,10 @@ export default async function ({ message, type: messagesType }, hisoka) {
                         case 'alq': {
                                 const _alqSub = (query || '').trim().toLowerCase();
                                 if (['on', 'off', 'status', 'test', 'help', 'test grup', 'add', 'del'].includes(_alqSub) || /^(add|del)\s/.test(_alqSub)) {
-                                        const { handleAlqanimeNotif } = _require(path.resolve('./SEMUA_FITUR/anime/alqanime-monitor.cjs'));
+                                        const { handleAlqanimeNotif } = await importLazy(path.resolve('./SEMUA_FITUR/anime/alqanime-monitor.js'));
                                         await handleAlqanimeNotif({ hisoka, m, query, tolak, logCommand, sendConfirmWithButtons, fs, path, loadConfig, pendingAlqNotifChoices, getQuotedStanzaId, Button });
                                 } else {
-                                        const { handleAlq } = _require(path.resolve('./SEMUA_FITUR/anime/alqanime.cjs'));
+                                        const { handleAlq } = await importLazy(path.resolve('./SEMUA_FITUR/anime/alqanime.js'));
                                         await handleAlq({ hisoka, m, query, tolak, logCommand, logError, path, pendingAlqDlChoices, getJadibotChoiceKey });
                                 }
                                 break;
@@ -1390,33 +1381,33 @@ export default async function ({ message, type: messagesType }, hisoka) {
 
                         case 'alqupdate':
                         case 'alqanimeupdate': {
-                                const { handleAlqupdate } = _require(path.resolve('./SEMUA_FITUR/anime/alqanime.cjs'));
-                                await handleAlqupdate({ hisoka, m, tolak, logCommand, logError, _require, path, getJadibotChoiceKey, pendingAlqUpdateChoices });
+                                const { handleAlqupdate } = await importLazy(path.resolve('./SEMUA_FITUR/anime/alqanime.js'));
+                                await handleAlqupdate({ hisoka, m, tolak, logCommand, logError, path, getJadibotChoiceKey, pendingAlqUpdateChoices });
                                 break;
                         }
 
                         case 'alqdl':
                         case 'alqdownload': {
-                                const { handleAlqdownload } = _require(path.resolve('./SEMUA_FITUR/anime/alqanime-dl.cjs'));
+                                const { handleAlqdownload } = await importLazy(path.resolve('./SEMUA_FITUR/anime/alqanime-dl.js'));
                                 await handleAlqdownload({ hisoka, m, query, tolak, logCommand, logError, fs, path });
                                 break;
                         }
 
                         case 'hentaidad': {
-                                const { handleHentaidad } = _require(path.resolve('./SEMUA_FITUR/anime/hentaidad.cjs'));
+                                const { handleHentaidad } = await importLazy(path.resolve('./SEMUA_FITUR/anime/hentaidad.js'));
                                 await handleHentaidad({ hisoka, m, tolak, logCommand, logError, pendingHentaidadChoices });
                                 break;
                         }
 
                         case 'hdad': {
-                                const { handleHentaidad } = _require(path.resolve('./SEMUA_FITUR/anime/hentaidad.cjs'));
+                                const { handleHentaidad } = await importLazy(path.resolve('./SEMUA_FITUR/anime/hentaidad.js'));
                                 await handleHentaidad({ hisoka, m, tolak, logCommand, logError, pendingHentaidadChoices });
                                 break;
                         }
 
                         case 'anyvoice':
                         case 'tts': {
-                                const { handleAnyvoice } = _require(path.resolve('./SEMUA_FITUR/media/anyvoice.cjs'));
+                                const { handleAnyvoice } = await importLazy(path.resolve('./SEMUA_FITUR/media/anyvoice.js'));
                                 await handleAnyvoice({ hisoka, m, query, tolak, logCommand, logError });
                                 break;
                         }
@@ -1425,41 +1416,41 @@ export default async function ({ message, type: messagesType }, hisoka) {
                         case 'cosplayrandom':
                         case 'cosplay':
                         case 'ctele': {
-                                const { handleCosplay } = _require(path.resolve('./SEMUA_FITUR/anime/cosplaytele.cjs'));
-                                await handleCosplay({ hisoka, m, query, tolak, logCommand, logError, _require, path, _sendCosplayImages, pendingCosplayChoices });
+                                const { handleCosplay } = await importLazy(path.resolve('./SEMUA_FITUR/anime/cosplaytele.js'));
+                                await handleCosplay({ hisoka, m, query, tolak, logCommand, logError, path, _sendCosplayImages, pendingCosplayChoices });
                                 break;
                         }
 
                         case 'pixivr18':
                         case 'pixiv18': {
-                                const { handlePixiv18 } = _require(path.resolve('./SEMUA_FITUR/anime/pixivr18.cjs'));
-                                await handlePixiv18({ hisoka, m, query, tolak, logCommand, logError, path, _require });
+                                const { handlePixiv18 } = await importLazy(path.resolve('./SEMUA_FITUR/anime/pixivr18.js'));
+                                await handlePixiv18({ hisoka, m, query, tolak, logCommand, logError, path });
                                 break;
                         }
                         case 'cekhp':
                         case 'spechp':
                         case 'infohp': {
-                                const { handleCekhp } = _require(path.resolve('./SEMUA_FITUR/tools/cekhp.cjs'));
-                                await handleCekhp({ hisoka, m, query, tolak, logCommand, logError, _require, path, gemini });
+                                const { handleCekhp } = await importLazy(path.resolve('./SEMUA_FITUR/tools/cekhp.js'));
+                                await handleCekhp({ hisoka, m, query, tolak, logCommand, logError, path, gemini });
                                 break;
                         }
 
                         case 'compare':
                         case 'vsbandingkan': {
-                                const { handleVsbandingkan } = _require(path.resolve('./SEMUA_FITUR/tools/bandingkanhp.cjs'));
-                                await handleVsbandingkan({ hisoka, m, query, tolak, logCommand, logError, path, _require });
+                                const { handleVsbandingkan } = await importLazy(path.resolve('./SEMUA_FITUR/tools/bandingkanhp.js'));
+                                await handleVsbandingkan({ hisoka, m, query, tolak, logCommand, logError, path });
                                 break;
                         }
                         case 'font':
                         case 'fontgen':
                         case 'fontuntik': {
-                                const { handleFontuntik } = _require(path.resolve('./SEMUA_FITUR/tools/fontuntik.cjs'));
+                                const { handleFontuntik } = await importLazy(path.resolve('./SEMUA_FITUR/tools/fontuntik.js'));
                                 await handleFontuntik(m, hisoka, { Button, logCommand, tolak, pendingFontuntikChoices, getJadibotChoiceKey });
                                 break;
                         }
 
                         case 'logo': {
-                                const { handleFlamingtext } = _require(path.resolve('./SEMUA_FITUR/tools/flamingtext.cjs'));
+                                const { handleFlamingtext } = await importLazy(path.resolve('./SEMUA_FITUR/tools/flamingtext.js'));
                                 await handleFlamingtext({ hisoka, m, query, tolak, logCommand, logError });
                                 break;
                         }
@@ -1467,19 +1458,19 @@ export default async function ({ message, type: messagesType }, hisoka) {
                         case 'anigame':
                         case 'gamean1':
                         case 'an1game': {
-                                const { handleAn1game } = _require(path.resolve('./SEMUA_FITUR/tools/an1game.cjs'));
+                                const { handleAn1game } = await importLazy(path.resolve('./SEMUA_FITUR/tools/an1game.js'));
                                 await handleAn1game({ hisoka, m, query, tolak, logCommand, sendConfirmWithButtons, fs, path, loadConfig, Button });
                                 break;
                         }
 
                         case 'waifu': {
-                                const { handleWaifu } = _require(path.resolve('./SEMUA_FITUR/anime/waifu.cjs'));
+                                const { handleWaifu } = await importLazy(path.resolve('./SEMUA_FITUR/anime/waifu.js'));
                                 await handleWaifu(m, hisoka, { Button, logCommand, tolak, pendingWaifuChoices, getJadibotChoiceKey });
                                 break;
                         }
 
                         case 'animquote': {
-                                const { handleAnimquote } = _require(path.resolve('./SEMUA_FITUR/anime/animquote.cjs'));
+                                const { handleAnimquote } = await importLazy(path.resolve('./SEMUA_FITUR/anime/animquote.js'));
                                 await handleAnimquote({ hisoka, m, tolak, logCommand, logError, Button });
                                 break;
                         }
@@ -1487,14 +1478,14 @@ export default async function ({ message, type: messagesType }, hisoka) {
                         case 'bluearchive':
                         case 'bachar':
                         case 'ba': {
-                                const { handleBa } = _require(path.resolve('./SEMUA_FITUR/anime/bluearchive.cjs'));
-                                await handleBa({ hisoka, m, query, tolak, logCommand, logError, path, _require });
+                                const { handleBa } = await importLazy(path.resolve('./SEMUA_FITUR/anime/bluearchive.js'));
+                                await handleBa({ hisoka, m, query, tolak, logCommand, logError, path });
                                 break;
                         }
                         case 'geniussearch':
                         case 'carilagu': {
-                                const { handleCarilagu } = _require(path.resolve('./SEMUA_FITUR/music/genius.cjs'));
-                                await handleCarilagu({ hisoka, m, query, tolak, logCommand, logError, _require, path });
+                                const { handleCarilagu } = await importLazy(path.resolve('./SEMUA_FITUR/music/genius.js'));
+                                await handleCarilagu({ hisoka, m, query, tolak, logCommand, logError, path });
                                 break;
                         }
                         case 'musikai':
@@ -1507,8 +1498,8 @@ export default async function ({ message, type: messagesType }, hisoka) {
 
                         case 'gdetail':
                         case 'detailgenius': {
-                                const { handleDetailgenius } = _require(path.resolve('./SEMUA_FITUR/music/genius.cjs'));
-                                await handleDetailgenius({ hisoka, m, query, tolak, logCommand, logError, _require, path });
+                                const { handleDetailgenius } = await importLazy(path.resolve('./SEMUA_FITUR/music/genius.js'));
+                                await handleDetailgenius({ hisoka, m, query, tolak, logCommand, logError, path });
                                 break;
                         }
                         case 'whatsmusik':
@@ -1517,145 +1508,145 @@ export default async function ({ message, type: messagesType }, hisoka) {
                         case 'tebaklagu':
                         case 'shazam':
                         case 'carijudullagu': {
-                                const { handleWhatsmusik } = _require(path.resolve('./SEMUA_FITUR/music/whatsmusik.cjs'));
-                                await handleWhatsmusik({ hisoka, m, query, tolak, logCommand, logError, _require, path, getMediaTypeFromMessage, downloadMediaBuffer, ensureYtdlp });
+                                const { handleWhatsmusik } = await importLazy(path.resolve('./SEMUA_FITUR/music/whatsmusik.js'));
+                                await handleWhatsmusik({ hisoka, m, query, tolak, logCommand, logError, path, getMediaTypeFromMessage, downloadMediaBuffer, ensureYtdlp });
                                 break;
                         }
 
                         case 'menu': {
-                                const { handleMenu } = _require(path.resolve('./SEMUA_FITUR/menu/menu-cmd.cjs'));
+                                const { handleMenu } = await importLazy(path.resolve('./SEMUA_FITUR/menu/menu-cmd.js'));
                                 await handleMenu({ hisoka, m, tolak, logCommand, loadConfig, Button, getJadibotNumber, getJadibotReadsw, getJadibotAntidel, getJadibotAnticall, getJadibotAnticallvid, getJadibotAutoOnline, getJadibotAutoTyping, getJadibotAutoRecording, jadibotConnectedAt, getJadibotExpiry, getJadibotExpirySummary, getHandler, CEKAUTO_FITUR_LIST, BROWSER_LIST, TOTAL_CMD_COUNT, getUserProfilePictureUrl, isNoSpaceError, cleanupWritePressure });
                                 break;
                         }
 
                         case 'allmenu': {
-                                const { handleAllmenu } = _require(path.resolve('./SEMUA_FITUR/menu/menupages.cjs'));
+                                const { handleAllmenu } = await importLazy(path.resolve('./SEMUA_FITUR/menu/menupages.js'));
                                 await handleAllmenu({ hisoka, m, query, loadConfig, logCommand, fs, path });
                                 break;
                         }
                         case 'settingmenu': {
-                                const { handleSettingmenu } = _require(path.resolve('./SEMUA_FITUR/menu/menu-pages2.cjs'));
+                                const { handleSettingmenu } = await importLazy(path.resolve('./SEMUA_FITUR/menu/menu-pages2.js'));
                                 await handleSettingmenu({ hisoka, m, tolak, logCommand, loadConfig });
                                 break;
                         }
                         case 'groupmenu': {
-                                const { handleGroupmenu } = _require(path.resolve('./SEMUA_FITUR/menu/menu-pages2.cjs'));
+                                const { handleGroupmenu } = await importLazy(path.resolve('./SEMUA_FITUR/menu/menu-pages2.js'));
                                 await handleGroupmenu({ hisoka, m, tolak, logCommand, loadConfig });
                                 break;
                         }
                         case 'statusmenu': {
-                                const { handleStatusmenu } = _require(path.resolve('./SEMUA_FITUR/menu/menu-pages2.cjs'));
+                                const { handleStatusmenu } = await importLazy(path.resolve('./SEMUA_FITUR/menu/menu-pages2.js'));
                                 await handleStatusmenu({ hisoka, m, tolak, logCommand, loadConfig });
                                 break;
                         }
                         case 'downloadmenu': {
-                                const { handleDownloadmenu } = _require(path.resolve('./SEMUA_FITUR/menu/menu-pages2.cjs'));
+                                const { handleDownloadmenu } = await importLazy(path.resolve('./SEMUA_FITUR/menu/menu-pages2.js'));
                                 await handleDownloadmenu({ hisoka, m, tolak, logCommand, loadConfig });
                                 break;
                         }
                         case 'jadibotmenu': {
-                                const { handleJadibotmenu } = _require(path.resolve('./SEMUA_FITUR/info/info.cjs'));
+                                const { handleJadibotmenu } = await importLazy(path.resolve('./SEMUA_FITUR/info/info.js'));
                                 await handleJadibotmenu({ hisoka, m, tolak, logCommand, loadConfig });
                                 break;
                         }
                         case 'ownermenu': {
-                                const { handleOwnermenu } = _require(path.resolve('./SEMUA_FITUR/menu/menupages.cjs'));
+                                const { handleOwnermenu } = await importLazy(path.resolve('./SEMUA_FITUR/menu/menupages.js'));
                                 await handleOwnermenu({ hisoka, m, query, loadConfig, logCommand, fs, path });
                                 break;
                         }
                         case 'info': {
-                                const { handleInfo } = _require(path.resolve('./SEMUA_FITUR/info/info.cjs'));
+                                const { handleInfo } = await importLazy(path.resolve('./SEMUA_FITUR/info/info.js'));
                                 await handleInfo({ hisoka, m, query, tolak, logCommand, loadConfig, fs, path });
                                 break;
                         }
 
                         case 'changelog':
                         case 'update': {
-                                const { handleUpdate } = _require(path.resolve('./SEMUA_FITUR/info/info.cjs'));
+                                const { handleUpdate } = await importLazy(path.resolve('./SEMUA_FITUR/info/info.js'));
                                 await handleUpdate({ hisoka, m, tolak, logCommand, path, fs, isMainBot });
                                 break;
                         }
                         case 'addown':
                         case 'addowner': {
-                                const { handleAddowner } = _require(path.resolve('./SEMUA_FITUR/info/info.cjs'));
+                                const { handleAddowner } = await importLazy(path.resolve('./SEMUA_FITUR/info/info.js'));
                                 await handleAddowner({ hisoka, m, query, tolak, logCommand, loadConfig, saveConfig, isMainBot });
                                 break;
                         }
                         case 'delown':
                         case 'delowner': {
-                                const { handleDelowner } = _require(path.resolve('./SEMUA_FITUR/info/info.cjs'));
+                                const { handleDelowner } = await importLazy(path.resolve('./SEMUA_FITUR/info/info.js'));
                                 await handleDelowner({ hisoka, m, query, tolak, logCommand, loadConfig, saveConfig, isMainBot });
                                 break;
                         }
                         case 'owner':
                         case 'own': {
-                                const { handleOwn } = _require(path.resolve('./SEMUA_FITUR/info/info.cjs'));
+                                const { handleOwn } = await importLazy(path.resolve('./SEMUA_FITUR/info/info.js'));
                                 await handleOwn({ hisoka, m, tolak, logCommand, loadConfig });
                                 break;
                         }
                         case 'memory': {
-                                const { handleMemory } = _require(path.resolve('./SEMUA_FITUR/jadibot/ceksesi.cjs'));
+                                const { handleMemory } = await importLazy(path.resolve('./SEMUA_FITUR/jadibot/ceksesi.js'));
                                 await handleMemory({ hisoka, m, tolak, logCommand });
                                 break;
                         }
                         case 'rvo':
                         case 'viewonce':
                         case 'vo': {
-                                const { handleVo } = _require(path.resolve('./SEMUA_FITUR/media/viewonce.cjs'));
+                                const { handleVo } = await importLazy(path.resolve('./SEMUA_FITUR/media/viewonce.js'));
                                 await handleVo({ hisoka, m, query, tolak, logCommand, quoted, downloadMediaMessage, isJidGroup, hasViewOnceCache, getViewOnceCache });
                                 break;
                         }
 
                         case 'rvo2': {
-                                const { handleVo2 } = _require(path.resolve('./SEMUA_FITUR/media/viewonce2.cjs'));
+                                const { handleVo2 } = await importLazy(path.resolve('./SEMUA_FITUR/media/viewonce2.js'));
                                 await handleVo2({ hisoka, m, query, tolak, logCommand, quoted, downloadMediaMessage, isJidGroup, hasViewOnceCache, getViewOnceCache });
                                 break;
                         }
 
                         case 'getsw':
                         case 'sw': {
-                                const { handleSw } = _require(path.resolve('./SEMUA_FITUR/media/getsw.cjs'));
+                                const { handleSw } = await importLazy(path.resolve('./SEMUA_FITUR/media/getsw.js'));
                                 await handleSw({ hisoka, m, query, tolak, logCommand, loadConfig, downloadMediaMessage, isJidGroup });
                                 break;
                         }
 
                         case 'cekidff': {
-                                const { handleCekidff } = _require(path.resolve('./SEMUA_FITUR/tools/cekidff.cjs'));
+                                const { handleCekidff } = await importLazy(path.resolve('./SEMUA_FITUR/tools/cekidff.js'));
                                 await handleCekidff({ hisoka, m, query, tolak });
                                 break;
                         }
 
                         case 'ram': {
-                                const { handleRam } = _require(path.resolve('./SEMUA_FITUR/jadibot/ceksesi.cjs'));
+                                const { handleRam } = await importLazy(path.resolve('./SEMUA_FITUR/jadibot/ceksesi.js'));
                                 await handleRam({ hisoka, m, tolak, logCommand });
                                 break;
                         }
                         case 'ramdisk':
                         case 'diskram': {
-                                const { handleRamdisk } = _require(path.resolve('./SEMUA_FITUR/setting/diskram.cjs'));
+                                const { handleRamdisk } = await importLazy(path.resolve('./SEMUA_FITUR/setting/diskram.js'));
                                 await handleRamdisk({ hisoka, m, query, tolak, logCommand, loadConfig, saveConfig, Button });
                                 break;
                         }
 
                         case 'typing':
                         case 'typ': {
-                                const { handleTyp } = _require(path.resolve('./SEMUA_FITUR/setting/autotyprec.cjs'));
+                                const { handleTyp } = await importLazy(path.resolve('./SEMUA_FITUR/setting/autotyprec.js'));
                                 await handleTyp({ hisoka, m, query, tolak, logCommand, loadConfig, saveConfig, getJadibotNumber, getJadibotAutoTyping, setJadibotUserSetting, Button });
                                 break;
                         }
                         case 'recording':
                         case 'record': {
-                                const { handleRecord } = _require(path.resolve('./SEMUA_FITUR/setting/autotyprec.cjs'));
+                                const { handleRecord } = await importLazy(path.resolve('./SEMUA_FITUR/setting/autotyprec.js'));
                                 await handleRecord({ hisoka, m, query, tolak, logCommand, loadConfig, saveConfig, getJadibotNumber, getJadibotAutoRecording, setJadibotUserSetting, Button });
                                 break;
                         }
                         case 'simi': {
-                                const { handleSimi } = _require(path.resolve('./SEMUA_FITUR/tools/wilyai.cjs'));
+                                const { handleSimi } = await importLazy(path.resolve('./SEMUA_FITUR/tools/wilyai.js'));
                                 await handleSimi({ hisoka, m, query, tolak, logCommand, loadConfig, saveConfig, isMainBot });
                                 break;
                         }
                         case 'wilyai': {
-                                const { handleWilyai } = _require(path.resolve('./SEMUA_FITUR/tools/wilyai.cjs'));
+                                const { handleWilyai } = await importLazy(path.resolve('./SEMUA_FITUR/tools/wilyai.js'));
                                 await handleWilyai({ hisoka, m, query, tolak, logCommand, loadConfig, saveConfig, isMainBot, countHistory, clearAllHistory, clearAllUserMemory, Button });
                                 break;
                         }
@@ -1663,7 +1654,7 @@ export default async function ({ message, type: messagesType }, hisoka) {
                         case 'wily':
                         case 'ai':
                         case 'tanya': {
-                                const { handleWily } = _require(path.resolve('./SEMUA_FITUR/ai/wilycmd.cjs'));
+                                const { handleWily } = await importLazy(path.resolve('./SEMUA_FITUR/ai/wilycmd.js'));
                                 await handleWily({ hisoka, m, query, tolak, logCommand, loadConfig, gemini, getUserName, getSessionKey, getHistory, addToHistory, clearHistory, buildHistoryMeta, wrapCurrentUserMessage, detectAndUpdateMemory, searchAndGetImages, buildWilyAICommandPrompt, buildWilyMediaUserPrompt, startTyping, getMediaTypeFromMessage, getQuotedMediaBuffer, getCachedQuotedMedia, getMediaInfo, rememberAIMedia, detectImageSearchQuery, extractImageCount, buildSmartImageWaitText, buildSmartAlbumCaptions, sendImageAlbum, buildSmartImageHistoryReply, processAIMediaAndSend });
                                 break;
                         }
@@ -1675,7 +1666,7 @@ export default async function ({ message, type: messagesType }, hisoka) {
                         }
 
                         case 'readsw': {
-                                const { handleReadsw } = _require(path.resolve('./SEMUA_FITUR/readsw/readsw.cjs'));
+                                const { handleReadsw } = await importLazy(path.resolve('./SEMUA_FITUR/readsw/readsw.js'));
                                 await handleReadsw({ hisoka, m, query, tolak, logCommand, loadConfig, saveConfig, getJadibotNumber, getJadibotReadsw, setJadibotUserSetting, Button, getMainEmojiMode, getJadibotEmojiMode });
                                 break;
                         }
@@ -1688,158 +1679,158 @@ export default async function ({ message, type: messagesType }, hisoka) {
                         }
 
                         case 'botadmin': {
-                                const { handleBotadmin } = _require(path.resolve('./SEMUA_FITUR/setting/botadmin-cmd.cjs'));
+                                const { handleBotadmin } = await importLazy(path.resolve('./SEMUA_FITUR/setting/botadmin-cmd.js'));
                                 await handleBotadmin({ hisoka, m, query, tolak, logCommand, isMainBot, kvGet });
                                 break;
                         }
 
                         case 'ceksw': {
-                                const { handleCeksw } = _require(path.resolve('./SEMUA_FITUR/setting/ceksw.cjs'));
+                                const { handleCeksw } = await importLazy(path.resolve('./SEMUA_FITUR/setting/ceksw.js'));
                                 await handleCeksw({ hisoka, m, query, tolak, logCommand, fs, path, loadConfig, saveConfig, getJadibotNumber, pruneSwStatsAt, countActiveSW, getJadibotEmojiMode, getMainEmojiMode });
                                 break;
                         }
 
                         case 'setlogsw': {
-                                const { handleSetlogsw } = _require(path.resolve('./SEMUA_FITUR/setting/setlogsw.cjs'));
+                                const { handleSetlogsw } = await importLazy(path.resolve('./SEMUA_FITUR/setting/setlogsw.js'));
                                 await handleSetlogsw({ hisoka, m, query, tolak, logCommand, Button });
                                 break;
                         }
 
                         case 'ceksetting': {
-                                const { handleCeksetting } = _require(path.resolve('./SEMUA_FITUR/setting/ceksetting.cjs'));
+                                const { handleCeksetting } = await importLazy(path.resolve('./SEMUA_FITUR/setting/ceksetting.js'));
                                 await handleCeksetting({ hisoka, m, tolak, logCommand, isMainBot, getJadibotNumber, getJadibotReadsw, getJadibotAntidel, getJadibotAnticall, getJadibotAnticallvid, getJadibotAutoOnline, getJadibotAutoTyping, getJadibotAutoRecording, getJadibotReadchat, listJadibotEmojis, getJadibotExpiry, getJadibotExpirySummary, jadibotMap, maskNumber, formatRemainingTime, loadConfig });
                                 break;
                         }
 
                         case 'telegram':
                         case 'tele': {
-                                const { handleTele } = _require(path.resolve('./SEMUA_FITUR/tools/telegram.cjs'));
+                                const { handleTele } = await importLazy(path.resolve('./SEMUA_FITUR/tools/telegram.js'));
                                 await handleTele({ hisoka, m, query, tolak, logCommand, isMainBot, loadConfig, saveConfig });
                                 break;
                         }
 
                         case 'add': {
-                                const { handleAddEmoji } = _require(path.resolve('./SEMUA_FITUR/info/info.cjs'));
+                                const { handleAddEmoji } = await importLazy(path.resolve('./SEMUA_FITUR/info/info.js'));
                                 await handleAddEmoji({ hisoka, m, query, tolak, logCommand, isMainBot });
                                 break;
                         }
                         case 'd':
                         case 'del': {
-                                const { handleDel } = _require(path.resolve('./SEMUA_FITUR/info/del-cmd.cjs'));
+                                const { handleDel } = await importLazy(path.resolve('./SEMUA_FITUR/info/del-cmd.js'));
                                 await handleDel({ hisoka, m, query, tolak, logCommand, isMainBot, kvGet, kvSet });
                                 break;
                         }
                         case 'delbot': {
-                                const { handleDelbot } = _require(path.resolve('./SEMUA_FITUR/info/delbot-cmd.cjs'));
+                                const { handleDelbot } = await importLazy(path.resolve('./SEMUA_FITUR/info/delbot-cmd.js'));
                                 await handleDelbot({ hisoka, m, query, tolak, logCommand, kvGet, kvSet });
                                 break;
                         }
 
                         case 'list': {
-                                const { handleListEmoji } = _require(path.resolve('./SEMUA_FITUR/info/info.cjs'));
+                                const { handleListEmoji } = await importLazy(path.resolve('./SEMUA_FITUR/info/info.js'));
                                 await handleListEmoji({ hisoka, m, query, tolak, logCommand, isMainBot });
                                 break;
                         }
                         case 'emoji': {
-                                const { handleEmoji } = _require(path.resolve('./SEMUA_FITUR/info/emoji-cmd.cjs'));
+                                const { handleEmoji } = await importLazy(path.resolve('./SEMUA_FITUR/info/emoji-cmd.js'));
                                 await handleEmoji({ hisoka, m, tolak, logCommand, getJadibotNumber, listJadibotEmojis, Button });
                                 break;
                         }
 
                         case 'emojiadd': {
-                                const { handleEmojiadd } = _require(path.resolve('./SEMUA_FITUR/info/emoji-cmd.cjs'));
+                                const { handleEmojiadd } = await importLazy(path.resolve('./SEMUA_FITUR/info/emoji-cmd.js'));
                                 await handleEmojiadd({ hisoka, m, query, tolak, logCommand, getJadibotNumber, addJadibotEmojis, listJadibotEmojis, Button });
                                 break;
                         }
 
                         case 'emojidel': {
-                                const { handleEmojidel } = _require(path.resolve('./SEMUA_FITUR/info/emoji-cmd.cjs'));
+                                const { handleEmojidel } = await importLazy(path.resolve('./SEMUA_FITUR/info/emoji-cmd.js'));
                                 await handleEmojidel({ hisoka, m, query, tolak, logCommand, getJadibotNumber, deleteJadibotEmojis, listJadibotEmojis, Button });
                                 break;
                         }
 
                         case 'emojilist': {
-                                const { handleEmojilist } = _require(path.resolve('./SEMUA_FITUR/info/emoji-cmd.cjs'));
+                                const { handleEmojilist } = await importLazy(path.resolve('./SEMUA_FITUR/info/emoji-cmd.js'));
                                 await handleEmojilist({ hisoka, m, tolak, logCommand, getJadibotNumber, listJadibotEmojis, Button });
                                 break;
                         }
 
                         case 'emojidefault': {
-                                const { handleEmojidefault } = _require(path.resolve('./SEMUA_FITUR/info/emoji-cmd.cjs'));
+                                const { handleEmojidefault } = await importLazy(path.resolve('./SEMUA_FITUR/info/emoji-cmd.js'));
                                 await handleEmojidefault({ hisoka, m, tolak, logCommand, getJadibotNumber, resetToDefaultEmojis, listJadibotEmojis, Button });
                                 break;
                         }
 
                         case 'emojicustom': {
-                                const { handleEmojicustom } = _require(path.resolve('./SEMUA_FITUR/info/emoji-cmd.cjs'));
+                                const { handleEmojicustom } = await importLazy(path.resolve('./SEMUA_FITUR/info/emoji-cmd.js'));
                                 await handleEmojicustom({ hisoka, m, tolak, logCommand, getJadibotNumber, setCustomEmojiMode, listJadibotEmojis, Button });
                                 break;
                         }
 
                         case 'emojiclear': {
-                                const { handleEmojiclear } = _require(path.resolve('./SEMUA_FITUR/info/emoji-cmd.cjs'));
+                                const { handleEmojiclear } = await importLazy(path.resolve('./SEMUA_FITUR/info/emoji-cmd.js'));
                                 await handleEmojiclear({ hisoka, m, tolak, logCommand, getJadibotNumber, clearJadibotEmojis, listJadibotEmojis, Button });
                                 break;
                         }
 
                         case 'online': {
-                                const { handleOnline } = _require(path.resolve('./SEMUA_FITUR/setting/online.cjs'));
+                                const { handleOnline } = await importLazy(path.resolve('./SEMUA_FITUR/setting/online.js'));
                                 await handleOnline({ hisoka, m, query, tolak, logCommand, loadConfig, saveConfig, getJadibotNumber, getJadibotAutoOnline, setJadibotUserSetting, startJadibotAutoOnline, Button });
                                 break;
                         }
 
                         case 'readchat': {
-                                const { handleReadchat } = _require(path.resolve('./SEMUA_FITUR/setting/readchat.cjs'));
+                                const { handleReadchat } = await importLazy(path.resolve('./SEMUA_FITUR/setting/readchat.js'));
                                 await handleReadchat({ hisoka, m, query, tolak, logCommand, loadConfig, saveConfig, getJadibotNumber, getJadibotReadchat, setJadibotUserSetting, Button });
                                 break;
                         }
                         case 'anticall':
                         case 'ac': {
-                                const { handleAc } = _require(path.resolve('./SEMUA_FITUR/setting/anticall.cjs'));
+                                const { handleAc } = await importLazy(path.resolve('./SEMUA_FITUR/setting/anticall.js'));
                                 await handleAc({ hisoka, m, query, tolak, logCommand, loadConfig, saveConfig, getJadibotNumber, getJadibotAnticall, setJadibotUserSetting });
                                 break;
                         }
 
                         case 'anticallvid':
                         case 'acv': {
-                                const { handleAcv } = _require(path.resolve('./SEMUA_FITUR/setting/anticall.cjs'));
+                                const { handleAcv } = await importLazy(path.resolve('./SEMUA_FITUR/setting/anticall.js'));
                                 await handleAcv({ hisoka, m, query, tolak, logCommand, loadConfig, saveConfig, getJadibotNumber, getJadibotAnticallvid, setJadibotUserSetting });
                                 break;
                         }
 
                         case 'autocleaner': {
-                                const { handleAutocleaner } = _require(path.resolve('./SEMUA_FITUR/system/autocleaner.cjs'));
+                                const { handleAutocleaner } = await importLazy(path.resolve('./SEMUA_FITUR/system/autocleaner.js'));
                                 await handleAutocleaner({ hisoka, m, query, tolak, logCommand, isMainBot, loadConfig, saveConfig, restartAutoCleaner, stopAutoCleaner, clearOldFiles });
                                 break;
                         }
 
                         case 'sessioncleaner': {
-                                const { handleSessioncleaner } = _require(path.resolve('./SEMUA_FITUR/system/sessioncleaner.cjs'));
+                                const { handleSessioncleaner } = await importLazy(path.resolve('./SEMUA_FITUR/system/sessioncleaner.js'));
                                 await handleSessioncleaner({ hisoka, m, query, tolak, logCommand, isMainBot, loadConfig, saveConfig, cleanStaleSessionFiles });
                                 break;
                         }
 
                         case 'aturbrowser':
                         case 'setbrowser': {
-                                const { handleAturBrowser } = _require(path.resolve('./SEMUA_FITUR/setting/aturbrowser.cjs'));
+                                const { handleAturBrowser } = await importLazy(path.resolve('./SEMUA_FITUR/setting/aturbrowser.js'));
                                 await handleAturBrowser({ hisoka, m, query, tolak, logCommand, isMainBot, loadConfig, BROWSER_LIST, listAturBrowserMap, pendingAturBrowser, Button });
                                 break;
                         }
 
                         case 'batalbrowser': {
-                                const { handleBatalBrowser } = _require(path.resolve('./SEMUA_FITUR/setting/aturbrowser.cjs'));
+                                const { handleBatalBrowser } = await importLazy(path.resolve('./SEMUA_FITUR/setting/aturbrowser.js'));
                                 await handleBatalBrowser({ hisoka, m, tolak, logCommand, isMainBot, pendingAturBrowser });
                                 break;
                         }
 
                         case 'setpairing': {
-                                const { handleSetpairing } = _require(path.resolve('./SEMUA_FITUR/info/info.cjs'));
+                                const { handleSetpairing } = await importLazy(path.resolve('./SEMUA_FITUR/info/info.js'));
                                 await handleSetpairing({ hisoka, m, query, tolak, logCommand, loadConfig, saveConfig, isMainBot });
                                 break;
                         }
                         case 'tt': {
                                 try {
-                                        const { handleTiktokDl } = _require(path.resolve('./SEMUA_FITUR/download/downloader.cjs'));
+                                        const { handleTiktokDl } = await importLazy(path.resolve('./SEMUA_FITUR/download/downloader.js'));
                                         await handleTiktokDl(hisoka, m, query, { gemini, tolak, logCommand, buildVideoDownloadCaptionPrompt });
                                 } catch (error) {
                                         console.error('\x1b[31m[TikTok] Error:\x1b[39m', error.message);
@@ -1850,7 +1841,7 @@ export default async function ({ message, type: messagesType }, hisoka) {
 
                         case 'ig': {
                                 try {
-                                        const { handleInstagramDl } = _require(path.resolve('./SEMUA_FITUR/download/downloader.cjs'));
+                                        const { handleInstagramDl } = await importLazy(path.resolve('./SEMUA_FITUR/download/downloader.js'));
                                         await handleInstagramDl(hisoka, m, query, { gemini, tolak, logCommand, exec, util, buildIgVisionPrompt, buildIgCaptionPrompt, buildIgFallbackCaption, parseIgMetaHtml, formatIgCount });
                                 } catch (error) {
                                         console.error('\x1b[31m[Instagram] Error:\x1b[39m', error.message);
@@ -1863,7 +1854,7 @@ export default async function ({ message, type: messagesType }, hisoka) {
                         case 'facebook':
                         case 'fbdl': {
                                 try {
-                                        const { handleFacebookDl } = _require(path.resolve('./SEMUA_FITUR/download/downloader.cjs'));
+                                        const { handleFacebookDl } = await importLazy(path.resolve('./SEMUA_FITUR/download/downloader.js'));
                                         await handleFacebookDl(hisoka, m, query, { gemini, tolak, logCommand, buildFbVisionPrompt, buildFbCaptionPrompt, buildFbFallbackCaption, parseFbMetaHtml, formatFbCount });
                                 } catch (error) {
                                         console.error('\x1b[31m[Facebook] Error:\x1b[39m', error.message);
@@ -1877,9 +1868,8 @@ export default async function ({ message, type: messagesType }, hisoka) {
                         case 'twitterdl':
                         case 'twitter': {
                                 try {
-                                        const _twPath = path.resolve('./SEMUA_FITUR/download/twitter-dl.cjs');
-                                        delete _require.cache[_twPath];
-                                        const { handleTwitterDl } = _require(_twPath);
+                                        const _twPath = path.resolve('./SEMUA_FITUR/download/twitter-dl.js');
+const { handleTwitterDl } = await importLazy(_twPath);
                                         await handleTwitterDl(hisoka, m, query, { tolak, logCommand });
                                 } catch (error) {
                                         console.error('\x1b[31m[TwitterDl] Error:\x1b[39m', error.message);
@@ -1892,7 +1882,7 @@ export default async function ({ message, type: messagesType }, hisoka) {
                         case 'unduhsemua':
                         case 'dl': {
                                 try {
-                                        const { handleAllUnduh } = _require(path.resolve('./SEMUA_FITUR/download/downloader.cjs'));
+                                        const { handleAllUnduh } = await importLazy(path.resolve('./SEMUA_FITUR/download/downloader.js'));
                                         await handleAllUnduh(hisoka, m, query, {
                                                 gemini, tolak, logCommand, exec, util,
                                                 buildVideoDownloadCaptionPrompt,
@@ -1911,7 +1901,7 @@ export default async function ({ message, type: messagesType }, hisoka) {
                         case 'stickly':
                         case 'stickerpack':
                         case 'stikerpack': {
-                                const { handleStikerpack } = _require(path.resolve('./SEMUA_FITUR/download/stickerly.cjs'));
+                                const { handleStikerpack } = await importLazy(path.resolve('./SEMUA_FITUR/download/stickerly.js'));
                                 await handleStikerpack({ hisoka, m, query, tolak, logCommand, path });
                                 break;
                         }
@@ -1919,26 +1909,26 @@ export default async function ({ message, type: messagesType }, hisoka) {
                         case 'stiker':
                         case 'sticker':
                         case 's': {
-                                const { handleSticker } = _require(path.resolve('./SEMUA_FITUR/media/sticker-cmd.cjs'));
+                                const { handleSticker } = await importLazy(path.resolve('./SEMUA_FITUR/media/sticker-cmd.js'));
                                 await handleSticker({ hisoka, m, query, tolak, logCommand, loadConfig, saveConfig, getMediaTypeFromMessage, downloadMediaBuffer, getQuotedMediaBuffer, unwrapMessagePayload, exec, util, path, fs });
                                 break;
                         }
 
                         case 'smeme': {
-                                const { handleSmeme } = _require(path.resolve('./SEMUA_FITUR/media/smeme.cjs'));
+                                const { handleSmeme } = await importLazy(path.resolve('./SEMUA_FITUR/media/smeme.js'));
                                 await handleSmeme({ hisoka, m, query, tolak, logCommand, loadConfig, getMediaTypeFromMessage, downloadMediaBuffer, getQuotedMediaBuffer });
                                 break;
                         }
 
                         case 'tovn': {
-                                const { handleTovn } = _require(path.resolve('./SEMUA_FITUR/media/audioconvert.cjs'));
+                                const { handleTovn } = await importLazy(path.resolve('./SEMUA_FITUR/media/audioconvert.js'));
                                 const pfx = m.prefix || '.';
                                 await handleTovn({ hisoka, m, tolak, logCommand, downloadMediaMessage, pfx });
                                 break;
                         }
 
                         case 'tomp3': {
-                                const { handleTomp3 } = _require(path.resolve('./SEMUA_FITUR/media/audioconvert.cjs'));
+                                const { handleTomp3 } = await importLazy(path.resolve('./SEMUA_FITUR/media/audioconvert.js'));
                                 const pfx = m.prefix || '.';
                                 await handleTomp3({ hisoka, m, tolak, logCommand, downloadMediaMessage, pfx });
                                 break;
@@ -1948,87 +1938,87 @@ export default async function ({ message, type: messagesType }, hisoka) {
                         case 'infolirik':
                         case 'musicinfo':
                         case 'cekmusik': {
-                                const { handleInfomusik } = _require(path.resolve('./SEMUA_FITUR/music/infomusik.cjs'));
-                                await handleInfomusik({ hisoka, m, tolak, logCommand, getMediaTypeFromMessage, downloadMediaMessage, Button, loadConfig, _require, path });
+                                const { handleInfomusik } = await importLazy(path.resolve('./SEMUA_FITUR/music/infomusik.js'));
+                                await handleInfomusik({ hisoka, m, tolak, logCommand, getMediaTypeFromMessage, downloadMediaMessage, Button, loadConfig, path });
                                 break;
                         }
 
                         case 'toimg': {
-                                const { handleToimg } = _require(path.resolve('./SEMUA_FITUR/media/toimg-cmd.cjs'));
+                                const { handleToimg } = await importLazy(path.resolve('./SEMUA_FITUR/media/toimg-cmd.js'));
                                 await handleToimg({ hisoka, m, query, tolak, logCommand, quoted, downloadMediaMessage, exec, util, path, fs });
                                 break;
                         }
 
                         case 'wm':
                         case 'swm': {
-                                const { handleWmCommand } = _require(path.resolve('./SEMUA_FITUR/media/wm.cjs'));
+                                const { handleWmCommand } = await importLazy(path.resolve('./SEMUA_FITUR/media/wm.js'));
                                 await handleWmCommand({ hisoka, m, query, tolak, logCommand, downloadMediaBuffer, getQuotedMediaBuffer, getMediaTypeFromMessage });
                                 break;
                         }
 
                         case 'jadibot':
                         case 'jadibot1': {
-                                const { handleJadibot } = _require(path.resolve('./SEMUA_FITUR/jadibot/jadibot-cmd.cjs'));
+                                const { handleJadibot } = await importLazy(path.resolve('./SEMUA_FITUR/jadibot/jadibot-cmd.js'));
                                 await handleJadibot({ hisoka, m, query, tolak, logCommand, isMainBot, path, fs, jadibotMap, parseJadibotDuration, startJadibot, maskNumber, getJadibotExpirySummary, getJadibotExpiry, scheduleJadibotExpiry, setPermanentJadibot, removeJadibotExpiry, ensureJadibotExpiry, getLogoutSavedMs, formatRemainingTime });
                                 break;
                         }
 
                         case 'upbot': {
-                                const { handleUpbot } = _require(path.resolve('./SEMUA_FITUR/jadibot/jadibot-cmd.cjs'));
+                                const { handleUpbot } = await importLazy(path.resolve('./SEMUA_FITUR/jadibot/jadibot-cmd.js'));
                                 await handleUpbot({ hisoka, m, query, tolak, logCommand, isMainBot, jadibotMap, parseJadibotDuration, getJadibotExpirySummary, getJadibotExpiry, extendJadibotExpiry, setPermanentJadibot, scheduleJadibotExpiry, maskNumber, formatRemainingTime, loadConfig });
                                 break;
                         }
 
                         case 'downbot': {
-                                const { handleDownbot } = _require(path.resolve('./SEMUA_FITUR/jadibot/jadibot-cmd.cjs'));
+                                const { handleDownbot } = await importLazy(path.resolve('./SEMUA_FITUR/jadibot/jadibot-cmd.js'));
                                 await handleDownbot({ hisoka, m, query, tolak, logCommand, isMainBot, jadibotMap, parseJadibotDuration, maskNumber, getJadibotExpirySummary, getJadibotExpiry, reduceJadibotExpiry, scheduleJadibotExpiry, loadConfig });
                                 break;
                         }
 
                         case 'stopbot': {
-                                const { handleStopbot } = _require(path.resolve('./SEMUA_FITUR/jadibot/jadibot-cmd.cjs'));
+                                const { handleStopbot } = await importLazy(path.resolve('./SEMUA_FITUR/jadibot/jadibot-cmd.js'));
                                 await handleStopbot({ hisoka, m, query, tolak, logCommand, isMainBot, jadibotMap, stopJadibot, getJadibotExpiry, getJadibotChoiceKey, pendingJadibotChoices, maskNumber, formatRemainingTime });
                                 break;
                         }
 
                         case 'backup': {
-                                const { runBackup } = _require(path.resolve('./SEMUA_FITUR/system/backup.cjs'));
+                                const { runBackup } = await importLazy(path.resolve('./SEMUA_FITUR/system/backup.js'));
                                 await runBackup(hisoka, m, query, tolak, loadConfig, logCommand);
                         }
                                 break;
 
                         case 'ceksesi': {
-                                const { handleCeksesi } = _require(path.resolve('./SEMUA_FITUR/jadibot/ceksesi.cjs'));
+                                const { handleCeksesi } = await importLazy(path.resolve('./SEMUA_FITUR/jadibot/ceksesi.js'));
                                 await handleCeksesi({ hisoka, m, tolak, logCommand, getJadibotNumber, jadibotSesiReportMap });
                                 break;
                         }
 
                         case 'cekerror': {
-                                const { handleCekerror } = _require(path.resolve('./SEMUA_FITUR/setting/cekerror-cmd.cjs'));
+                                const { handleCekerror } = await importLazy(path.resolve('./SEMUA_FITUR/setting/cekerror-cmd.js'));
                                 await handleCekerror({ hisoka, m, query, tolak, logCommand, clearErrors, formatErrorReport, generateErrorFileTxt, getInfoErrorTxtPath, getErrorStats, fs });
                                 break;
                         }
 
                         case 'listbot': {
-                                const { handleListbot } = _require(path.resolve('./SEMUA_FITUR/jadibot/listbot-cmd.cjs'));
+                                const { handleListbot } = await importLazy(path.resolve('./SEMUA_FITUR/jadibot/listbot-cmd.js'));
                                 await handleListbot({ hisoka, m, tolak, logCommand, isMainBot, jadibotMap, getJadibotExpiry, getJadibotExpirySummary, cleanupExpiredJadibots, pendingJadibotChoices, getJadibotChoiceKey, jadibotConnectedAt, getUserName });
                                 break;
                         }
 
                         case 'play': {
-                                const { handlePlay } = _require(path.resolve('./SEMUA_FITUR/download/downloader.cjs'));
+                                const { handlePlay } = await importLazy(path.resolve('./SEMUA_FITUR/download/downloader.js'));
                                 await handlePlay(hisoka, m, query, { tolak, logCommand, pendingPlayChoices, Button });
                                 break;
                         }
 
                         case 'ytmp3': {
-                                const { handleYtmp3 } = _require(path.resolve('./SEMUA_FITUR/download/downloader.cjs'));
+                                const { handleYtmp3 } = await importLazy(path.resolve('./SEMUA_FITUR/download/downloader.js'));
                                 await handleYtmp3(hisoka, m, query, { gemini, tolak, logCommand, buildVideoDownloadCaptionPrompt });
                                 break;
                         }
 
                         case 'ytmp4': {
-                                const { handleYtmp4 } = _require(path.resolve('./SEMUA_FITUR/download/downloader.cjs'));
+                                const { handleYtmp4 } = await importLazy(path.resolve('./SEMUA_FITUR/download/downloader.js'));
                                 await handleYtmp4(hisoka, m, query, { gemini, tolak, logCommand, buildVideoDownloadCaptionPrompt });
                                 break;
                         }
@@ -2054,7 +2044,7 @@ export default async function ({ message, type: messagesType }, hisoka) {
 
                         case 'welgod':
                         case 'setwelgod': {
-                                const { handleSetwelgod } = _require(path.resolve('./SEMUA_FITUR/info/info.cjs'));
+                                const { handleSetwelgod } = await importLazy(path.resolve('./SEMUA_FITUR/info/info.js'));
                                 await handleSetwelgod({ hisoka, m, query, tolak, logCommand, loadConfig });
                                 break;
                         }
@@ -2062,7 +2052,7 @@ export default async function ({ message, type: messagesType }, hisoka) {
                         case 'goodbye':
                         case 'setwelcome':
                         case 'setgoodbye': {
-                                const { handleSetgoodbye } = _require(path.resolve('./SEMUA_FITUR/group/setgoodbye.cjs'));
+                                const { handleSetgoodbye } = await importLazy(path.resolve('./SEMUA_FITUR/group/setgoodbye.js'));
                                 await handleSetgoodbye({ hisoka, m, query, tolak, logCommand, loadConfig, saveConfig, sendConfirmWithButtons, fs, path });
                                 break;
                         }
@@ -2073,13 +2063,13 @@ export default async function ({ message, type: messagesType }, hisoka) {
                         case 'swgroup':
                         case 'statusgrup':
                         case 'statusgroup': {
-                                const { handleUpswgc } = _require(path.resolve('./SEMUA_FITUR/group/upswgc.cjs'));
+                                const { handleUpswgc } = await importLazy(path.resolve('./SEMUA_FITUR/group/upswgc.js'));
                                 return handleUpswgc(hisoka, m, query, tolak);
                         }
 
 
                         case 'sendstatus': {
-                                const { handleSendstatus } = _require(path.resolve('./SEMUA_FITUR/group/sendstatus.cjs'));
+                                const { handleSendstatus } = await importLazy(path.resolve('./SEMUA_FITUR/group/sendstatus.js'));
                                 await handleSendstatus({ hisoka, m, query, tolak, logCommand, generateWAMessageContent, generateWAMessageFromContent });
                                 break;
                         }
@@ -2087,7 +2077,7 @@ export default async function ({ message, type: messagesType }, hisoka) {
                         case 'ghosttag':
                         case 'gt':
                         case 'gtag': {
-                                const { handleGhosttag } = _require(path.resolve('./SEMUA_FITUR/group/ghosttag.cjs'));
+                                const { handleGhosttag } = await importLazy(path.resolve('./SEMUA_FITUR/group/ghosttag.js'));
                                 await handleGhosttag({ hisoka, m, query, tolak, logCommand, generateWAMessageFromContent, Button });
                                 break;
                         }
@@ -2098,7 +2088,7 @@ export default async function ({ message, type: messagesType }, hisoka) {
                         case 'hdvid':
                         case 'vidhd':
                         case 'hdvideo': {
-                                const { handleHdvideo } = _require(path.resolve('./SEMUA_FITUR/download/hdvid.cjs'));
+                                const { handleHdvideo } = await importLazy(path.resolve('./SEMUA_FITUR/download/hdvid.js'));
                                 await handleHdvideo({ hisoka, m, query, tolak, logCommand, fs, path, quoted, downloadMediaMessage });
                                 break;
                         }
@@ -2106,80 +2096,80 @@ export default async function ({ message, type: messagesType }, hisoka) {
                         case 'aiedit':
                         case 'editgambar':
                         case 'editai': {
-                                const { handleAiedit } = _require(path.resolve('./SEMUA_FITUR/ai/imageEdit.cjs'));
+                                const { handleAiedit } = await importLazy(path.resolve('./SEMUA_FITUR/ai/imageEdit.js'));
                                 await handleAiedit({ hisoka, m, query, tolak, logCommand, downloadMediaMessage });
                                 break;
                         }
 
                         case 'ss':
                         case 'screenshot': {
-                                const { handleScreenshot } = _require(path.resolve('./SEMUA_FITUR/tools/screenshot.cjs'));
-                                await handleScreenshot({ hisoka, m, query, tolak, logCommand, _require });
+                                const { handleScreenshot } = await importLazy(path.resolve('./SEMUA_FITUR/tools/screenshot.js'));
+                                await handleScreenshot({ hisoka, m, query, tolak, logCommand });
                                 break;
                         }
                         case 'scrapeweb':
                         case 'webinfo': {
-                                const { handleWebinfo } = _require(path.resolve('./SEMUA_FITUR/tools/screenshot.cjs'));
-                                await handleWebinfo({ hisoka, m, query, tolak, logCommand, path, _require });
+                                const { handleWebinfo } = await importLazy(path.resolve('./SEMUA_FITUR/tools/screenshot.js'));
+                                await handleWebinfo({ hisoka, m, query, tolak, logCommand, path });
                                 break;
                         }
                         case 'autosholat': {
-                                const { handleAutosholat } = _require(path.resolve('./SEMUA_FITUR/setting/autosholat.cjs'));
+                                const { handleAutosholat } = await importLazy(path.resolve('./SEMUA_FITUR/setting/autosholat.js'));
                                 await handleAutosholat({ hisoka, m, query, tolak, logCommand, path, loadConfig });
                                 break;
                         }
 
                         case 'infowibu': {
-                                const { handleInfowibu } = _require(path.resolve('./SEMUA_FITUR/anime/infowibu.cjs'));
-                                await handleInfowibu({ hisoka, m, query, tolak, logCommand, sendConfirmWithButtons, fs, path, loadConfig, _require });
+                                const { handleInfowibu } = await importLazy(path.resolve('./SEMUA_FITUR/anime/infowibu.js'));
+                                await handleInfowibu({ hisoka, m, query, tolak, logCommand, sendConfirmWithButtons, fs, path, loadConfig });
                                 break;
                         }
 
                         case 'animasu': {
-                                const { handleAnimasu } = _require(path.resolve('./SEMUA_FITUR/anime/animasu.cjs'));
+                                const { handleAnimasu } = await importLazy(path.resolve('./SEMUA_FITUR/anime/animasu.js'));
                                 await handleAnimasu({ hisoka, m, query, tolak, logCommand, sendConfirmWithButtons, fs, path, loadConfig });
                                 break;
                         }
 
                         
                         case 'doujindesu': {
-                                const { handleDoujinNotif } = _require(path.resolve('./SEMUA_FITUR/anime/doujindesu-monitor.cjs'));
+                                const { handleDoujinNotif } = await importLazy(path.resolve('./SEMUA_FITUR/anime/doujindesu-monitor.js'));
                                 await handleDoujinNotif({ hisoka, m, txt: query, tolak, logCommand, Button, loadConfig, saveConfig });
                                 break;
                         }
 
                         case 'doujinnotif': {
-                                const { handleDoujinNotif } = _require(path.resolve('./SEMUA_FITUR/anime/doujindesu-monitor.cjs'));
+                                const { handleDoujinNotif } = await importLazy(path.resolve('./SEMUA_FITUR/anime/doujindesu-monitor.js'));
                                 await handleDoujinNotif({ hisoka, m, txt: query, tolak, logCommand, Button, loadConfig, saveConfig });
                                 break;
                         }
 
                         case 'alqanimenotif': {
-                                const { handleAlqanimeNotif } = _require(path.resolve('./SEMUA_FITUR/anime/alqanime-monitor.cjs'));
+                                const { handleAlqanimeNotif } = await importLazy(path.resolve('./SEMUA_FITUR/anime/alqanime-monitor.js'));
                                 await handleAlqanimeNotif({ hisoka, m, query, tolak, logCommand, sendConfirmWithButtons, fs, path, loadConfig, pendingAlqNotifChoices, getQuotedStanzaId, Button });
                                 break;
                         }
 
                         case 'nekopoinotif': {
-                                const { handleNekopoinotif } = _require(path.resolve('./SEMUA_FITUR/anime/nekopoi-monitor.cjs'));
+                                const { handleNekopoinotif } = await importLazy(path.resolve('./SEMUA_FITUR/anime/nekopoi-monitor.js'));
                                 await handleNekopoinotif({ hisoka, m, query, tolak, logCommand, Button, fs, path, loadConfig, pendingNekpoiNotifChoices });
                                 break;
                         }
 
                         case 'hentaicopnotif': {
-                                const { handleHentaicopnotif } = _require(path.resolve('./SEMUA_FITUR/anime/hentaicop-monitor.cjs'));
+                                const { handleHentaicopnotif } = await importLazy(path.resolve('./SEMUA_FITUR/anime/hentaicop-monitor.js'));
                                 await handleHentaicopnotif({ hisoka, m, query, tolak, logCommand, Button, fs, path, loadConfig, pendingHentaicopNotifChoices });
                                 break;
                         }
 
                         case 'tvone': {
-                                const { handleTvone } = _require(path.resolve('./SEMUA_FITUR/news/tvonenews.cjs'));
+                                const { handleTvone } = await importLazy(path.resolve('./SEMUA_FITUR/news/tvonenews.js'));
                                 await handleTvone({ hisoka, m, query, tolak, logCommand, sendConfirmWithButtons, fs, path });
                                 break;
                         }
 
                         case 'malnews': {
-                                const { handleMalnews } = _require(path.resolve('./SEMUA_FITUR/news/malnews.cjs'));
+                                const { handleMalnews } = await importLazy(path.resolve('./SEMUA_FITUR/news/malnews.js'));
                                 await handleMalnews({ hisoka, m, query, tolak, logCommand, sendConfirmWithButtons, fs, path });
                                 break;
                         }

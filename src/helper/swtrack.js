@@ -34,11 +34,10 @@
 
 import fs from 'fs';
 import path from 'path';
-import { createRequire } from 'module';
 import { isSwEntryPending } from './swtrack-pending.js';
 export { isSwEntryPending };
-const _require = createRequire(import.meta.url);
-const { jidDecode } = _require('@whiskeysockets/baileys');
+import { jidDecode } from '@whiskeysockets/baileys';
+import { LOGSW_ANSI, LOGSW_FG, LOGSW_RANDOM_KEYS } from '../config/logsw-colors.js';
 
 // ─── Atomic write: tulis ke .tmp dulu lalu rename — cegah korupsi JSON ────────
 // Kalau proses crash di tengah jalan, file asli tidak tersentuh.
@@ -585,15 +584,11 @@ function padEnd(str, targetWidth) {
         return str + ' '.repeat(padding);
 }
 
-// ─── Warna tema logsw — diambil dari src/config/logsw-colors.cjs ─────────────
-// Ambil warna border kotak dari config.json (logsw.theme)
-// Load logsw-colors.cjs di DALAM fungsi dengan cache-busting → selalu fresh,
-// tidak terpengaruh hot-reload atau urutan startup module.
-const _logswColorPath = path.join(process.cwd(), 'src', 'config', 'logsw-colors.cjs');
+// ─── Warna tema logsw — dari src/config/logsw-colors.js (static import) ────────
+// Ambil warna border kotak dari config.json (logsw.theme); tema dibaca fresh
+// tiap panggil via readFileSync, warna via static import (file config statis).
 function getLogswBoxColor() {
         try {
-                delete _require.cache[_logswColorPath];
-                const { LOGSW_ANSI, LOGSW_FG, LOGSW_RANDOM_KEYS } = _require(_logswColorPath);
                 const cfgRaw = fs.readFileSync(path.join(process.cwd(), 'config.json'), 'utf-8');
                 let theme = (JSON.parse(cfgRaw)?.logsw?.theme || 'default').toLowerCase().trim();
                 if (theme === 'random') {

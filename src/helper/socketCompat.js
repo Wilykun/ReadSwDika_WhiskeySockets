@@ -32,9 +32,7 @@
  */
 'use strict';
 
-import { createRequire } from 'module';
-const _require = createRequire(import.meta.url);
-const socketon = _require('@whiskeysockets/baileys');
+import socketon from '@whiskeysockets/baileys';
 
 export const isPnUser = (jid) => typeof jid === 'string' && jid.endsWith('@pn');
 

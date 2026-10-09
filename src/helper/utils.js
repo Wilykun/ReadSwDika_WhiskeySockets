@@ -32,9 +32,7 @@
  */
 import fs from 'fs';
 import path from 'path';
-import { createRequire } from 'module';
-const _require = createRequire(import.meta.url);
-const { extractMessageContent, getContentType } = _require('@whiskeysockets/baileys');
+import { extractMessageContent, getContentType } from '@whiskeysockets/baileys';
 
 const configPath = path.join(process.cwd(), 'config.json');
 

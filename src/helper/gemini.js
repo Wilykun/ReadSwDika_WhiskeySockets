@@ -41,11 +41,8 @@
 import axios from 'axios';
 import https from 'https';
 import path from 'path';
-import { createRequire } from 'module';
 import { kvGet, kvSet, kvMigrateFromJSON, kvMigrateKey } from '../db/datadb.js';
-
-const require = createRequire(import.meta.url);
-const { gemini: textProvider } = require('../../SEMUA_FITUR/ai/gemini.cjs');
+import { gemini as textProvider } from '../../SEMUA_FITUR/ai/gemini.js';
 
 kvMigrateFromJSON('ai/gemini_tokens', path.join(process.cwd(), 'data', 'gemini_tokens.json'));
 kvMigrateKey('gemini_tokens', 'ai/gemini_tokens');

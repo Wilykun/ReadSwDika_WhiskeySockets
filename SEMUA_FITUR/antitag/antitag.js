@@ -29,9 +29,7 @@
 
 import fs from 'fs';
 import path from 'path';
-import { createRequire } from 'module';
-const _require = createRequire(import.meta.url);
-const { isJidGroup, jidNormalizedUser, areJidsSameUser, getContentType } = _require('@whiskeysockets/baileys');
+import { isJidGroup, jidNormalizedUser, areJidsSameUser, getContentType } from '@whiskeysockets/baileys';
 
 import { kvGet, kvSet } from '../../src/db/datadb.js';
 import { resolveLidFromContacts } from '../antitagsw/antitagsw.js';

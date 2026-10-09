@@ -1,0 +1,431 @@
+/**
+ * ───────────────────────────────
+ *  Base Script : Bang Dika Ardnt
+ *  Recode By   : Bang Wilykun
+ *  WhatsApp    : 6289688206739
+ *  Telegram    : @Wilykun1994
+ * ───────────────────────────────
+ *  Script ini khusus donasi/VIP
+ *  Support dari kalian bikin saya
+ *  makin semangat update fitur,
+ *  fix bug, dan rawat script ini.
+ *
+ *  Dilarang menjual ulang script ini
+ *  Tanpa izin resmi dari developer.
+ *  Jika ketahuan = NO UPDATE / NO FIX
+ *
+ *  Hargai karya, gunakan dengan bijak.
+ *  Terima kasih sudah support.
+ * ───────────────────────────────
+ *
+ *  ceksesi.js — Cek status sesi Baileys (.ceksesi)
+ *  Info file sesi, ukuran, jumlah key, aktif atau tidak
+ * ───────────────────────────────
+ */
+'use strict';
+
+import os from 'os';
+/**
+ * cekSesi — tampilkan info detail sessions/hisoka.json
+ * Bekerja dengan format SINGLE FILE JSON (bukan multi-file folder).
+ *
+ * Output: breakdown per kategori key, ukuran, dan saran pruning
+ */
+
+import fs from 'fs';
+import path from 'path';
+
+const SESSION_FILE = path.resolve('./sessions/hisoka.json');
+
+function byteSize(obj) {
+        return Buffer.byteLength(JSON.stringify(obj));
+}
+
+function fmtKB(bytes) {
+        return (bytes / 1024).toFixed(1) + ' KB';
+}
+
+function fmtMB(bytes) {
+        return (bytes / 1024 / 1024).toFixed(2) + ' MB';
+}
+
+const EMOJI_MAP = {
+        'creds':                   '🛡️',
+        'contacts':                '👥',
+        'groups':                  '🫂',
+        'settings':                '⚙️',
+        'pre-key':                 '🗝️',
+        'session':                 '🔑',
+        'sender-key':              '📨',
+        'identity-key':            '🪪',
+        'device-list':             '📱',
+        'lid-mapping':             '🗺️',
+        'app-state-sync-key':      '🔄',
+        'app-state-sync-version':  '📋',
+        'tctoken':                 '🎫',
+};
+
+const DESC_MAP = {
+        'creds':                   'Kredensial utama bot — JANGAN hapus',
+        'contacts':                'Cache kontak — aman dihapus (auto re-populate)',
+        'groups':                  'Cache data grup — aman dihapus (auto re-fetch)',
+        'settings':                'Pengaturan sesi lokal',
+        'pre-key':                 'Kunci E2E — aman trim (sisakan 100 terbaru)',
+        'session':                 'Sesi aktif per kontak — jangan hapus sembarangan',
+        'sender-key':              'Kunci enkripsi grup — aman dihapus (auto re-gen)',
+        'identity-key':            'Identitas kontak (Signal) — jangan hapus',
+        'device-list':             'Daftar perangkat kontak — aman dihapus',
+        'lid-mapping':             'Cache LID→PN — aman dihapus (auto re-fetch)',
+        'app-state-sync-key':      'Sync state WA — jangan hapus',
+        'app-state-sync-version':  'Versi sync state — aman dihapus (auto re-sync)',
+        'tctoken':                 'Token cache — aman dihapus',
+};
+
+const SAFE_DELETE = new Set([
+        'contacts', 'groups', 'lid-mapping', 'sender-key',
+        'app-state-sync-version', 'tctoken',
+]);
+
+const SAFE_TRIM = new Set(['pre-key']);
+
+function cekSesi() {
+        if (!fs.existsSync(SESSION_FILE)) throw new Error('SESSION_NOT_FOUND');
+
+        const raw     = fs.readFileSync(SESSION_FILE, 'utf8');
+        const data    = JSON.parse(raw);
+        const fileSizeByte = Buffer.byteLength(raw);
+
+        const rows = [];
+
+        // creds (flat object)
+        if (data.creds) {
+                rows.push({
+                        key:   'creds',
+                        count: Object.keys(data.creds).length + ' field',
+                        bytes: byteSize(data.creds),
+                        safe:  'KEEP',
+                });
+        }
+
+        // keys sub-object
+        if (data.keys && typeof data.keys === 'object') {
+                for (const subKey of Object.keys(data.keys)) {
+                        const obj   = data.keys[subKey] || {};
+                        const count = Object.keys(obj).length;
+                        const bytes = byteSize(obj);
+                        let safe = 'KEEP';
+                        if (SAFE_DELETE.has(subKey)) safe = 'HAPUS';
+                        if (SAFE_TRIM.has(subKey))   safe = 'TRIM';
+                        rows.push({ key: subKey, count: count + ' entri', bytes, safe });
+                }
+        }
+
+        // contacts top-level
+        if (data.contacts) {
+                const count = Object.keys(data.contacts).length;
+                rows.push({ key: 'contacts', count: count + ' kontak', bytes: byteSize(data.contacts), safe: 'HAPUS' });
+        }
+
+        // groups top-level
+        if (data.groups) {
+                const count = Object.keys(data.groups).length;
+                rows.push({ key: 'groups', count: count + ' grup', bytes: byteSize(data.groups), safe: 'HAPUS' });
+        }
+
+        // settings top-level
+        if (data.settings) {
+                rows.push({ key: 'settings', count: '1 obj', bytes: byteSize(data.settings), safe: 'KEEP' });
+        }
+
+        // Hitung potensi hemat
+        let potentialSave = 0;
+        for (const r of rows) {
+                if (r.safe === 'HAPUS') potentialSave += r.bytes;
+                if (r.safe === 'TRIM')  potentialSave += Math.max(0, r.bytes - Math.round(r.bytes * (100 / Math.max(1, parseInt(r.count)))));
+        }
+
+        // Sort: HAPUS & TRIM dulu (terbesar), lalu KEEP
+        rows.sort((a, b) => {
+                const order = { 'HAPUS': 0, 'TRIM': 1, 'KEEP': 2 };
+                if (order[a.safe] !== order[b.safe]) return order[a.safe] - order[b.safe];
+                return b.bytes - a.bytes;
+        });
+
+        return {
+                rows,
+                fileSizeByte,
+                fmtFileSize: fmtMB(fileSizeByte),
+                fmtKB,
+                fmtMB,
+                SESSION_FILE,
+        };
+}
+
+export { cekSesi };
+export { handleMemory, handleRam, handleSessionstat, handleCeksesi };
+// ── HANDLER: memory ───────────────────────────────────────────────────────────
+
+function msToTime(ms) {
+        const s = Math.floor(ms / 1000);
+        const m = Math.floor(s / 60);
+        const h = Math.floor(m / 60);
+        const d = Math.floor(h / 24);
+        if (d > 0) return `${d}d ${h % 24}h ${m % 60}m`;
+        if (h > 0) return `${h}h ${m % 60}m ${s % 60}s`;
+        if (m > 0) return `${m}m ${s % 60}s`;
+        return `${s}s`;
+}
+
+async function handleMemory({ hisoka, m, tolak, logCommand }) {
+        try {
+                const memMonitor = global.memoryMonitor;
+                if (!memMonitor) { await tolak(hisoka, m, 'Memory monitor tidak tersedia.'); return; }
+                const status = memMonitor.getStatus();
+                const uptime = process.uptime();
+                let text = `*💾 MEMORY STATUS*\n_Ringkasan pemakaian memori bot secara realtime_\n\n`;
+                text += `*📊 Process Memory*\n• Current : *${status.currentFormatted}*\n• Limit   : *${status.limitFormatted}*\n• Usage   : *${status.percentage}%*\n\n`;
+                text += `*🔧 Heap Memory*\n• Total : *${status.heap.totalFormatted}*\n• Used  : *${status.heap.usedFormatted}*\n\n`;
+                text += `*🖥️ System Memory (Server)*\n• Total : *${status.system.totalFormatted}*\n• Used  : *${status.system.usedFormatted}*\n• Free  : *${status.system.freeFormatted}*\n\n`;
+                text += `*⚙️ Monitor Config*\n1. Enabled     : ${status.enabled ? '✅ _Aktif_' : '❌ ~Nonaktif~'}\n2. Auto Detect : ${status.autoDetect ? '✅ _' + status.autoDetectPercentage + '%_' : '❌ ~Manual~'}\n3. Interval    : \`${status.checkInterval / 1000}s\`\n4. Log Usage   : ${status.logUsage ? '✅ _Aktif_' : '❌ ~Nonaktif~'}\n5. Uptime      : \`${msToTime(uptime * 1000)}\`\n\n`;
+                text += `> _Data diambil realtime saat perintah dikirim_`;
+                if (parseFloat(status.percentage) >= 80) text += `\n\n⚠️ *Warning:* ~Batas aman terlampaui~ — _auto-restart_ akan terjadi jika mencapai *limit*!`;
+                await tolak(hisoka, m, text);
+                logCommand(m, hisoka, 'memory');
+        } catch (error) {
+                console.error('\x1b[31m[Memory] Error:\x1b[39m', error.message);
+                await tolak(hisoka, m, `Error: ${error.message}`);
+        }
+}
+
+// ── HANDLER: ram ──────────────────────────────────────────────────────────────
+
+async function handleRam({ hisoka, m, tolak, logCommand }) {
+        try {
+
+                const { formatBytes, getCurrentMemoryUsage, getSystemMemoryInfo } = await import('../../src/helper/memoryMonitor.js');
+                const memUsage  = getCurrentMemoryUsage();
+                const systemMem = getSystemMemoryInfo();
+                const memLimit  = global.memoryMonitor?.memoryLimit || systemMem.total;
+
+                const botPct  = ((memUsage.rss / memLimit) * 100).toFixed(1);
+                const sysPct  = ((systemMem.used / systemMem.total) * 100).toFixed(1);
+                const freePct = ((systemMem.free / systemMem.total) * 100).toFixed(1);
+
+                const statusIcon = (pct) => parseFloat(pct) >= 80 ? '🔴 *Kritis*' : parseFloat(pct) >= 60 ? '⚠️ *Waspada*' : '✅ *Normal*';
+
+                const heapUsedMB  = (memUsage.heapUsed   / 1024 / 1024).toFixed(1);
+                const heapTotalMB = (memUsage.heapTotal   / 1024 / 1024).toFixed(1);
+                const extMB       = (memUsage.external    / 1024 / 1024).toFixed(1);
+                const arrBufMB    = ((memUsage.arrayBuffers || 0) / 1024 / 1024).toFixed(1);
+                const rssMB       = (memUsage.rss          / 1024 / 1024).toFixed(1);
+
+                const loadAvg  = os.loadavg();
+                const cpuCores = os.cpus().length;
+                const cpuModel = os.cpus()[0]?.model?.split('@')[0]?.trim() || 'Unknown';
+
+                const fmtUptime = (sec) => {
+                        const d = Math.floor(sec / 86400);
+                        const h = Math.floor((sec % 86400) / 3600);
+                        const m = Math.floor((sec % 3600) / 60);
+                        return d > 0 ? `${d}d ${h}h ${m}m` : h > 0 ? `${h}h ${m}m` : `${m}m`;
+                };
+                const uptimeStr    = fmtUptime(Math.floor(process.uptime()));
+                const sysUptimeStr = fmtUptime(Math.floor(os.uptime()));
+                const hostname     = os.hostname();
+                const arch         = os.arch();
+                const plat         = os.platform();
+
+                const loadStatus = (v) => parseFloat(v) >= 2 ? '🔴' : parseFloat(v) >= 1 ? '⚠️' : '✅';
+
+                const text =
+`*💾 RAM STATUS*
+_Cek penggunaan memori & sistem realtime_
+
+*🤖 BOT MEMORY*
+• RSS    : *${formatBytes(memUsage.rss)}* _/ ${formatBytes(memLimit)}_ _(${botPct}%)_
+• Status : ${statusIcon(botPct)}
+
+*📊 Detail Proses Node.js*
+• Heap   : *${heapUsedMB} / ${heapTotalMB} MB*
+• Ext    : *${extMB} MB*
+• ArrBuf : *${arrBufMB} MB*
+• RSS    : *${rssMB} MB*
+
+*🖥️ SYSTEM MEMORY*
+• Pakai  : *${formatBytes(systemMem.used)}* _/ ${formatBytes(systemMem.total)}_ _(${sysPct}%)_
+• Bebas  : *${formatBytes(systemMem.free)}* _(${freePct}%)_
+• Status : ${statusIcon(sysPct)}
+
+*⚡ CPU*
+• Load   : ${loadStatus(loadAvg[0])} *${loadAvg[0].toFixed(2)}*, *${loadAvg[1].toFixed(2)}*, *${loadAvg[2].toFixed(2)}* _(1/5/15 mnt)_
+• Core   : *${cpuCores} core*
+• Model  : _${cpuModel}_
+
+*🔧 INFO SISTEM*
+1. Uptime Bot : *${uptimeStr}*
+2. Uptime OS  : *${sysUptimeStr}*
+3. PID        : \`${process.pid}\`
+4. Node       : \`${process.version}\`
+5. Arch       : \`${arch}\`
+6. Platform   : \`${plat}\`
+7. Hostname   : \`${hostname}\`
+
+> _Data diambil realtime saat perintah dikirim_`;
+
+                await tolak(hisoka, m, text);
+                logCommand(m, hisoka, 'cekram');
+        } catch (error) {
+                console.error('\x1b[31m[CekRAM] Error:\x1b[39m', error.message);
+                await tolak(hisoka, m, `Error: ${error.message}`);
+        }
+}
+
+// ── HANDLER: sessionstat ──────────────────────────────────────────────────────
+
+async function handleSessionstat({ hisoka, m, fs, path, logCommand }) {
+        if (!m.isOwner) return;
+        try {
+                const readSessionStats = (sessionDir) => {
+                        const credsPath = path.join(sessionDir, 'creds.json');
+                        if (!fs.existsSync(credsPath)) return null;
+                        const files        = fs.readdirSync(sessionDir);
+                        const preKeys      = files.filter(f => f.startsWith('pre-key-')    && f.endsWith('.json')).length;
+                        const sessionFiles = files.filter(f => f.startsWith('session-')    && f.endsWith('.json')).length;
+                        const senderKeys   = files.filter(f => f.startsWith('sender-key-') && f.endsWith('.json')).length;
+                        let totalSize = 0;
+                        for (const f of files) { try { totalSize += fs.statSync(path.join(sessionDir, f)).size; } catch {} }
+                        return { preKeys, sessionFiles, senderKeys, totalFiles: files.length, totalSize };
+                };
+                const formatSize = (bytes) => {
+                        if (bytes < 1024)            return `${bytes} B`;
+                        if (bytes < 1024 * 1024)     return `${(bytes / 1024).toFixed(1)} KB`;
+                        return `${(bytes / 1024 / 1024).toFixed(2)} MB`;
+                };
+                const mainStats = readSessionStats(global.sessionDir);
+                const now = new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit', second: '2-digit', timeZone: 'Asia/Jakarta' });
+
+                let out = `*🗄️ SESSION STATS*\n_Realtime: ${now} WIB_\n\n*📦 Main Session*\n`;
+                if (!mainStats) {
+                        out += `⚠️ ~creds.json belum ada~\n`;
+                } else {
+                        out += `1. ✅ Creds       : _Tersimpan_\n2. 🔑 Pre-Keys    : \`${mainStats.preKeys} file\`\n3. 📋 Sessions    : \`${mainStats.sessionFiles} file\`\n4. 🗝️ Sender-Keys : \`${mainStats.senderKeys} file\`\n5. 📁 Total Files : \`${mainStats.totalFiles}\`\n6. 💾 Total Size  : *${formatSize(mainStats.totalSize)}*\n`;
+                }
+
+                const jadibotDir = path.join(process.cwd(), 'jadibot');
+                if (fs.existsSync(jadibotDir)) {
+                        const jadibotSessions = fs.readdirSync(jadibotDir).filter(n => fs.existsSync(path.join(jadibotDir, n, 'creds.json')));
+                        if (jadibotSessions.length > 0) {
+                                out += `\n*🤖 Jadibot Sessions*\n📱 Total : *${jadibotSessions.length} sesi*\n\n`;
+                                let totalSize = 0;
+                                let idx = 0;
+                                for (const num of jadibotSessions) {
+                                        const jStats = readSessionStats(path.join(jadibotDir, num));
+                                        if (jStats) {
+                                                idx++;
+                                                totalSize += jStats.totalSize;
+                                                const shortNum = num.replace(/^62/, '0').slice(0, 12) + '..';
+                                                out += `${idx}. 📞 ${shortNum} — ${jStats.totalFiles} files (${formatSize(jStats.totalSize)})\n`;
+                                        }
+                                }
+                                out += `\n💾 Total Size : *${formatSize(totalSize)}*\n`;
+                        }
+                }
+                out = out.trimEnd();
+                await m.reply(out);
+                logCommand(m, hisoka, 'dbstats');
+        } catch (err) {
+                await m.reply(`❌ Error baca DB stats:\n${err.message}`);
+        }
+}
+
+// ── HANDLER: ceksesi ──────────────────────────────────────────────────────────
+
+async function handleCeksesi({ hisoka, m, tolak, logCommand, getJadibotNumber, jadibotSesiReportMap }) {
+        const _csekIsJadibot = hisoka?.isMainBot === false;
+        if (!m.isOwner && !_csekIsJadibot) return tolak(hisoka, m, '❌ Perintah ini hanya untuk owner!');
+
+        const _csekJadibotNum = _csekIsJadibot ? getJadibotNumber(hisoka) : null;
+        const reportFn = _csekIsJadibot
+                ? jadibotSesiReportMap.get(_csekJadibotNum)
+                : global.__getSesiReport;
+
+        if (!reportFn) {
+                return tolak(hisoka, m, '❌ Fungsi cekSesi tidak tersedia. Coba restart bot terlebih dahulu.');
+        }
+
+        const sessionLabel = _csekIsJadibot
+                ? `jadibot/${_csekJadibotNum}.json`
+                : `sessions/hisoka.json`;
+
+        try {
+                const result = reportFn();
+
+                const EMOJI_MAP = {
+                        'creds':                  '🛡️',
+                        'contacts':               '👥',
+                        'groups':                 '🫂',
+                        'settings':               '⚙️',
+                        'pre-key':                '🗝️',
+                        'session':                '🔑',
+                        'sender-key':             '📨',
+                        'identity-key':           '🪪',
+                        'device-list':            '📱',
+                        'lid-mapping':            '🗺️',
+                        'app-state-sync-key':     '🔄',
+                        'app-state-sync-version': '📋',
+                        'tctoken':                '🎫',
+                };
+                const DESC_MAP = {
+                        'creds':                  'Kredensial utama bot — JANGAN hapus',
+                        'contacts':               'Cache kontak — aman dihapus (auto re-populate)',
+                        'groups':                 'Cache data grup — aman dihapus (auto re-fetch)',
+                        'settings':               'Pengaturan sesi lokal',
+                        'pre-key':                'Kunci E2E — aman trim (sisakan 100 terbaru)',
+                        'session':                'Sesi aktif per kontak — jangan hapus sembarangan',
+                        'sender-key':             'Kunci enkripsi grup — aman dihapus (auto re-gen)',
+                        'identity-key':           'Identitas kontak (Signal) — jangan hapus',
+                        'device-list':            'Daftar perangkat kontak — aman dihapus',
+                        'lid-mapping':            'Cache LID→PN — aman dihapus (auto re-fetch)',
+                        'app-state-sync-key':     'Sync state WA — jangan hapus',
+                        'app-state-sync-version': 'Versi sync state — aman dihapus (auto re-sync)',
+                        'tctoken':                'Token cache — aman dihapus',
+                };
+                const SAFE_LABEL = { 'HAPUS': '✂️ ~HAPUS~', 'TRIM': '✂️ _TRIM_', 'KEEP': '🔒 *KEEP*' };
+
+                const lines = result.rows.map((r, i) => {
+                        const emoji = EMOJI_MAP[r.key] || '📄';
+                        const desc  = DESC_MAP[r.key]  || 'Key sesi lainnya';
+                        const kb    = result.fmtKB(r.bytes);
+                        const tag   = SAFE_LABEL[r.safe] || r.safe;
+                        return `${i + 1}. ${emoji} *${r.key}* — ${tag}\n` +
+                               `   ${r.count} · \`${kb}\`\n` +
+                               `   _${desc}_`;
+                });
+
+                const potensial = result.rows
+                        .filter(r => r.safe === 'HAPUS')
+                        .reduce((a, r) => a + r.bytes, 0);
+                const trimSaved = result.rows
+                        .filter(r => r.safe === 'TRIM')
+                        .reduce((a, r) => {
+                                const cnt = parseInt(r.count);
+                                if (cnt <= 100) return a;
+                                return a + Math.round(r.bytes * (1 - 100 / cnt));
+                        }, 0);
+
+                const teks =
+                        `*🗂️ CEK SESI*\n` +
+                        `📂 ${sessionLabel} · *${result.fmtFileSize}*\n` +
+                        `_💡 Data realtime dari memory (akurat)_\n\n` +
+                        lines.join('\n\n') + `\n\n` +
+                        `💾 *Ukuran sesi:* ${result.fmtFileSize}\n` +
+                        `🧹 *Potensi hemat:* ~${result.fmtMB(potensial + trimSaved)} _(ketik .clearsesi)_\n\n` +
+                        `> 🕐 ${new Date().toLocaleString('id-ID')}`;
+
+                await m.reply(teks);
+                logCommand(m, hisoka, 'ceksesi');
+        } catch (e) {
+                return tolak(hisoka, m, `❌ Gagal baca sesi: ${e.message}`);
+        }
+}
+

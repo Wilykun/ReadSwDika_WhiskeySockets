@@ -1,0 +1,172 @@
+/**
+ * ───────────────────────────────
+ *  Base Script : Bang Dika Ardnt
+ *  Recode By   : Bang Wilykun
+ *  WhatsApp    : 6289688206739
+ *  Telegram    : @Wilykun1994
+ * ───────────────────────────────
+ *  Script ini khusus donasi/VIP
+ *  Support dari kalian bikin saya
+ *  makin semangat update fitur,
+ *  fix bug, dan rawat script ini.
+ *
+ *  Dilarang menjual ulang script ini
+ *  Tanpa izin resmi dari developer.
+ *  Jika ketahuan = NO UPDATE / NO FIX
+ *
+ *  Hargai karya, gunakan dengan bijak.
+ *  Terima kasih sudah support.
+ * ───────────────────────────────
+ *
+ *  whatgenre.js — Deteksi genre musik via Gemini AI
+ *  Input nama lagu/artis, output genre akurat dari AI
+ * ───────────────────────────────
+ */
+/**
+ * ═══════════════════════════════════════════════════════════════
+ *  Music Genre Detector via Gemini AI
+ *  Identifikasi genre musik dari nama lagu atau artis
+ *  menggunakan Gemini AI — digunakan internal oleh fitur
+ *  musik untuk tag genre pada file audio yang dikirim.
+ * ═══════════════════════════════════════════════════════════════
+ */
+'use strict';
+
+import axios from 'axios';
+
+class GemmyGemini {
+    constructor() {
+        this.authToken   = null;
+        this.tokenExpiry = null;
+    }
+
+    async getAuthToken() {
+        if (this.authToken && this.tokenExpiry && Date.now() < this.tokenExpiry - 300000) {
+            return this.authToken;
+        }
+
+        const { data } = await axios.post(
+            'https://www.googleapis.com/identitytoolkit/v3/relyingparty/signupNewUser?key=AIzaSyAxof8_SbpDcww38NEQRhNh0Pzvbphh-IQ',
+            { clientType: 'CLIENT_TYPE_ANDROID' },
+            {
+                headers: {
+                    'accept-encoding':     'gzip',
+                    'accept-language':     'in-ID, en-US',
+                    'connection':          'Keep-Alive',
+                    'content-type':        'application/json',
+                    'user-agent':          'Dalvik/2.1.0 (Linux; U; Android 10; SM-J700F Build/QQ3A.200805.001)',
+                    'x-android-cert':      '037CD2976D308B4EFD63EC63C48DC6E7AB7E5AF2',
+                    'x-android-package':   'com.jetkite.gemmy',
+                    'x-client-version':    'Android/Fallback/X24000001/FirebaseCore-Android',
+                    'x-firebase-appcheck': 'eyJlcnJvciI6IlVOS05PV05fRVJST1IifQ==',
+                    'x-firebase-client':   'H4sIAAAAAAAAAKtWykhNLCpJSk0sKVayio7VUSpLLSrOzM9TslIyUqoFAFyivEQfAAAA',
+                    'x-firebase-gmpid':    '1:652803432695:android:c4341db6033e62814f33f2',
+                },
+            }
+        );
+
+        if (!data.idToken) throw new Error('Gagal mendapatkan Gemmy auth token.');
+        this.authToken   = data.idToken;
+        this.tokenExpiry = Date.now() + 3600 * 1000;
+        return this.authToken;
+    }
+
+    async chat({ contents, model = 'gemini-2.5-flash', ...config }) {
+        if (!Array.isArray(contents)) throw new Error('Contents harus berupa array.');
+        const authToken = await this.getAuthToken();
+
+        const { data } = await axios.post(
+            `https://firebasevertexai.googleapis.com/v1beta/projects/gemmy-ai-bdc03/models/${model}:generateContent`,
+            {
+                contents,
+                generationConfig: { maxOutputTokens: 8192, ...config },
+            },
+            {
+                headers: (() => {
+                    const h = {
+                        'accept-encoding':       'gzip',
+                        'content-type':          'application/json; charset=UTF-8',
+                        'x-goog-api-key':        'AIzaSyAxof8_SbpDcww38NEQRhNh0Pzvbphh-IQ',
+                        'x-goog-api-client':     'gl-kotlin/2.2.21-ai fire/17.7.0',
+                        'x-firebase-appid':      '1:652803432695:android:c4341db6033e62814f33f2',
+                        'x-firebase-appversion': '128',
+                        'user-agent':            'Dalvik/2.1.0 (Linux; U; Android 12; SM-S9280 Build/AP3A.240905.015.A2)',
+                    };
+                    if (authToken) h['authorization'] = `Bearer ${authToken}`;
+                    return h;
+                })(),
+            }
+        );
+
+        return data;
+    }
+
+    extractText(response) {
+        try {
+            const candidates = response?.candidates || response?.response?.candidates || [];
+            const parts = candidates[0]?.content?.parts || [];
+            return parts.map(p => p.text || '').join('').trim();
+        } catch (_) {
+            return '';
+        }
+    }
+}
+
+const gemmy = new GemmyGemini();
+
+const PROMPT_INFO_MUSIK = `Kamu adalah analis musik profesional. Dengarkan audio ini secara seksama, lalu berikan informasi lengkap dalam format berikut (gunakan bahasa Indonesia):
+
+🎵 *INFO MUSIK*
+
+🎵 *Judul*     : [judul lagu jika dikenali, atau "Tidak dikenali"]
+👤 *Artis*     : [nama artis/penyanyi jika dikenali, atau "-"]
+🎼 *Genre*     : [genre utama / sub-genre]
+🎭 *Mood*      : [mood / suasana lagu]
+🎹 *Instrumen* : [daftar instrumen yang terdengar]
+🎤 *Vokal*     : [ada/tidak, jenis vokal, bahasa vokal]
+⏱️ *Tempo*    : [lambat/sedang/cepat — estimasi BPM]
+🔊 *Energi*    : [rendah/sedang/tinggi]
+📝 *Deskripsi* : [1-2 kalimat ringkas tentang audio ini]
+
+📜 *LIRIK / TRANSKRIPSI*
+
+[Tulis lirik atau transkripsi vokal yang terdengar di sini.
+Jika audio adalah voice note/percakapan, tulis transkripsinya.
+Jika musik instrumental tanpa vokal, tulis "🎼 Instrumental — tidak ada vokal."]
+
+Jawab HANYA dengan format di atas. Jangan tambahkan kalimat lain di luar format.`;
+
+/**
+ * Analisis audio lengkap: info musik (genre/mood/instrumen) + lirik/transkripsi.
+ * @param {Buffer} audioBuffer - buffer audio
+ * @param {string} mimeType    - mime type audio
+ * @returns {Promise<string>}  - teks hasil analisis
+ */
+async function analyzeAudio(audioBuffer, mimeType = 'audio/ogg') {
+    const base64Audio = audioBuffer.toString('base64');
+
+    const safeMime = mimeType.includes('ogg')   ? 'audio/ogg'
+        : mimeType.includes('mp3') || mimeType.includes('mpeg') ? 'audio/mpeg'
+        : mimeType.includes('wav')  ? 'audio/wav'
+        : mimeType.includes('flac') ? 'audio/flac'
+        : mimeType.includes('webm') ? 'video/webm'
+        : mimeType.includes('mp4') || mimeType.includes('m4a') || mimeType.includes('video') ? 'video/mp4'
+        : 'audio/ogg';
+
+    const response = await gemmy.chat({
+        model: 'gemini-2.5-flash',
+        contents: [{
+            role: 'user',
+            parts: [
+                { inlineData: { mimeType: safeMime, data: base64Audio } },
+                { text: PROMPT_INFO_MUSIK },
+            ],
+        }],
+    });
+
+    const text = gemmy.extractText(response);
+    if (!text) throw new Error('Gemmy tidak mengembalikan respons.');
+    return text;
+}
+
+export { analyzeAudio };
