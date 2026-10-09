@@ -1064,6 +1064,7 @@ export default async function ({ message, type: messagesType }, hisoka) {
                 // ── PLUGIN DISPATCHER (pengganti switch-case raksasa) ──
                 // Tiap command di-resolve ke plugin di SEMUA_FITUR via pluginLoader.
                 // Daftar command dikenali di inject.js dari hisoka.loadedCommands.
+                const pfx = m.prefix || '.';
                 const _plugCtx = {
                         BROWSER_LIST,
                         Button,

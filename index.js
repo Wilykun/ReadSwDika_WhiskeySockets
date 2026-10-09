@@ -1165,7 +1165,7 @@ async function main() {
                                 _statusRow('🖥️', 'Browser', _bLabel2,                Y),
                                 _statusRow('🔤', 'Prefix',  _prefixLabel2,           Y),
                                 _statusRow('↪️', 'NoPfx',   _noPrefixLabel2,          Y),
-                                _statusRow('📋', 'Cmd',     `${commands.length} commands`, Y),
+                                _statusRow('📋', 'Cmd',     `${(hisoka.loadedCommands || []).length} commands`, Y),
                                 _statusRow('👥', 'Grup',    `${groupCount} grup (admin: ${adminCount})`, Y),
                                 _statusRow('🌐', 'Status',  'ONLINE 🟢',              G),
                                 _statusRow('⚡', 'AutoOnl', autoOnlineLabel,          Y),
@@ -1173,7 +1173,7 @@ async function main() {
                         console.log(`${B}${G}🤖 WILY BOT AKTIF${R}`);
                         console.log('');
                         for (const row of _statusRows) console.log(row);
-                        global.__cmdTotal = commands.length;
+                        global.__cmdTotal = (hisoka.loadedCommands || []).length;
                         console.log('');
 
                         // ── SwStats: prune activeSW expired supaya data realtime & akurat ──
